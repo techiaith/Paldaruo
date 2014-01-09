@@ -22,6 +22,15 @@
 		5C7C7FB3186E159A00E13FC0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7C7F92186E159A00E13FC0 /* UIKit.framework */; };
 		5C7C7FBB186E159A00E13FC0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5C7C7FB9186E159A00E13FC0 /* InfoPlist.strings */; };
 		5C7C7FBD186E159A00E13FC0 /* PaldaruoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7C7FBC186E159A00E13FC0 /* PaldaruoTests.m */; };
+		5C7C7FC718720EB300E13FC0 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7C7FC618720EB300E13FC0 /* AVFoundation.framework */; };
+		5C7C7FC918720F6000E13FC0 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7C7FC818720F6000E13FC0 /* CoreAudio.framework */; };
+		8020410A187EC8EE00C9A4F3 /* UTIPromptsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 80204109187EC8EE00C9A4F3 /* UTIPromptsTracker.m */; };
+		8020410D187EC9B200C9A4F3 /* UTIPrompt.m in Sources */ = {isa = PBXBuildFile; fileRef = 8020410C187EC9B200C9A4F3 /* UTIPrompt.m */; };
+		8021AC9C187C44770069B508 /* logos4c.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 8021AC9B187C44770069B508 /* logos4c.jpeg */; };
+		8021AC9E187C450A0069B508 /* Llywodraeth-Cymru-1315259625.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8021AC9D187C450A0069B508 /* Llywodraeth-Cymru-1315259625.jpg */; };
+		8021ACA0187C456B0069B508 /* bangor_header_crest.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8021AC9F187C456B0069B508 /* bangor_header_crest.jpg */; };
+		8021ACA2187C4F7C0069B508 /* logoprifysgolbangor.gif in Resources */ = {isa = PBXBuildFile; fileRef = 8021ACA1187C4F7C0069B508 /* logoprifysgolbangor.gif */; };
+		8021ACA4187C50CE0069B508 /* uti-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 8021ACA3187C50CE0069B508 /* uti-logo.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +64,17 @@
 		5C7C7FB8186E159A00E13FC0 /* PaldaruoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PaldaruoTests-Info.plist"; sourceTree = "<group>"; };
 		5C7C7FBA186E159A00E13FC0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5C7C7FBC186E159A00E13FC0 /* PaldaruoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaldaruoTests.m; sourceTree = "<group>"; };
+		5C7C7FC618720EB300E13FC0 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		5C7C7FC818720F6000E13FC0 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		80204108187EC8EE00C9A4F3 /* UTIPromptsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIPromptsTracker.h; sourceTree = "<group>"; };
+		80204109187EC8EE00C9A4F3 /* UTIPromptsTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIPromptsTracker.m; sourceTree = "<group>"; };
+		8020410B187EC9B200C9A4F3 /* UTIPrompt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIPrompt.h; sourceTree = "<group>"; };
+		8020410C187EC9B200C9A4F3 /* UTIPrompt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIPrompt.m; sourceTree = "<group>"; };
+		8021AC9B187C44770069B508 /* logos4c.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = logos4c.jpeg; sourceTree = "<group>"; };
+		8021AC9D187C450A0069B508 /* Llywodraeth-Cymru-1315259625.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Llywodraeth-Cymru-1315259625.jpg"; sourceTree = "<group>"; };
+		8021AC9F187C456B0069B508 /* bangor_header_crest.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bangor_header_crest.jpg; sourceTree = "<group>"; };
+		8021ACA1187C4F7C0069B508 /* logoprifysgolbangor.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = logoprifysgolbangor.gif; sourceTree = "<group>"; };
+		8021ACA3187C50CE0069B508 /* uti-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uti-logo.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +82,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C7C7FC918720F6000E13FC0 /* CoreAudio.framework in Frameworks */,
+				5C7C7FC718720EB300E13FC0 /* AVFoundation.framework in Frameworks */,
 				5C7C7F91186E159A00E13FC0 /* CoreGraphics.framework in Frameworks */,
 				5C7C7F93186E159A00E13FC0 /* UIKit.framework in Frameworks */,
 				5C7C7F8F186E159A00E13FC0 /* Foundation.framework in Frameworks */,
@@ -103,6 +125,8 @@
 		5C7C7F8D186E159A00E13FC0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5C7C7FC818720F6000E13FC0 /* CoreAudio.framework */,
+				5C7C7FC618720EB300E13FC0 /* AVFoundation.framework */,
 				5C7C7F8E186E159A00E13FC0 /* Foundation.framework */,
 				5C7C7F90186E159A00E13FC0 /* CoreGraphics.framework */,
 				5C7C7F92186E159A00E13FC0 /* UIKit.framework */,
@@ -122,6 +146,10 @@
 				5C7C7FA7186E159A00E13FC0 /* UTIViewController.m */,
 				5C7C7FA9186E159A00E13FC0 /* Images.xcassets */,
 				5C7C7F95186E159A00E13FC0 /* Supporting Files */,
+				80204108187EC8EE00C9A4F3 /* UTIPromptsTracker.h */,
+				80204109187EC8EE00C9A4F3 /* UTIPromptsTracker.m */,
+				8020410B187EC9B200C9A4F3 /* UTIPrompt.h */,
+				8020410C187EC9B200C9A4F3 /* UTIPrompt.m */,
 			);
 			path = Paldaruo;
 			sourceTree = "<group>";
@@ -129,6 +157,11 @@
 		5C7C7F95186E159A00E13FC0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				8021ACA3187C50CE0069B508 /* uti-logo.png */,
+				8021ACA1187C4F7C0069B508 /* logoprifysgolbangor.gif */,
+				8021AC9F187C456B0069B508 /* bangor_header_crest.jpg */,
+				8021AC9D187C450A0069B508 /* Llywodraeth-Cymru-1315259625.jpg */,
+				8021AC9B187C44770069B508 /* logos4c.jpeg */,
 				5C7C7F96186E159A00E13FC0 /* Paldaruo-Info.plist */,
 				5C7C7F97186E159A00E13FC0 /* InfoPlist.strings */,
 				5C7C7F9A186E159A00E13FC0 /* main.m */,
@@ -203,6 +236,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Uned Technolegau Iaith";
 				TargetAttributes = {
+					5C7C7F8A186E159A00E13FC0 = {
+						DevelopmentTeam = 99Z8TNAFH4;
+					};
 					5C7C7FAE186E159A00E13FC0 = {
 						TestTargetID = 5C7C7F8A186E159A00E13FC0;
 					};
@@ -232,8 +268,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8021AC9E187C450A0069B508 /* Llywodraeth-Cymru-1315259625.jpg in Resources */,
+				8021ACA0187C456B0069B508 /* bangor_header_crest.jpg in Resources */,
 				5C7C7FA5186E159A00E13FC0 /* Main_iPad.storyboard in Resources */,
 				5C7C7FAA186E159A00E13FC0 /* Images.xcassets in Resources */,
+				8021ACA4187C50CE0069B508 /* uti-logo.png in Resources */,
+				8021ACA2187C4F7C0069B508 /* logoprifysgolbangor.gif in Resources */,
+				8021AC9C187C44770069B508 /* logos4c.jpeg in Resources */,
 				5C7C7FA2186E159A00E13FC0 /* Main_iPhone.storyboard in Resources */,
 				5C7C7F99186E159A00E13FC0 /* InfoPlist.strings in Resources */,
 			);
@@ -255,7 +296,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C7C7F9B186E159A00E13FC0 /* main.m in Sources */,
+				8020410A187EC8EE00C9A4F3 /* UTIPromptsTracker.m in Sources */,
 				5C7C7F9F186E159A00E13FC0 /* UTIAppDelegate.m in Sources */,
+				8020410D187EC9B200C9A4F3 /* UTIPrompt.m in Sources */,
 				5C7C7FA8186E159A00E13FC0 /* UTIViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -393,10 +436,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Paldaruo/Paldaruo-Prefix.pch";
 				INFOPLIST_FILE = "Paldaruo/Paldaruo-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -406,10 +452,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Paldaruo/Paldaruo-Prefix.pch";
 				INFOPLIST_FILE = "Paldaruo/Paldaruo-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -475,6 +524,7 @@
 				5C7C7FC2186E159A00E13FC0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5C7C7FC3186E159A00E13FC0 /* Build configuration list for PBXNativeTarget "PaldaruoTests" */ = {
 			isa = XCConfigurationList;
@@ -483,6 +533,7 @@
 				5C7C7FC5186E159A00E13FC0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
