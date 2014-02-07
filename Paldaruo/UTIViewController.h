@@ -1,6 +1,6 @@
 //
 //  UTIViewController.h
-//  Paldaruo
+//  Paldaruo    
 //
 //  Created by Dewi Bryn Jones on 27.12.2013.
 //  Copyright (c) 2013 Uned Technolegau Iaith. All rights reserved.
@@ -10,19 +10,44 @@
 #import <CoreAudio/CoreAudioTypes.h>
 #import <AVFoundation/AVFoundation.h>
 
+#import "UTIPromptsTracker.h"
+#import "UTIDataStore.h"
 
 @interface UTIViewController : UIViewController
 
 @property (strong, nonatomic) AVAudioRecorder *audioRecorder;
 @property (strong, nonatomic) AVAudioPlayer *audioPlayer;
-@property (strong, nonatomic) NSOperationQueue *uploadQueue;
 
--(void) uploadAudio;
--(void) handleUploadAudioResponse : (NSData *) data error:(NSError *) errorData;
+-(void) recordAudio;
+-(void) stopRecording;
+-(void) playAudio;
 
--(void) downloadPrompts;
--(void) handleDownloadPromptsResponse : (NSData *) data error:(NSError *) errorData;
+-(void) updateSessionProgress;
+
+-(void) gotoNextPrompt;
+
+-(void) setRecordStatusText : (NSString *) text;
+-(void) setMoveToNextRecordStateTitle : (NSString *) text;
+
+//-(void) handleResponseUploadAudio : (NSData *) data error:(NSError *) errorData;
+//-(void) handleResponseDownloadPrompts : (NSData *) data error:(NSError *) errorData;
 
 @end
+
+typedef enum TypeDefRecordStatus {
+    DOWNLOADING_PROMPTS,
+    RECORDING_SESSION_START,
+    RECORDING_WAIT_TO_START,
+    RECORDING,
+    RECORDING_FINISHED,
+    RECORDING_LISTENING_END,
+    RECORDING_WAIT_TO_GOTO_NEXT,
+    RECORDING_SESSION_END
+};
+
+enum TypeDefRecordStatus currentRecordingStatus;
+
+UTIPromptsTracker *prompts;
+NSString *uid;
 
 

@@ -7,21 +7,21 @@
 //
 
 #import "UTIViewController.h"
-#import "UTIPromptsTracker.h"
+
 
 @interface UTIViewController ()
 
-- (IBAction)btnStopRecording:(id)sender;
-- (IBAction)btnStartRecording:(id)sender;
-- (IBAction)btnPlay:(id)sender;
+- (IBAction)btnMoveToNextRecordingState:(id)sender;
 
-@property (weak, nonatomic) IBOutlet UIButton *btnOutletPlay;
-@property (weak, nonatomic) IBOutlet UIButton *btnOutletStartRecording;
-@property (weak, nonatomic) IBOutlet UIButton *btnOutletStopRecording;
-@property (weak, nonatomic) IBOutlet UILabel *lblOutletNextPrompt;
-
-@property (strong, nonatomic) UTIPromptsTracker *prompts;
 @property (weak) UTIPrompt *currentPrompt;
+
+@property (weak, nonatomic) IBOutlet UILabel *lblOutletNextPrompt;
+@property (weak, nonatomic) IBOutlet UILabel *lblOutletRecordingStatus;
+@property (weak, nonatomic) IBOutlet UIButton *btnOutletMoveToNextRecordingState;
+@property (weak, nonatomic) IBOutlet UILabel *lblOutletProfileName;
+@property (weak, nonatomic) IBOutlet UILabel *lblOutletSessionProgress;
+
+@property (strong, nonatomic) NSTimer *lblOutletRecordingStatusTimer;
 
 @end
 
@@ -32,22 +32,23 @@
 - (void)viewDidLoad
 {
     
-    self.prompts = [[UTIPromptsTracker alloc] init];
+    NSInteger userIndex=[[UTIDataStore sharedDataStore] activeUserIndex];
+    uid=[[[[UTIDataStore sharedDataStore] allProfilesArray] objectAtIndex:userIndex] objectForKey:@"uid"];
+    
+    currentRecordingStatus=DOWNLOADING_PROMPTS;
+    [self btnMoveToNextRecordingState:self];
+    
+    prompts = [[UTIPromptsTracker alloc] init];
     
     
-    //Audio Recording Setup
-    //NSURL *audioFileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:@"audioRecording.m4a"]];
     
+    //[[UTIDataStore sharedDataStore] fetchOutstandingPrompts:self identifier:uid];
+    //[[UTIDataStore sharedDataStore] http_fetchOutsandingPrompts:prompts identifier:uid];
+    [[UTIDataStore sharedDataStore] http_fetchOutstandingPrompts:prompts useridentifier:uid];
+    
+    
+    //
     NSURL *audioFileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:@"audioRecording.wav"]];
-    
-    
-//    NSDictionary *audioSettings = [NSDictionary dictionaryWithObjectsAndKeys:
-//                                   [NSNumber numberWithFloat:44100],AVSampleRateKey,
-//                                   [NSNumber numberWithInt: kAudioFormatAppleLossless],AVFormatIDKey,
-//                                   [NSNumber numberWithInt: 1],AVNumberOfChannelsKey,
-//                                   [NSNumber numberWithInt:AVAudioQualityMedium],AVEncoderAudioQualityKey,nil];
-    
-    
     NSDictionary *audioSettings = [NSDictionary dictionaryWithObjectsAndKeys:
                                    [NSNumber numberWithFloat:48000], AVSampleRateKey,
                                    [NSNumber numberWithInt:1], AVNumberOfChannelsKey,
@@ -60,24 +61,21 @@
     AVAudioSession *session = [AVAudioSession sharedInstance];
     [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
     
-    
     self.audioRecorder = [[AVAudioRecorder alloc]
                           initWithURL:audioFileURL
                           settings:audioSettings
                           error:nil];
     
-    self.btnOutletStartRecording.enabled=NO;
-    self.btnOutletPlay.enabled=NO;
-    self.btnOutletStopRecording.enabled=NO;
-    
-    self.uploadQueue = [[NSOperationQueue alloc] init];
+    currentRecordingStatus=RECORDING_SESSION_START;
+    [self btnMoveToNextRecordingState:(self)];
     
     [super viewDidLoad];
-
-	// Do any additional setup after loading the view, typically from a nib.
     
 }
 
+-(void) toggleLabelRecordingStatus{
+    [self.lblOutletRecordingStatus setHidden:(!self.lblOutletRecordingStatus.hidden)];
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -86,201 +84,204 @@
 }
 
 
-- (IBAction)btnStopRecording:(id)sender {
+- (IBAction)btnMoveToNextRecordingState:(id)sender {
     
-    // mae hwn wedi newid i'r botwm 'Nesaf >'
-    [self uploadAudio];
-    
-    self.lblOutletNextPrompt.text=@"Cynefin y carlwm a'r cadno";
-    
-    self.btnOutletPlay.enabled=NO;
-    self.btnOutletStopRecording.enabled=NO;
-}
+    if (currentRecordingStatus==DOWNLOADING_PROMPTS){
+        
+        NSInteger userIndex=[[UTIDataStore sharedDataStore] activeUserIndex];
+        
+        NSString* userName=[[[[UTIDataStore sharedDataStore] allProfilesArray] objectAtIndex:userIndex] objectForKey:@"name"];
+        NSString* userGreeting=[NSString stringWithFormat:@"Helo %@!", userName];
+        
+        [[self lblOutletProfileName] setText:userGreeting];
+        
+        [self.lblOutletNextPrompt setText:@"Estyn promtiau i'w recordio...."];
+        [self.btnOutletMoveToNextRecordingState setHidden:YES];
+        [self.lblOutletRecordingStatus setHidden:YES];
+        [self.lblOutletSessionProgress setHidden:YES];
+        
+    }
+    else if (currentRecordingStatus==RECORDING_SESSION_START){
+        
+        [self gotoNextPrompt];
+        
+        [self setMoveToNextRecordStateTitle:@"Cliciwch i gychwyn recordio"];
+        
+        [self.lblOutletSessionProgress setHidden:NO];
+        [self.btnOutletMoveToNextRecordingState setHidden:NO];
+        
+        [self updateSessionProgress];
+        
+        currentRecordingStatus=RECORDING_WAIT_TO_START;
+        
+    }
+    else if (currentRecordingStatus==RECORDING_WAIT_TO_START) {
+        
+        [self setMoveToNextRecordStateTitle:@"Cliciwch i Orffen Recordio"];
+        
+        //[self.lblOutletRecordingStatus setHidden:NO];
+        [self startRecordingStatusTimer];
+        [self setRecordStatusText:@"Yn recordio...."];
+        
+        [self recordAudio];
+        
+        currentRecordingStatus=RECORDING;
+        
+    } else if (currentRecordingStatus==RECORDING) {
+        
+        [self stopRecording];
+        
+        [self stopRecordingStatusTimer];
+        [self.lblOutletRecordingStatus setHidden:YES];
+        
+        [self setMoveToNextRecordStateTitle:@"Cliciwch i Wrando ar eich recordiad"];
+       
+        currentRecordingStatus=RECORDING_FINISHED;
 
-
-- (IBAction)btnStartRecording:(id)sender {
+    } else if (currentRecordingStatus==RECORDING_FINISHED){
+        
+        [self setMoveToNextRecordStateTitle:@""];
+        [self.btnOutletMoveToNextRecordingState setHidden:YES];
+        [self playAudio];
+        
+        // status will change to RECORDING_LISTENING_END when audio will finish playing.
     
-    if ([self.audioRecorder isRecording]){
+    } else if (currentRecordingStatus==RECORDING_LISTENING_END) {
+    
+        [self setMoveToNextRecordStateTitle:@"Cliciwch i mynd i'r nesaf"];
+        [self.btnOutletMoveToNextRecordingState setHidden:NO];
         
-        [self.audioPlayer stop];
-        [self.audioRecorder stop];
+        currentRecordingStatus=RECORDING_WAIT_TO_GOTO_NEXT;
         
-        [_btnOutletStartRecording setTitle:@"Recordio" forState:(UIControlStateNormal) ];
-        self.btnOutletPlay.enabled=YES;
+    } else if (currentRecordingStatus==RECORDING_WAIT_TO_GOTO_NEXT) {
         
-        //NSURL *audioFileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:@"audioRecording.m4a"]];
+        //[self uploadAudio];
+        [[UTIDataStore sharedDataStore] http_uploadAudio:uid
+                                              identifier:self.currentPrompt->identifier];
         
+        [self gotoNextPrompt];
         
-        NSURL *audioFileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:@"audioRecording.wav"]];
+        [self updateSessionProgress];
         
-        // copy the file to a new location
+        [self setMoveToNextRecordStateTitle:@"Cliciwch i gychwyn recordio"];
+        [self.lblOutletRecordingStatus setHidden:YES];
         
+        currentRecordingStatus=RECORDING_WAIT_TO_START;
         
+    } else if (currentRecordingStatus==RECORDING_SESSION_END) {
         
-        self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:audioFileURL error:nil];
+        [self.btnOutletMoveToNextRecordingState setHidden:YES];
+        [self.lblOutletSessionProgress setHidden:YES];
+        
+        NSInteger userIndex=[[UTIDataStore sharedDataStore] activeUserIndex];
+        NSString* userName=[[[[UTIDataStore sharedDataStore] allProfilesArray] objectAtIndex:userIndex] objectForKey:@"name"];
+        
+        NSString* userGreeting=[NSString stringWithFormat:@"Diolch yn fawr iawn am cyfrannu dy lais %@!", userName];
+        
+        [[self lblOutletProfileName] setText:userGreeting];
 
-    } else {
-        
-        [self.audioRecorder record];
-        
-        [_btnOutletStartRecording setTitle:@"Gorffen" forState:(UIControlStateNormal) ];
-        
-        _btnOutletPlay.enabled=NO;
-        _btnOutletStopRecording.enabled=NO;
     }
     
 }
 
+- (void) updateSessionProgress {
+    
+    
+    NSString* progressString = [NSString stringWithFormat:@"%d / %d promt ar \xc3\xb4l",
+                                [prompts getRemainingCount],
+                                [prompts getInitialCount]
+                                ];
+    
+    [self.lblOutletSessionProgress setText:progressString];
+     
+}
 
-- (IBAction)btnPlay:(id)sender {
+- (void) setMoveToNextRecordStateTitle:(NSString *)titleString {
     
-    [self.audioPlayer play];
+    [self.btnOutletMoveToNextRecordingState setTitle:titleString forState:(UIControlStateNormal) ];
     
-    self.btnOutletStartRecording.titleLabel.text=@"Recordio";
-    self.btnOutletStopRecording.enabled=YES;
+}
+
+-(void) setRecordStatusText:(NSString *) statusText {
+    [self.lblOutletRecordingStatus setText:statusText];
+}
+
+
+-(void) recordAudio {
+    
+    [self.audioRecorder record];
     
 }
 
 
--(void) uploadAudio {
+-(void) stopRecording {
+    
+    [self.audioRecorder stop];
+    [self.audioPlayer stop];
     
     NSURL *audioFileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:@"audioRecording.wav"]];
     
-    NSData *file1Data = [[NSData alloc] initWithContentsOfURL:audioFileURL];
-    NSString *urlString = @"http://techiaith.bangor.ac.uk/gallu/upload/upload.php";
+    // copy the file to a new location
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:audioFileURL error:nil];
+    [self.audioPlayer setDelegate:self];
+
+}
+
+
+-(void) playAudio {
     
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:urlString]];
-    [request setHTTPMethod:@"POST"];
-    
-    NSString *boundary = @"---------------------------14737809831466499882746641449";
-    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
-    [request addValue:contentType forHTTPHeaderField: @"Content-Type"];
-    
-    NSMutableData *body = [NSMutableData data];
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"userfile\"; filename=\"audioRecording.wav\"\r\n"]] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [body appendData:[@"Content-Type: application/octet-stream\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[NSData dataWithData:file1Data]];
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [request setHTTPBody:body];
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    
-    // send asynchronous
-    [NSURLConnection sendAsynchronousRequest:request
-                                       queue:self.uploadQueue
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
-     {
-         [self handleUploadAudioResponse:data error:error];
-     }
-     
-    ];
-    
-    // send synchronous
-    //NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-    //NSString *returnString = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
-    
-    //NSLog(@"Return String= %@",returnString);
+    [self.audioPlayer play];
     
 }
 
 
--(void) handleUploadAudioResponse:(NSData *)data error:(NSError *)error {
+-(void) gotoNextPrompt {
+ 
+    [prompts promptHasBeenRecorded:self.currentPrompt];
+    self.currentPrompt = [prompts getNextPromptToRecord];
+ 
+    if (self.currentPrompt==nil) {
+        
+        self.lblOutletNextPrompt.text=@"Diolch yn fawr.";
+        currentRecordingStatus=RECORDING_SESSION_END;
+        [self btnMoveToNextRecordingState:self];
+        
+    } else {
+        self.lblOutletNextPrompt.text=self.currentPrompt->text;
+    }
+ 
+}
 
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
+//If user does not do anything by the end of the sound go to secondWindow
+- (void) audioPlayerDidFinishPlaying: (AVAudioPlayer *) player
+                        successfully: (BOOL) flag {
     
-    //
-    if ([data length] >0 && error == nil){
+    currentRecordingStatus=RECORDING_LISTENING_END;
+    [self btnMoveToNextRecordingState:self];
+    
+}
+
+
+
+-(void) startRecordingStatusTimer {
+    
+    if (self.lblOutletRecordingStatusTimer==nil){
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
-                                                        message: @"Llwythwyd i fyny yn lwyddianus"
-                                                       delegate: nil
-                                              cancelButtonTitle: @"Iawn"
-                                              otherButtonTitles: nil];
-        [alert show];
-        
-    } else if ([data length] == 0 && error == nil){
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
-                                                        message: @"Ymateb gwag"
-                                                       delegate: nil
-                                              cancelButtonTitle: @"Iawn"
-                                              otherButtonTitles: nil];
-        [alert show];
-        
-    }
-    else if (error != nil && error.code == NSURLErrorTimedOut){
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
-                                                        message: @"Timeout"
-                                                       delegate: nil
-                                              cancelButtonTitle: @"Iawn"
-                                              otherButtonTitles: nil];
-        [alert show];
-        
-    }
-    else if (error != nil) {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
-                                                        message: @"Gwall cyffredinol"
-                                                       delegate: nil
-                                              cancelButtonTitle: @"Iawn"
-                                              otherButtonTitles: nil];
-        [alert show];
-        
+        self.lblOutletRecordingStatusTimer=[NSTimer scheduledTimerWithTimeInterval:0.6
+                                                                            target:self
+                                                                          selector:@selector(toggleLabelRecordingStatus)
+                                                                          userInfo:nil
+                                                                           repeats:YES];
     }
 
 }
 
--(void) downloadPrompts {
+-(void) stopRecordingStatusTimer {
     
-    NSURL *url = [NSURL URLWithString:@"http://techiaith.bangor.ac.uk/gallu/prompts-json.php"];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse*r, NSData*d, NSError*e) {
-        [self handleDownloadPromptsResponse:d error:e];
-    }];
-    
-    
-}
-
--(void) handleDownloadPromptsResponse : (NSData *) data error:(NSError *) errorData {
-    
-    //
-    NSArray *jsonArray
-        = (NSArray*)[NSJSONSerialization JSONObjectWithData:data
-                                                    options:NSJSONReadingMutableContainers
-                                                      error:nil];
-    
-    //
-    if (errorData == nil) {
-        
-        for (int x = 0; x < jsonArray.count; x++)
-        {
-            
-            UTIPrompt* newPrompt=[[UTIPrompt alloc] init];
-            
-            newPrompt->text = [[jsonArray objectAtIndex:x] objectForKey:@"text"];
-            newPrompt->identifier = [[jsonArray objectAtIndex:x] objectForKey:@"identifier"];
-            
-            [self.prompts addPromptForRecording:newPrompt];
-            
-        }
-        
-    }
-    else {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i lawr"
-                                                        message: @"Gwall cyffredinol"
-                                                       delegate: nil
-                                              cancelButtonTitle: @"Iawn"
-                                              otherButtonTitles: nil];
-        [alert show];
-        
+    if (self.lblOutletRecordingStatusTimer!=nil){
+        [self.lblOutletRecordingStatusTimer invalidate];
+        self.lblOutletRecordingStatusTimer=nil;
     }
     
 }

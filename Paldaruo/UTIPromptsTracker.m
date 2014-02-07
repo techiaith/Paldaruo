@@ -7,11 +7,15 @@
 //
 
 #import "UTIPromptsTracker.h"
+#include <stdlib.h>
+
 
 @interface UTIPromptsTracker ()
 
 @property (strong, nonatomic) NSMutableArray *prompts;
-@property NSUInteger position;
+
+@property NSInteger initialCount;
+@property NSInteger remainingCount;
 
 @end
 
@@ -22,7 +26,11 @@
 -(id) init{
     
     if ((self = [super init]) != nil) {
+        
         self.prompts=[[NSMutableArray alloc] init];
+        self.initialCount=0;
+        self.remainingCount=0;
+        
     }
     
     return self;
@@ -32,36 +40,33 @@
 
 -(void) addPromptForRecording: (UTIPrompt *)prompt {
     [self.prompts addObject:prompt];
+    self.initialCount=self.prompts.count;
 }
 
 
 -(void) promptHasBeenRecorded: (UTIPrompt *) prompt{
-    
-    UTIPrompt* nextPrompt=nil;
-    
-    // find match for a prompt our way.
-    for (int i=0; i <= self.prompts.count;i++)
-    {
-        nextPrompt = (UTIPrompt *) self.prompts[i];
-        
-        if (nextPrompt->identifier==prompt->identifier){
-            nextPrompt->isRecorded=YES;
-            break;
-        }
-    }
-    
+    [self.prompts removeObject:prompt];
+    self.remainingCount=self.prompts.count;
 }
 
 
 -(UTIPrompt *) getNextPromptToRecord {
     
-    if (self.position < (self.prompts.count -1)){
-        self.position++;
-    }
-    return (UTIPrompt*)self.prompts[self.position];
+    int r=arc4random_uniform(self.prompts.count);
+    
+    if (r<self.prompts.count)
+        return (UTIPrompt*)self.prompts[r];
+    else
+        return nil;
     
 }
 
+-(NSInteger) getInitialCount{
+    return self.initialCount;
+}
 
+-(NSInteger) getRemainingCount {
+    return self.remainingCount;
+}
 
 @end

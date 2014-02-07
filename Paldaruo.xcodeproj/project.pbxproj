@@ -31,6 +31,10 @@
 		8021ACA0187C456B0069B508 /* bangor_header_crest.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8021AC9F187C456B0069B508 /* bangor_header_crest.jpg */; };
 		8021ACA2187C4F7C0069B508 /* logoprifysgolbangor.gif in Resources */ = {isa = PBXBuildFile; fileRef = 8021ACA1187C4F7C0069B508 /* logoprifysgolbangor.gif */; };
 		8021ACA4187C50CE0069B508 /* uti-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 8021ACA3187C50CE0069B508 /* uti-logo.png */; };
+		806B4FCC188D441100851038 /* UTIWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B4FCB188D441100851038 /* UTIWelcomeViewController.m */; };
+		806B4FCF1897D01E00851038 /* UTIDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B4FCE1897D01E00851038 /* UTIDataStore.m */; };
+		806B4FD2189BBE8200851038 /* UTINewProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B4FD1189BBE8200851038 /* UTINewProfileViewController.m */; };
+		806B4FD5189FE95300851038 /* UTIMetaDataField.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B4FD4189FE95300851038 /* UTIMetaDataField.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +79,14 @@
 		8021AC9F187C456B0069B508 /* bangor_header_crest.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bangor_header_crest.jpg; sourceTree = "<group>"; };
 		8021ACA1187C4F7C0069B508 /* logoprifysgolbangor.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = logoprifysgolbangor.gif; sourceTree = "<group>"; };
 		8021ACA3187C50CE0069B508 /* uti-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uti-logo.png"; sourceTree = "<group>"; };
+		806B4FCA188D441100851038 /* UTIWelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIWelcomeViewController.h; sourceTree = "<group>"; };
+		806B4FCB188D441100851038 /* UTIWelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIWelcomeViewController.m; sourceTree = "<group>"; };
+		806B4FCD1897D01E00851038 /* UTIDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIDataStore.h; sourceTree = "<group>"; };
+		806B4FCE1897D01E00851038 /* UTIDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIDataStore.m; sourceTree = "<group>"; };
+		806B4FD0189BBE8200851038 /* UTINewProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTINewProfileViewController.h; sourceTree = "<group>"; };
+		806B4FD1189BBE8200851038 /* UTINewProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTINewProfileViewController.m; sourceTree = "<group>"; };
+		806B4FD3189FE95300851038 /* UTIMetaDataField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIMetaDataField.h; sourceTree = "<group>"; };
+		806B4FD4189FE95300851038 /* UTIMetaDataField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIMetaDataField.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,7 +161,15 @@
 				80204108187EC8EE00C9A4F3 /* UTIPromptsTracker.h */,
 				80204109187EC8EE00C9A4F3 /* UTIPromptsTracker.m */,
 				8020410B187EC9B200C9A4F3 /* UTIPrompt.h */,
+				806B4FCD1897D01E00851038 /* UTIDataStore.h */,
+				806B4FCE1897D01E00851038 /* UTIDataStore.m */,
 				8020410C187EC9B200C9A4F3 /* UTIPrompt.m */,
+				806B4FCA188D441100851038 /* UTIWelcomeViewController.h */,
+				806B4FD0189BBE8200851038 /* UTINewProfileViewController.h */,
+				806B4FD1189BBE8200851038 /* UTINewProfileViewController.m */,
+				806B4FCB188D441100851038 /* UTIWelcomeViewController.m */,
+				806B4FD3189FE95300851038 /* UTIMetaDataField.h */,
+				806B4FD4189FE95300851038 /* UTIMetaDataField.m */,
 			);
 			path = Paldaruo;
 			sourceTree = "<group>";
@@ -295,10 +315,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				806B4FD5189FE95300851038 /* UTIMetaDataField.m in Sources */,
 				5C7C7F9B186E159A00E13FC0 /* main.m in Sources */,
 				8020410A187EC8EE00C9A4F3 /* UTIPromptsTracker.m in Sources */,
+				806B4FCC188D441100851038 /* UTIWelcomeViewController.m in Sources */,
 				5C7C7F9F186E159A00E13FC0 /* UTIAppDelegate.m in Sources */,
+				806B4FD2189BBE8200851038 /* UTINewProfileViewController.m in Sources */,
 				8020410D187EC9B200C9A4F3 /* UTIPrompt.m in Sources */,
+				806B4FCF1897D01E00851038 /* UTIDataStore.m in Sources */,
 				5C7C7FA8186E159A00E13FC0 /* UTIViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

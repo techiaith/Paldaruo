@@ -11,8 +11,10 @@
 
 @interface UTIPromptsTracker : NSObject
 
--(void) addPromptForRecording: (UTIPrompt *)prompt;
+-(void) addPromptForRecording: (UTIPrompt *) prompt;
 -(void) promptHasBeenRecorded: (UTIPrompt *) prompt;
 -(UTIPrompt *) getNextPromptToRecord;
+-(NSInteger) getRemainingCount;
+-(NSInteger) getInitialCount;
 
 @end
