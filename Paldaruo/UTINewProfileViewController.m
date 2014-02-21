@@ -14,6 +14,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletCreateUser;
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletStartSession;
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletNextQuestion;
+@property (weak, nonatomic) IBOutlet UIButton *btnOutletPreviousQuestion;
+
 @property (weak, nonatomic) IBOutlet UILabel *lblOutletNewProfileNameFieldDescription;
 
 @property (weak, nonatomic) IBOutlet UILabel *lblOutletMetaDataField_Title;
@@ -26,6 +28,7 @@
 - (IBAction)btnActionNextQuestion:(id)sender;
 - (IBAction)btnActionCreateUser:(id)sender;
 - (IBAction)btnActionStartSession:(id)sender;
+- (IBAction)btnActionPreviousQuestion:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UITextField *txtBoxNewProfileName;
 
@@ -63,6 +66,10 @@
     // select the text box and show the keyboard.
     
     [self.txtBoxNewProfileName becomeFirstResponder];
+    [self.btnOutletNextQuestion setHidden:YES];
+    [self.btnOutletPreviousQuestion setHidden:YES];
+    
+    [self.lblOutletMetaDataField_Explanation sizeToFit];
     
     [super viewDidLoad];
     
@@ -128,6 +135,7 @@
         
         [[self btnOutletCreateUser] setUserInteractionEnabled:NO];
         [[self btnOutletCreateUser]setHidden:YES];
+        
         [[self txtBoxNewProfileName] setHidden:YES];
         [[self lblOutletNewProfileNameFieldDescription] setHidden:YES];
         
@@ -141,12 +149,16 @@
         [self.lblOutletMetaDataField_Question setHidden:NO];
         [self.lblOutletMetaDataField_Explanation setHidden:NO];
         [self.pickerViewOutletMetaDataOption setHidden:NO];
-
+        [self.btnOutletNextQuestion setHidden:NO];
+        
+        //[self.btnOutletPreviousQuestion setHidden:NO];
+        
         [self goToNextMetaDataField:NO];
 
     }
     
 }
+
 
 - (IBAction)btnActionStartSession:(id)sender {
     
@@ -155,6 +167,39 @@
     
     [[UTIDataStore sharedDataStore] http_saveMetadata:uid];
     
+}
+
+
+- (IBAction)btnActionPreviousQuestion:(id)sender {
+    [self goToPreviousMetaDataField];
+}
+
+
+-(void) goToPreviousMetaDataField {
+
+    if (currentMetaDataFieldIndex>0)
+        currentMetaDataFieldIndex=currentMetaDataFieldIndex-1;
+    else
+        return;
+    
+    NSArray *localCopyMetaDataFields=[[UTIDataStore sharedDataStore] metaDataFields];
+    UTIMetaDataField *localCopyCurrentMetaDataField=[localCopyMetaDataFields objectAtIndex:currentMetaDataFieldIndex];
+    
+    if (localCopyCurrentMetaDataField->isText==YES){
+        
+        [self.textFieldOutletMetaDataFreeText setText:[localCopyCurrentMetaDataField getTextValue]];
+        
+    } else {
+        
+        NSInteger selected=[localCopyCurrentMetaDataField getSelectedOptionIndex];
+        [self.pickerViewOutletMetaDataOption selectRow:selected inComponent:0 animated:NO];
+        
+    }
+    
+    
+    [self showFormForCurrentMetaDataField];
+    
+
 }
 
 
@@ -170,9 +215,11 @@
         
         if (localCopyCurrentMetaDataField->isText==YES){
             [localCopyCurrentMetaDataField setTextValue:[self.textFieldOutletMetaDataFreeText text]];
+            [self.textFieldOutletMetaDataFreeText setText:@""];
         } else {
             NSInteger row = [self.pickerViewOutletMetaDataOption selectedRowInComponent:0];
             [localCopyCurrentMetaDataField setSelectedOptionWithIndex:row];
+            //[self.pickerViewOutletMetaDataOption selectRow:0 inComponent:0 animated:NO];
         }
         currentMetaDataFieldIndex++;
         
@@ -182,12 +229,21 @@
         
     }
     
+    [self showFormForCurrentMetaDataField];
+    
+}
+
+-(void) showFormForCurrentMetaDataField
+{
+    //
+    NSArray *localCopyMetaDataFields=[[UTIDataStore sharedDataStore] metaDataFields];
+
     //
     if (currentMetaDataFieldIndex < localCopyMetaDataFields.count) {
         
         //
         UTIMetaDataField *localCopyNextMetaDataField=[localCopyMetaDataFields objectAtIndex:currentMetaDataFieldIndex];
-
+        
         [self.lblOutletMetaDataField_Title setText:localCopyNextMetaDataField->title];
         [self.lblOutletMetaDataField_Question setText:localCopyNextMetaDataField->question];
         [self.lblOutletMetaDataField_Explanation setText:localCopyNextMetaDataField->explanation];
@@ -209,13 +265,21 @@
             
         }
         
+        //
+        if (currentMetaDataFieldIndex<1)
+            [self.btnOutletPreviousQuestion setHidden:YES];
+        else
+            [self.btnOutletPreviousQuestion setHidden:NO];
+        
+        
     } else {
         
         [self.btnOutletNextQuestion setHidden:YES];
+        [self.btnOutletPreviousQuestion setHidden:YES];
         [self.btnOutletStartSession setHidden:NO];
         
     }
-    
+
 }
 
 

@@ -31,8 +31,12 @@
 }
 
 -(void) addOptionWithId: (NSString*)idValue text:(NSString*)textValue;
+
 -(void) setSelectedOptionWithIndex: (NSInteger)selectedIndex;
+-(NSInteger) getSelectedOptionIndex;
+
 -(void) setTextValue:(NSString *) textValue;
+-(NSString *) getTextValue;
 
 -(NSString *) getValue;
 -(NSString *) getKey;

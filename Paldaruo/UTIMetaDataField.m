@@ -31,7 +31,6 @@
     
 }
 
-
 -(void) addOptionWithId: (NSString*)idValue text:(NSString*)textValue {
     [optionKey addObject:idValue];
     [optionValue addObject:textValue];
@@ -41,8 +40,16 @@
     selectedOptionIndex=selectedIndex;
 }
 
+-(NSInteger) getSelectedOptionIndex {
+    return selectedOptionIndex;
+}
+
 -(void) setTextValue:(NSString *) textValue {
     value=textValue;
+}
+
+-(NSString *) getTextValue {
+    return value;
 }
 
 -(NSString *) getValue {
@@ -52,11 +59,11 @@
     } else {
         return (NSString *)[optionKey objectAtIndex:selectedOptionIndex];
     }
+    
 }
 
 -(NSString *) getKey {
     return fieldId;
 }
-
 
 @end

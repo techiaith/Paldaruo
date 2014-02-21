@@ -52,10 +52,12 @@
 
 -(UTIPrompt *) getNextPromptToRecord {
     
-    int r=arc4random_uniform(self.prompts.count);
-    
-    if (r<self.prompts.count)
-        return (UTIPrompt*)self.prompts[r];
+    //int r=arc4random_uniform(self.prompts.count);
+    //if (r<self.prompts.count){
+    if (self.prompts.count>0){
+        //return (UTIPrompt*)self.prompts[r];
+        return (UTIPrompt*)self.prompts[0];
+    }
     else
         return nil;
     

@@ -7,11 +7,18 @@
 //
 
 #import "UTIAppDelegate.h"
+//#import "TestFlight.h"
 
 @implementation UTIAppDelegate
 
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // start of your application:didFinishLaunchingWithOptions // ...
+    //[TestFlight takeOff:@"82c9650a-2835-4afb-812c-e449bc352d70"];
+    
+    // The rest of your application:didFinishLaunchingWithOptions method// ...
+    
     // Override point for customization after application launch.
     return YES;
 }

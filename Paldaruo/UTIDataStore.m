@@ -31,11 +31,13 @@
     
     //NSString *domainName = [[NSBundle mainBundle] bundleIdentifier];
     //[[NSUserDefaults standardUserDefaults] removePersistentDomainForName:domainName];
-    
+        
     if (self = [super init]){
 
         NSUserDefaults *persistedStore=[NSUserDefaults standardUserDefaults];
         NSString *allProfiles=[persistedStore stringForKey:@"AllProfilesJson"];
+        
+        metaDataFields=[[NSArray alloc] init];
         
         if (allProfiles!=nil) {
             
@@ -43,9 +45,6 @@
             allProfilesArray=(NSArray*)[NSJSONSerialization JSONObjectWithData:data
                                                                        options:NSJSONReadingMutableContainers
                                                                          error:nil];
-            
-            metaDataFields=[[NSArray alloc] init];
-            
         } else {
             
             allProfilesArray=[[NSArray alloc] init];

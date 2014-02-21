@@ -35,6 +35,29 @@
 		806B4FCF1897D01E00851038 /* UTIDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B4FCE1897D01E00851038 /* UTIDataStore.m */; };
 		806B4FD2189BBE8200851038 /* UTINewProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B4FD1189BBE8200851038 /* UTINewProfileViewController.m */; };
 		806B4FD5189FE95300851038 /* UTIMetaDataField.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B4FD4189FE95300851038 /* UTIMetaDataField.m */; };
+		806B500D18AE41BC00851038 /* AppIcon29x29.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B4FFD18AE41BC00851038 /* AppIcon29x29.png */; };
+		806B500E18AE41BC00851038 /* AppIcon29x29@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B4FFE18AE41BC00851038 /* AppIcon29x29@2x.png */; };
+		806B500F18AE41BC00851038 /* AppIcon40x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B4FFF18AE41BC00851038 /* AppIcon40x40.png */; };
+		806B501018AE41BC00851038 /* AppIcon40x40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B500018AE41BC00851038 /* AppIcon40x40@2x.png */; };
+		806B501118AE41BC00851038 /* AppIcon50x50.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B500118AE41BC00851038 /* AppIcon50x50.png */; };
+		806B501218AE41BC00851038 /* AppIcon50x50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B500218AE41BC00851038 /* AppIcon50x50@2x.png */; };
+		806B501318AE41BC00851038 /* AppIcon57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B500318AE41BC00851038 /* AppIcon57x57.png */; };
+		806B501418AE41BC00851038 /* AppIcon57x57@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B500418AE41BC00851038 /* AppIcon57x57@2x.png */; };
+		806B501518AE41BC00851038 /* AppIcon60x60.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B500518AE41BC00851038 /* AppIcon60x60.png */; };
+		806B501618AE41BC00851038 /* AppIcon60x60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B500618AE41BC00851038 /* AppIcon60x60@2x.png */; };
+		806B501718AE41BC00851038 /* AppIcon72x72.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B500718AE41BC00851038 /* AppIcon72x72.png */; };
+		806B501818AE41BC00851038 /* AppIcon72x72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B500818AE41BC00851038 /* AppIcon72x72@2x.png */; };
+		806B501918AE41BC00851038 /* AppIcon76x76.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B500918AE41BC00851038 /* AppIcon76x76.png */; };
+		806B501A18AE41BC00851038 /* AppIcon76x76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B500A18AE41BC00851038 /* AppIcon76x76@2x.png */; };
+		806B501B18AE41BC00851038 /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B500B18AE41BC00851038 /* iTunesArtwork.png */; };
+		806B501C18AE41BC00851038 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B500C18AE41BC00851038 /* iTunesArtwork@2x.png */; };
+		806B502318AE53CE00851038 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 806B501D18AE53CE00851038 /* libTestFlight.a */; };
+		806B502418AE53CF00851038 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 806B501E18AE53CE00851038 /* README.md */; };
+		806B502518AE53CF00851038 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 806B501F18AE53CE00851038 /* release_notes.md */; };
+		806B502818AE549D00851038 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 806B502718AE549D00851038 /* libz.dylib */; };
+		806B502B18B3A27900851038 /* 150px-S4C_logo.svg.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B502918B3A27900851038 /* 150px-S4C_logo.svg.png */; };
+		806B502C18B3A27900851038 /* WelshGovtlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B502A18B3A27900851038 /* WelshGovtlogo.png */; };
+		806B502F18B64EB900851038 /* UTIFurtherInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B502E18B64EB900851038 /* UTIFurtherInformationViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +110,33 @@
 		806B4FD1189BBE8200851038 /* UTINewProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTINewProfileViewController.m; sourceTree = "<group>"; };
 		806B4FD3189FE95300851038 /* UTIMetaDataField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIMetaDataField.h; sourceTree = "<group>"; };
 		806B4FD4189FE95300851038 /* UTIMetaDataField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIMetaDataField.m; sourceTree = "<group>"; };
+		806B4FFD18AE41BC00851038 /* AppIcon29x29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon29x29.png; sourceTree = "<group>"; };
+		806B4FFE18AE41BC00851038 /* AppIcon29x29@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon29x29@2x.png"; sourceTree = "<group>"; };
+		806B4FFF18AE41BC00851038 /* AppIcon40x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon40x40.png; sourceTree = "<group>"; };
+		806B500018AE41BC00851038 /* AppIcon40x40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon40x40@2x.png"; sourceTree = "<group>"; };
+		806B500118AE41BC00851038 /* AppIcon50x50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon50x50.png; sourceTree = "<group>"; };
+		806B500218AE41BC00851038 /* AppIcon50x50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon50x50@2x.png"; sourceTree = "<group>"; };
+		806B500318AE41BC00851038 /* AppIcon57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon57x57.png; sourceTree = "<group>"; };
+		806B500418AE41BC00851038 /* AppIcon57x57@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon57x57@2x.png"; sourceTree = "<group>"; };
+		806B500518AE41BC00851038 /* AppIcon60x60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon60x60.png; sourceTree = "<group>"; };
+		806B500618AE41BC00851038 /* AppIcon60x60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon60x60@2x.png"; sourceTree = "<group>"; };
+		806B500718AE41BC00851038 /* AppIcon72x72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon72x72.png; sourceTree = "<group>"; };
+		806B500818AE41BC00851038 /* AppIcon72x72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon72x72@2x.png"; sourceTree = "<group>"; };
+		806B500918AE41BC00851038 /* AppIcon76x76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon76x76.png; sourceTree = "<group>"; };
+		806B500A18AE41BC00851038 /* AppIcon76x76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon76x76@2x.png"; sourceTree = "<group>"; };
+		806B500B18AE41BC00851038 /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
+		806B500C18AE41BC00851038 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
+		806B501D18AE53CE00851038 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTestFlight.a; path = Paldaruo/libTestFlight.a; sourceTree = "<group>"; };
+		806B501E18AE53CE00851038 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = Paldaruo/README.md; sourceTree = "<group>"; };
+		806B501F18AE53CE00851038 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = release_notes.md; path = Paldaruo/release_notes.md; sourceTree = "<group>"; };
+		806B502018AE53CE00851038 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestFlight.h; path = Paldaruo/TestFlight.h; sourceTree = "<group>"; };
+		806B502118AE53CE00851038 /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TestFlight+AsyncLogging.h"; path = "Paldaruo/TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
+		806B502218AE53CE00851038 /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TestFlight+ManualSessions.h"; path = "Paldaruo/TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
+		806B502718AE549D00851038 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		806B502918B3A27900851038 /* 150px-S4C_logo.svg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "150px-S4C_logo.svg.png"; sourceTree = "<group>"; };
+		806B502A18B3A27900851038 /* WelshGovtlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WelshGovtlogo.png; sourceTree = "<group>"; };
+		806B502D18B64EB900851038 /* UTIFurtherInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIFurtherInformationViewController.h; sourceTree = "<group>"; };
+		806B502E18B64EB900851038 /* UTIFurtherInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIFurtherInformationViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +144,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				806B502818AE549D00851038 /* libz.dylib in Frameworks */,
+				806B502318AE53CE00851038 /* libTestFlight.a in Frameworks */,
 				5C7C7FC918720F6000E13FC0 /* CoreAudio.framework in Frameworks */,
 				5C7C7FC718720EB300E13FC0 /* AVFoundation.framework in Frameworks */,
 				5C7C7F91186E159A00E13FC0 /* CoreGraphics.framework in Frameworks */,
@@ -118,6 +170,8 @@
 		5C7C7F82186E159A00E13FC0 = {
 			isa = PBXGroup;
 			children = (
+				806B502618AE53DE00851038 /* TestFlight */,
+				806B4FFC18AE419200851038 /* AppIcons */,
 				5C7C7F94186E159A00E13FC0 /* Paldaruo */,
 				5C7C7FB6186E159A00E13FC0 /* PaldaruoTests */,
 				5C7C7F8D186E159A00E13FC0 /* Frameworks */,
@@ -137,6 +191,7 @@
 		5C7C7F8D186E159A00E13FC0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				806B502718AE549D00851038 /* libz.dylib */,
 				5C7C7FC818720F6000E13FC0 /* CoreAudio.framework */,
 				5C7C7FC618720EB300E13FC0 /* AVFoundation.framework */,
 				5C7C7F8E186E159A00E13FC0 /* Foundation.framework */,
@@ -170,6 +225,8 @@
 				806B4FCB188D441100851038 /* UTIWelcomeViewController.m */,
 				806B4FD3189FE95300851038 /* UTIMetaDataField.h */,
 				806B4FD4189FE95300851038 /* UTIMetaDataField.m */,
+				806B502D18B64EB900851038 /* UTIFurtherInformationViewController.h */,
+				806B502E18B64EB900851038 /* UTIFurtherInformationViewController.m */,
 			);
 			path = Paldaruo;
 			sourceTree = "<group>";
@@ -177,6 +234,8 @@
 		5C7C7F95186E159A00E13FC0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				806B502918B3A27900851038 /* 150px-S4C_logo.svg.png */,
+				806B502A18B3A27900851038 /* WelshGovtlogo.png */,
 				8021ACA3187C50CE0069B508 /* uti-logo.png */,
 				8021ACA1187C4F7C0069B508 /* logoprifysgolbangor.gif */,
 				8021AC9F187C456B0069B508 /* bangor_header_crest.jpg */,
@@ -206,6 +265,42 @@
 				5C7C7FB9186E159A00E13FC0 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		806B4FFC18AE419200851038 /* AppIcons */ = {
+			isa = PBXGroup;
+			children = (
+				806B4FFD18AE41BC00851038 /* AppIcon29x29.png */,
+				806B4FFE18AE41BC00851038 /* AppIcon29x29@2x.png */,
+				806B4FFF18AE41BC00851038 /* AppIcon40x40.png */,
+				806B500018AE41BC00851038 /* AppIcon40x40@2x.png */,
+				806B500118AE41BC00851038 /* AppIcon50x50.png */,
+				806B500218AE41BC00851038 /* AppIcon50x50@2x.png */,
+				806B500318AE41BC00851038 /* AppIcon57x57.png */,
+				806B500418AE41BC00851038 /* AppIcon57x57@2x.png */,
+				806B500518AE41BC00851038 /* AppIcon60x60.png */,
+				806B500618AE41BC00851038 /* AppIcon60x60@2x.png */,
+				806B500718AE41BC00851038 /* AppIcon72x72.png */,
+				806B500818AE41BC00851038 /* AppIcon72x72@2x.png */,
+				806B500918AE41BC00851038 /* AppIcon76x76.png */,
+				806B500A18AE41BC00851038 /* AppIcon76x76@2x.png */,
+				806B500B18AE41BC00851038 /* iTunesArtwork.png */,
+				806B500C18AE41BC00851038 /* iTunesArtwork@2x.png */,
+			);
+			name = AppIcons;
+			sourceTree = "<group>";
+		};
+		806B502618AE53DE00851038 /* TestFlight */ = {
+			isa = PBXGroup;
+			children = (
+				806B501E18AE53CE00851038 /* README.md */,
+				806B501D18AE53CE00851038 /* libTestFlight.a */,
+				806B502218AE53CE00851038 /* TestFlight+ManualSessions.h */,
+				806B502118AE53CE00851038 /* TestFlight+AsyncLogging.h */,
+				806B502018AE53CE00851038 /* TestFlight.h */,
+				806B501F18AE53CE00851038 /* release_notes.md */,
+			);
+			name = TestFlight;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -288,14 +383,34 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				806B502518AE53CF00851038 /* release_notes.md in Resources */,
 				8021AC9E187C450A0069B508 /* Llywodraeth-Cymru-1315259625.jpg in Resources */,
+				806B502C18B3A27900851038 /* WelshGovtlogo.png in Resources */,
+				806B501618AE41BC00851038 /* AppIcon60x60@2x.png in Resources */,
+				806B500F18AE41BC00851038 /* AppIcon40x40.png in Resources */,
 				8021ACA0187C456B0069B508 /* bangor_header_crest.jpg in Resources */,
+				806B502418AE53CF00851038 /* README.md in Resources */,
+				806B501118AE41BC00851038 /* AppIcon50x50.png in Resources */,
+				806B501918AE41BC00851038 /* AppIcon76x76.png in Resources */,
+				806B501B18AE41BC00851038 /* iTunesArtwork.png in Resources */,
 				5C7C7FA5186E159A00E13FC0 /* Main_iPad.storyboard in Resources */,
 				5C7C7FAA186E159A00E13FC0 /* Images.xcassets in Resources */,
 				8021ACA4187C50CE0069B508 /* uti-logo.png in Resources */,
+				806B501018AE41BC00851038 /* AppIcon40x40@2x.png in Resources */,
+				806B501C18AE41BC00851038 /* iTunesArtwork@2x.png in Resources */,
+				806B501418AE41BC00851038 /* AppIcon57x57@2x.png in Resources */,
+				806B501218AE41BC00851038 /* AppIcon50x50@2x.png in Resources */,
+				806B502B18B3A27900851038 /* 150px-S4C_logo.svg.png in Resources */,
 				8021ACA2187C4F7C0069B508 /* logoprifysgolbangor.gif in Resources */,
 				8021AC9C187C44770069B508 /* logos4c.jpeg in Resources */,
+				806B500D18AE41BC00851038 /* AppIcon29x29.png in Resources */,
+				806B501818AE41BC00851038 /* AppIcon72x72@2x.png in Resources */,
+				806B501A18AE41BC00851038 /* AppIcon76x76@2x.png in Resources */,
+				806B501518AE41BC00851038 /* AppIcon60x60.png in Resources */,
+				806B501718AE41BC00851038 /* AppIcon72x72.png in Resources */,
 				5C7C7FA2186E159A00E13FC0 /* Main_iPhone.storyboard in Resources */,
+				806B501318AE41BC00851038 /* AppIcon57x57.png in Resources */,
+				806B500E18AE41BC00851038 /* AppIcon29x29@2x.png in Resources */,
 				5C7C7F99186E159A00E13FC0 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -318,6 +433,7 @@
 				806B4FD5189FE95300851038 /* UTIMetaDataField.m in Sources */,
 				5C7C7F9B186E159A00E13FC0 /* main.m in Sources */,
 				8020410A187EC8EE00C9A4F3 /* UTIPromptsTracker.m in Sources */,
+				806B502F18B64EB900851038 /* UTIFurtherInformationViewController.m in Sources */,
 				806B4FCC188D441100851038 /* UTIWelcomeViewController.m in Sources */,
 				5C7C7F9F186E159A00E13FC0 /* UTIAppDelegate.m in Sources */,
 				806B4FD2189BBE8200851038 /* UTINewProfileViewController.m in Sources */,
@@ -460,13 +576,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Bangor University (99Z8TNAFH4)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Paldaruo/Paldaruo-Prefix.pch";
 				INFOPLIST_FILE = "Paldaruo/Paldaruo-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/apiau/Developer/Paldaruo/Paldaruo,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -476,11 +597,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Paldaruo/Paldaruo-Prefix.pch";
 				INFOPLIST_FILE = "Paldaruo/Paldaruo-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/apiau/Developer/Paldaruo/Paldaruo,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;

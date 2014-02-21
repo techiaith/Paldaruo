@@ -12,12 +12,15 @@
 @interface UTIViewController ()
 
 - (IBAction)btnMoveToNextRecordingState:(id)sender;
+- (IBAction)btnRedoRecording:(id)sender;
+
 
 @property (weak) UTIPrompt *currentPrompt;
 
 @property (weak, nonatomic) IBOutlet UILabel *lblOutletNextPrompt;
 @property (weak, nonatomic) IBOutlet UILabel *lblOutletRecordingStatus;
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletMoveToNextRecordingState;
+@property (weak, nonatomic) IBOutlet UIButton *btnOutletRedoRecording;
 @property (weak, nonatomic) IBOutlet UILabel *lblOutletProfileName;
 @property (weak, nonatomic) IBOutlet UILabel *lblOutletSessionProgress;
 
@@ -95,10 +98,11 @@
         
         [[self lblOutletProfileName] setText:userGreeting];
         
-        [self.lblOutletNextPrompt setText:@"Estyn promtiau i'w recordio...."];
+        [self.lblOutletNextPrompt setText:@"Estyn testunau i'w recordio...."];
         [self.btnOutletMoveToNextRecordingState setHidden:YES];
         [self.lblOutletRecordingStatus setHidden:YES];
         [self.lblOutletSessionProgress setHidden:YES];
+        [self.btnOutletRedoRecording setHidden:YES];
         
     }
     else if (currentRecordingStatus==RECORDING_SESSION_START){
@@ -109,6 +113,7 @@
         
         [self.lblOutletSessionProgress setHidden:NO];
         [self.btnOutletMoveToNextRecordingState setHidden:NO];
+        [self.btnOutletRedoRecording setHidden:YES];
         
         [self updateSessionProgress];
         
@@ -117,9 +122,10 @@
     }
     else if (currentRecordingStatus==RECORDING_WAIT_TO_START) {
         
-        [self setMoveToNextRecordStateTitle:@"Cliciwch i Orffen Recordio"];
+        [self setMoveToNextRecordStateTitle:@"Cliciwch i orffen recordio"];
         
         //[self.lblOutletRecordingStatus setHidden:NO];
+        [self.btnOutletRedoRecording setHidden:YES];
         [self startRecordingStatusTimer];
         [self setRecordStatusText:@"Yn recordio...."];
         
@@ -133,25 +139,41 @@
         
         [self stopRecordingStatusTimer];
         [self.lblOutletRecordingStatus setHidden:YES];
+        [self.btnOutletRedoRecording setHidden:YES];
         
-        [self setMoveToNextRecordStateTitle:@"Cliciwch i Wrando ar eich recordiad"];
-       
+        [self setMoveToNextRecordStateTitle:@"Cliciwch i wrando ar eich recordiad"];
+        
+        [self setRedoRecordingText:@"Recordio eto"];
+        [self.btnOutletRedoRecording setHidden:NO];
+        
         currentRecordingStatus=RECORDING_FINISHED;
 
     } else if (currentRecordingStatus==RECORDING_FINISHED){
         
         [self setMoveToNextRecordStateTitle:@""];
         [self.btnOutletMoveToNextRecordingState setHidden:YES];
+        [self.btnOutletRedoRecording setHidden:YES];
         [self playAudio];
         
         // status will change to RECORDING_LISTENING_END when audio will finish playing.
     
     } else if (currentRecordingStatus==RECORDING_LISTENING_END) {
     
-        [self setMoveToNextRecordStateTitle:@"Cliciwch i mynd i'r nesaf"];
+        [self setMoveToNextRecordStateTitle:@"Nesaf"];
         [self.btnOutletMoveToNextRecordingState setHidden:NO];
         
+        [self setRedoRecordingText:@"Recordio eto"];
+        [self.btnOutletRedoRecording setHidden:NO];
+        
         currentRecordingStatus=RECORDING_WAIT_TO_GOTO_NEXT;
+        
+    } else if (currentRecordingStatus==RECORDING_WAIT_TO_REDO_RECORDING){
+        
+        [self setMoveToNextRecordStateTitle:@"Cychwyn recordio"];
+        [self.lblOutletRecordingStatus setHidden:YES];
+        [self.btnOutletRedoRecording setHidden:YES];
+        
+        currentRecordingStatus=RECORDING_WAIT_TO_START;
         
     } else if (currentRecordingStatus==RECORDING_WAIT_TO_GOTO_NEXT) {
         
@@ -163,20 +185,23 @@
         
         [self updateSessionProgress];
         
-        [self setMoveToNextRecordStateTitle:@"Cliciwch i gychwyn recordio"];
+        [self setMoveToNextRecordStateTitle:@"Cychwyn recordio"];
         [self.lblOutletRecordingStatus setHidden:YES];
+        [self.btnOutletRedoRecording setHidden:YES];
         
         currentRecordingStatus=RECORDING_WAIT_TO_START;
         
     } else if (currentRecordingStatus==RECORDING_SESSION_END) {
         
         [self.btnOutletMoveToNextRecordingState setHidden:YES];
+        [self.btnOutletRedoRecording setHidden:YES];
+        
         [self.lblOutletSessionProgress setHidden:YES];
         
         NSInteger userIndex=[[UTIDataStore sharedDataStore] activeUserIndex];
         NSString* userName=[[[[UTIDataStore sharedDataStore] allProfilesArray] objectAtIndex:userIndex] objectForKey:@"name"];
         
-        NSString* userGreeting=[NSString stringWithFormat:@"Diolch yn fawr iawn am cyfrannu dy lais %@!", userName];
+        NSString* userGreeting=[NSString stringWithFormat:@"Diolch yn fawr iawn am gyfrannu dy lais %@!", userName];
         
         [[self lblOutletProfileName] setText:userGreeting];
 
@@ -184,12 +209,17 @@
     
 }
 
+- (IBAction)btnRedoRecording:(id)sender {
+    currentRecordingStatus=RECORDING_WAIT_TO_REDO_RECORDING;
+    [self btnMoveToNextRecordingState:(self)];
+}
+
 - (void) updateSessionProgress {
     
     
-    NSString* progressString = [NSString stringWithFormat:@"%d / %d promt ar \xc3\xb4l",
-                                [prompts getRemainingCount],
-                                [prompts getInitialCount]
+    NSString* progressString = [NSString stringWithFormat:@"%ld / %ld testun ar \xc3\xb4l",
+                                (long)[prompts getRemainingCount],
+                                (long)[prompts getInitialCount]
                                 ];
     
     [self.lblOutletSessionProgress setText:progressString];
@@ -197,20 +227,19 @@
 }
 
 - (void) setMoveToNextRecordStateTitle:(NSString *)titleString {
-    
     [self.btnOutletMoveToNextRecordingState setTitle:titleString forState:(UIControlStateNormal) ];
-    
 }
 
 -(void) setRecordStatusText:(NSString *) statusText {
     [self.lblOutletRecordingStatus setText:statusText];
 }
 
+-(void) setRedoRecordingText:(NSString *) redoText {
+    [self.btnOutletRedoRecording setTitle:redoText forState:(UIControlStateNormal)];
+}
 
 -(void) recordAudio {
-    
     [self.audioRecorder record];
-    
 }
 
 
@@ -247,7 +276,10 @@
         [self btnMoveToNextRecordingState:self];
         
     } else {
-        self.lblOutletNextPrompt.text=self.currentPrompt->text;
+        NSString* displayedPrompt=[self.currentPrompt->text stringByReplacingOccurrencesOfString:@" "
+                                                                                      withString:@"  "];
+        
+        self.lblOutletNextPrompt.text=displayedPrompt;//self.currentPrompt->text;
     }
  
 }
