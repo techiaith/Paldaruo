@@ -179,7 +179,7 @@
         
         //[self uploadAudio];
         [[UTIDataStore sharedDataStore] http_uploadAudio:uid
-                                              identifier:self.currentPrompt->identifier];
+                                              identifier:self.currentPrompt.identifier];
         
         [self gotoNextPrompt];
         
@@ -281,7 +281,7 @@
         [self btnMoveToNextRecordingState:self];
         
     } else {
-        NSString* displayedPrompt=[self.currentPrompt->text stringByReplacingOccurrencesOfString:@" "
+        NSString* displayedPrompt=[self.currentPrompt.text stringByReplacingOccurrencesOfString:@" "
                                                                                       withString:@"  "];
         
         self.lblOutletNextPrompt.text=displayedPrompt;//self.currentPrompt->text;

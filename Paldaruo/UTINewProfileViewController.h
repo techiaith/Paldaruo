@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UTINewProfileViewController : UIViewController <UITextFieldDelegate>
+@interface UTINewProfileViewController : UIViewController <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 
 @end
 

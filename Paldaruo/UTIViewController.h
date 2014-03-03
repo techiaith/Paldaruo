@@ -13,7 +13,7 @@
 #import "UTIPromptsTracker.h"
 #import "UTIDataStore.h"
 
-@interface UTIViewController : UIViewController
+@interface UTIViewController : UIViewController <AVAudioPlayerDelegate>
 
 @property (strong, nonatomic) AVAudioRecorder *audioRecorder;
 @property (strong, nonatomic) AVAudioPlayer *audioPlayer;
@@ -44,7 +44,7 @@ typedef enum TypeDefRecordStatus {
     RECORDING_WAIT_TO_GOTO_NEXT,
     RECORDING_WAIT_TO_REDO_RECORDING,
     RECORDING_SESSION_END
-};
+} RecordStatus;
 
 enum TypeDefRecordStatus currentRecordingStatus;
 

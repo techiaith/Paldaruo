@@ -9,14 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface UTIPrompt : NSObject
-{
-    
-    @public
-    
-        NSString *text;
-        NSString *identifier;
-        int index;
-        BOOL isRecorded;
-    
-}
+
+@property (strong) NSString *identifier;
+@property (strong) NSString *text;
+@property (getter = isRecorded) BOOL recorded;
+@property NSInteger index;
 @end

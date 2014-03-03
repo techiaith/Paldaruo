@@ -140,6 +140,7 @@
 		806B502E18B64EB900851038 /* UTIFurtherInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIFurtherInformationViewController.m; sourceTree = "<group>"; };
 		806B503018BCED5000851038 /* UTIIntroductionScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIIntroductionScreenViewController.h; sourceTree = "<group>"; };
 		806B503118BCED5000851038 /* UTIIntroductionScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIIntroductionScreenViewController.m; sourceTree = "<group>"; };
+		CD79988618C4DF760033860D /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,9 +220,10 @@
 				80204108187EC8EE00C9A4F3 /* UTIPromptsTracker.h */,
 				80204109187EC8EE00C9A4F3 /* UTIPromptsTracker.m */,
 				8020410B187EC9B200C9A4F3 /* UTIPrompt.h */,
+				8020410C187EC9B200C9A4F3 /* UTIPrompt.m */,
 				806B4FCD1897D01E00851038 /* UTIDataStore.h */,
 				806B4FCE1897D01E00851038 /* UTIDataStore.m */,
-				8020410C187EC9B200C9A4F3 /* UTIPrompt.m */,
+				CD79988618C4DF760033860D /* Constants.h */,
 				806B4FCA188D441100851038 /* UTIWelcomeViewController.h */,
 				806B4FD0189BBE8200851038 /* UTINewProfileViewController.h */,
 				806B4FD1189BBE8200851038 /* UTINewProfileViewController.m */,
@@ -589,7 +591,7 @@
 				INFOPLIST_FILE = "Paldaruo/Paldaruo-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/apiau/Developer/Paldaruo/Paldaruo,
+					$SRCROOT/Paldaruo,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -610,7 +612,7 @@
 				INFOPLIST_FILE = "Paldaruo/Paldaruo-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/apiau/Developer/Paldaruo/Paldaruo,
+					$SRCROOT/Paldaruo,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

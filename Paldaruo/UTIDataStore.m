@@ -82,7 +82,7 @@
 
 -(void) addNewUser: (NSString *)userName {
     
-    NSString *uid=[self http_createUser];
+    NSString *uid = [self http_createUser];
     
     NSDictionary *newUserDictionary=[[NSDictionary alloc] initWithObjectsAndKeys:
         userName, @"name",
@@ -123,8 +123,7 @@
     NSURL *audioFileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:@"audioRecording.wav"]];
     
     NSData *file1Data = [[NSData alloc] initWithContentsOfURL:audioFileURL];
-    //NSString *urlString = @"http://techiaith.bangor.ac.uk/gallu/upload/upload.php";
-    NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/savePrompt";
+    NSString *urlString = UTIServerURL(@"savePrompt");
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:urlString]];
@@ -160,12 +159,9 @@
     // send asynchronous
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
-     {
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
          [self handleResponseUploadAudio:data error:error];
-     }
-     
-     ];
+     }];
     
 }
 
@@ -175,7 +171,7 @@
     
     NSString *newUserId=nil;
     
-    NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/createUser";
+    NSString *urlString = UTIServerURL(@"createUser");
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:urlString]];
     [request setHTTPMethod:@"POST"];
@@ -216,9 +212,8 @@
 
 -(void) http_fetchOutstandingPrompts:(UTIPromptsTracker*)prompts useridentifier:(NSString *)uid {
     
-    NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/getOutstandingPrompts";
+    NSString *urlString = UTIServerURL(@"getOutstandingPrompts");
     
-    //NSString *urlString = [NSURL URLWithString:@"http://paldaruo.techiaith.bangor.ac.uk/getOutstandingPrompts"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:urlString]];
     [request setHTTPMethod:@"POST"];
@@ -263,8 +258,8 @@
         {
             UTIPrompt* newPrompt=[[UTIPrompt alloc] init];
             
-            newPrompt->text = [[jsonArray objectAtIndex:x] objectForKey:@"text"];
-            newPrompt->identifier = [[jsonArray objectAtIndex:x] objectForKey:@"identifier"];
+            newPrompt.text = [[jsonArray objectAtIndex:x] objectForKey:@"text"];
+            newPrompt.identifier = [[jsonArray objectAtIndex:x] objectForKey:@"identifier"];
             
             //[self.prompts addPromptForRecording:newPrompt];
             [prompts addPromptForRecording:newPrompt];
@@ -285,7 +280,7 @@
 
 -(void) http_getMetadata: (NSString*) uid {
     
-    NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/getMetadata";
+    NSString *urlString = UTIServerURL(@"getMetadata");
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:urlString]];
@@ -367,7 +362,7 @@
 
 -(void) http_saveMetadata: (NSString*) uid {
     
-    NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/saveMetadata";
+    NSString *urlString = UTIServerURL(@"saveMetadata");
 
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:urlString]];
