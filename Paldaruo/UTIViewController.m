@@ -43,8 +43,6 @@
     
     prompts = [[UTIPromptsTracker alloc] init];
     
-    
-    
     //[[UTIDataStore sharedDataStore] fetchOutstandingPrompts:self identifier:uid];
     //[[UTIDataStore sharedDataStore] http_fetchOutsandingPrompts:prompts identifier:uid];
     [[UTIDataStore sharedDataStore] http_fetchOutstandingPrompts:prompts useridentifier:uid];
@@ -76,9 +74,11 @@
     
 }
 
+
 -(void) toggleLabelRecordingStatus{
     [self.lblOutletRecordingStatus setHidden:(!self.lblOutletRecordingStatus.hidden)];
 }
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -209,6 +209,7 @@
     
 }
 
+
 - (IBAction)btnRedoRecording:(id)sender {
     currentRecordingStatus=RECORDING_WAIT_TO_REDO_RECORDING;
     [self btnMoveToNextRecordingState:(self)];
@@ -226,17 +227,21 @@
      
 }
 
+
 - (void) setMoveToNextRecordStateTitle:(NSString *)titleString {
     [self.btnOutletMoveToNextRecordingState setTitle:titleString forState:(UIControlStateNormal) ];
 }
+
 
 -(void) setRecordStatusText:(NSString *) statusText {
     [self.lblOutletRecordingStatus setText:statusText];
 }
 
+
 -(void) setRedoRecordingText:(NSString *) redoText {
     [self.btnOutletRedoRecording setTitle:redoText forState:(UIControlStateNormal)];
 }
+
 
 -(void) recordAudio {
     [self.audioRecorder record];
@@ -309,6 +314,7 @@
 
 }
 
+
 -(void) stopRecordingStatusTimer {
     
     if (self.lblOutletRecordingStatusTimer!=nil){
@@ -317,6 +323,7 @@
     }
     
 }
+
 
 @end
 

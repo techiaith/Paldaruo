@@ -1,30 +1,28 @@
 //
-//  UTIFurtherInformationViewController.m
+//  UTIIntroductionScreenViewController.m
 //  Paldaruo
 //
-//  Created by Apiau on 20/02/2014.
+//  Created by Apiau on 25/02/2014.
 //  Copyright (c) 2014 Uned Technolegau Iaith. All rights reserved.
 //
 
-#import "UTIFurtherInformationViewController.h"
+#import "UTIIntroductionScreenViewController.h"
 
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 #define IS_IPHONE_5 (IS_IPHONE && [[UIScreen mainScreen] bounds].size.height == 568.0f)
 
-@interface UTIFurtherInformationViewController ()
+@interface UTIIntroductionScreenViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageOutletBangorLogo;
-@property (weak, nonatomic) IBOutlet UILabel *labelOutletCanolfanBedwyr;
 @property (weak, nonatomic) IBOutlet UILabel *labelOutletUnedTechnolegauIaith;
+@property (weak, nonatomic) IBOutlet UILabel *labelOutletCanolfanBedwyr;
 @property (weak, nonatomic) IBOutlet UIImageView *imageOutletTechiaithLogo;
 @property (weak, nonatomic) IBOutlet UIImageView *imageOutletPaldaruoIcon;
-@property (weak, nonatomic) IBOutlet UIWebView *uiWebViewOutletContent;
 
 @end
 
-@implementation UTIFurtherInformationViewController
-
+@implementation UTIIntroductionScreenViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,33 +33,23 @@
     return self;
 }
 
-
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+        [super viewDidLoad];
+	// Do any additional setup after loading the view.
+    
     
 }
 
-
 - (void)viewDidAppear:(BOOL)animated
 {
-    // Do any additional setup after loading the view.
-    NSString *urlAdress=@"http://techiaith.bangor.ac.uk/gallu";
-    
-    NSURL *url = [NSURL URLWithString:urlAdress];
-    NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
-    
-    [self.uiWebViewOutletContent loadRequest:requestObj];
-    
     /*
-    CGRect paldaruoIcon = self.imageOutletPaldaruoIcon.frame;
-    CGRect newPaldaruoIconFrame = CGRectMake(paldaruoIcon.origin.x,paldaruoIcon.origin.y,50,50);
-    self.imageOutletPaldaruoIcon.frame=newPaldaruoIconFrame;
-    
     if (IS_IPHONE_5==YES){
         
         // 4 inch
         
+        // Bangor logo
+        //
         CGRect newBangorLogoFrame = CGRectMake(250, 495, 65, 50);
         self.imageOutletBangorLogo.frame = newBangorLogoFrame;
         
@@ -74,17 +62,26 @@
         CGRect newCanolfanBedwyrLabelFrame = CGRectMake(65, 520, 110, 20);
         self.labelOutletCanolfanBedwyr.frame = newCanolfanBedwyrLabelFrame;
         
-    } else if (IS_IPHONE==YES){
+        CGRect paldaruoIcon = self.imageOutletPaldaruoIcon.frame;
+        
+        CGRect newPaldaruoIconFrame = CGRectMake(paldaruoIcon.origin.x,
+                       paldaruoIcon.origin.y,
+                       50,50);
+        
+        self.imageOutletPaldaruoIcon.frame=newPaldaruoIconFrame;
+        
+    } else {
         
         // 3.5 inch
         
+        // Bangor logo
+        //
         CGRect newBangorLogoFrame = CGRectMake(250, 420, 65, 50);
         self.imageOutletBangorLogo.frame = newBangorLogoFrame;
         
-        //CGRect newTechiaithLogoFrame = CGRectMake(15, 415, 50, 65);
-        CGRect newTechiaithLogoFrame = CGRectMake(15,15, 50,65);
+        CGRect newTechiaithLogoFrame = CGRectMake(15, 415, 50, 65);
         self.imageOutletTechiaithLogo.frame = newTechiaithLogoFrame;
-        
+
         CGRect newTechIaithLabelFrame = CGRectMake(65, 430, 135, 20);
         self.labelOutletUnedTechnolegauIaith.frame=newTechIaithLabelFrame;
         
@@ -95,7 +92,6 @@
      */
     
 }
-
 
 - (void)didReceiveMemoryWarning
 {

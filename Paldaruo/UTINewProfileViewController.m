@@ -9,7 +9,7 @@
 #import "UTINewProfileViewController.h"
 #import "UTIDataStore.h"
 
-@interface UTINewProfileViewController ()
+@interface UTINewProfileViewController () 
 
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletCreateUser;
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletStartSession;
@@ -58,6 +58,8 @@
     [self.pickerViewOutletMetaDataOption setHidden:YES];
     [self.textFieldOutletMetaDataFreeText setHidden:YES];
     
+    self.textFieldOutletMetaDataFreeText.delegate = self;
+    
     self.pickerViewOutletMetaDataOption.delegate = self;
     self.pickerViewOutletMetaDataOption.dataSource = self;
     self.pickerViewOutletMetaDataOption.showsSelectionIndicator=YES;
@@ -66,15 +68,24 @@
     // select the text box and show the keyboard.
     
     [self.txtBoxNewProfileName becomeFirstResponder];
+    
     [self.btnOutletNextQuestion setHidden:YES];
     [self.btnOutletPreviousQuestion setHidden:YES];
     
-    [self.lblOutletMetaDataField_Explanation sizeToFit];
+    //[self.lblOutletMetaDataField_Explanation sizeToFit];
     
     [super viewDidLoad];
     
 	// Do any additional setup after loading the view.
     
+}
+
+
+-(BOOL) textFieldShouldReturn:(UITextField *)theTextField {
+    if (theTextField == self.textFieldOutletMetaDataFreeText) {
+        [theTextField resignFirstResponder];
+    }
+    return YES;
 }
 
 
@@ -248,8 +259,13 @@
         [self.lblOutletMetaDataField_Question setText:localCopyNextMetaDataField->question];
         [self.lblOutletMetaDataField_Explanation setText:localCopyNextMetaDataField->explanation];
         
+        [self.lblOutletMetaDataField_Title setHidden:NO];
+        [self.lblOutletMetaDataField_Question setHidden:NO];
+        [self.lblOutletMetaDataField_Explanation setHidden:NO];
+        
         //
         if (localCopyNextMetaDataField->isText==YES){
+            
             [self.pickerViewOutletMetaDataOption setHidden:YES];
             
             [self.textFieldOutletMetaDataFreeText setHidden:NO];
@@ -257,6 +273,7 @@
             
             
         } else {
+            
             [self.view endEditing:YES];
             [self.textFieldOutletMetaDataFreeText setHidden:YES];
             
@@ -271,11 +288,20 @@
         else
             [self.btnOutletPreviousQuestion setHidden:NO];
         
+        [self.btnOutletStartSession setHidden:YES];
+        [self.btnOutletNextQuestion setHidden:NO];
         
     } else {
         
         [self.btnOutletNextQuestion setHidden:YES];
-        [self.btnOutletPreviousQuestion setHidden:YES];
+        //[self.btnOutletPreviousQuestion setHidden:YES];
+        
+        [self.lblOutletMetaDataField_Title setHidden:YES];
+        [self.lblOutletMetaDataField_Question setHidden:YES];
+        [self.lblOutletMetaDataField_Explanation setHidden:YES];
+        [self.textFieldOutletMetaDataFreeText setHidden:YES];
+        [self.pickerViewOutletMetaDataOption setHidden:YES];
+        
         [self.btnOutletStartSession setHidden:NO];
         
     }
