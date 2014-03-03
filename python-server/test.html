@@ -1,0 +1,45 @@
+<html>
+<title>Gweinydd Paldaruo: profion</title>
+<p>
+<form method=POST action=/resetDatabase enctype='multipart/form-data'>
+<b>/resetDatabase</b>
+<input type=submit>
+</form>
+
+<p>
+<form method=POST action=/createUser enctype='multipart/form-data'>
+<b>/createUser</b>
+<input type=submit>
+</form>
+
+<p>
+<form method=POST action=/getMetadata enctype='multipart/form-data'>
+<b>/getMetadata</b>
+uid:<input type="text" name="uid">
+<input type=submit>
+</form>
+
+<p>
+<form method=POST action=/getOutstandingPrompts enctype='multipart/form-data'>
+<b>/getOutstandingPrompts</b>
+uid:<input type="text" name="uid">
+<input type=submit>
+</form>
+
+<p>
+<form method=POST action=/saveMetadata enctype='multipart/form-data'>
+<b>/saveMetadata</b><br>
+uid:<input type="text" name="uid"><br>
+metadata:<br>
+<textarea cols=40 rows=5 name="metadata"></textarea><br>
+<input type=submit>
+</form>
+
+<p>
+<form method=POST action=/savePrompt enctype='multipart/form-data'>
+<b>/savePrompt</b><br>
+uid:<input type="text" name="uid"><br>
+promptId:<input type="text" name="promptId"><br>
+<input type="file" name="file"><br>
+<input type=submit>
+</form>
