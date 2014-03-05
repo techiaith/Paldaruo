@@ -130,7 +130,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3066" y="359"/>
+            <point key="canvasLocation" x="2554" y="23"/>
         </scene>
         <!--Further Information View Controller-->
         <scene sceneID="OlJ-Xd-Hxw">
@@ -186,12 +186,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pVu-aL-WEt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1947" y="773"/>
+            <point key="canvasLocation" x="-1961" y="1093"/>
         </scene>
-        <!--View Controller-->
+        <!--Accept Terms And Conditions View Controller-->
         <scene sceneID="aWl-O0-9vW">
             <objects>
-                <viewController id="133-wE-UIG" sceneMemberID="viewController">
+                <viewController id="133-wE-UIG" customClass="UTIAcceptTermsAndConditionsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1z7-IU-1fP"/>
                         <viewControllerLayoutGuide type="bottom" id="CGg-TT-Ms5"/>
@@ -231,7 +231,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="BYZ-38-t0r" kind="modal" id="lfO-dw-3GT"/>
+                                    <segue destination="Mxt-vI-ziU" kind="modal" id="dgZ-Pw-9gT"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="uti-logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="08B-zC-Tme">
@@ -265,10 +265,13 @@
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <connections>
+                        <outlet property="webViewOutletTermsAndConditionsText" destination="hZm-Z8-AT1" id="7B1-ah-twS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kqb-JX-vAS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1902" y="2907"/>
+            <point key="canvasLocation" x="242" y="1679"/>
         </scene>
         <!--New Profile View Controller-->
         <scene sceneID="LaU-FT-UBA">
@@ -291,7 +294,7 @@
                                 </state>
                                 <connections>
                                     <action selector="btnActionStartSession:" destination="Mxt-vI-ziU" eventType="touchUpInside" id="Opd-Ds-CHr"/>
-                                    <segue destination="133-wE-UIG" kind="modal" id="24W-XH-P6D"/>
+                                    <segue destination="BYZ-38-t0r" kind="modal" id="5bf-fF-HrE"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enw'r Proffil Newydd :" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3mt-YJ-2oB">
@@ -422,7 +425,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sSr-uV-deD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="378" y="2812"/>
+            <point key="canvasLocation" x="1750" y="1667"/>
         </scene>
         <!--Welcome View Controller - Paldaruo - Corpws Torfoli Lleferydd-->
         <scene sceneID="p2y-aJ-p8s">
@@ -463,7 +466,7 @@
                                 </state>
                                 <connections>
                                     <action selector="btnStartSession:" destination="sMx-fZ-6x9" eventType="touchUpInside" id="nHV-OL-hPH"/>
-                                    <segue destination="BYZ-38-t0r" kind="modal" id="jcR-Df-Sry"/>
+                                    <segue destination="BYZ-38-t0r" kind="modal" id="dmM-2h-biV"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Uned Technolegau Iaith, Canolfan Bedwyr, Prifysgol Bangor" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="krK-25-BVp">
@@ -482,7 +485,7 @@
                                 </state>
                                 <connections>
                                     <action selector="btnCreateNewProfile:" destination="sMx-fZ-6x9" eventType="touchUpInside" id="DZj-yN-tjh"/>
-                                    <segue destination="Mxt-vI-ziU" kind="modal" id="MP5-dh-5O0"/>
+                                    <segue destination="133-wE-UIG" kind="modal" id="gyD-jf-X9s"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Dewisiwch broffil neu gliciwch 'Ychwanegu Proffil' i greu un newydd" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QZN-el-6Az">
@@ -516,7 +519,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="49n-eF-pYE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-703" y="359"/>
+            <point key="canvasLocation" x="-707" y="38"/>
         </scene>
         <!--View Controller - Paldaruo Intro-->
         <scene sceneID="0bu-pp-VW8">
@@ -651,7 +654,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="lfO-dw-3GT"/>
-        <segue reference="4j3-hq-ukK"/>
+        <segue reference="5bf-fF-HrE"/>
+        <segue reference="4EU-DI-fMf"/>
     </inferredMetricsTieBreakers>
 </document>

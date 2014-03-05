@@ -59,6 +59,7 @@
 		806B502C18B3A27900851038 /* WelshGovtlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B502A18B3A27900851038 /* WelshGovtlogo.png */; };
 		806B502F18B64EB900851038 /* UTIFurtherInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B502E18B64EB900851038 /* UTIFurtherInformationViewController.m */; };
 		806B503218BCED5000851038 /* UTIIntroductionScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B503118BCED5000851038 /* UTIIntroductionScreenViewController.m */; };
+		806B503518C788C600851038 /* UTIAcceptTermsAndConditionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B503418C788C600851038 /* UTIAcceptTermsAndConditionsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,6 +141,8 @@
 		806B502E18B64EB900851038 /* UTIFurtherInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIFurtherInformationViewController.m; sourceTree = "<group>"; };
 		806B503018BCED5000851038 /* UTIIntroductionScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIIntroductionScreenViewController.h; sourceTree = "<group>"; };
 		806B503118BCED5000851038 /* UTIIntroductionScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIIntroductionScreenViewController.m; sourceTree = "<group>"; };
+		806B503318C788C600851038 /* UTIAcceptTermsAndConditionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIAcceptTermsAndConditionsViewController.h; sourceTree = "<group>"; };
+		806B503418C788C600851038 /* UTIAcceptTermsAndConditionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIAcceptTermsAndConditionsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,6 +235,8 @@
 				806B502E18B64EB900851038 /* UTIFurtherInformationViewController.m */,
 				806B503018BCED5000851038 /* UTIIntroductionScreenViewController.h */,
 				806B503118BCED5000851038 /* UTIIntroductionScreenViewController.m */,
+				806B503318C788C600851038 /* UTIAcceptTermsAndConditionsViewController.h */,
+				806B503418C788C600851038 /* UTIAcceptTermsAndConditionsViewController.m */,
 			);
 			path = Paldaruo;
 			sourceTree = "<group>";
@@ -442,6 +447,7 @@
 				806B4FCC188D441100851038 /* UTIWelcomeViewController.m in Sources */,
 				5C7C7F9F186E159A00E13FC0 /* UTIAppDelegate.m in Sources */,
 				806B4FD2189BBE8200851038 /* UTINewProfileViewController.m in Sources */,
+				806B503518C788C600851038 /* UTIAcceptTermsAndConditionsViewController.m in Sources */,
 				8020410D187EC9B200C9A4F3 /* UTIPrompt.m in Sources */,
 				806B503218BCED5000851038 /* UTIIntroductionScreenViewController.m in Sources */,
 				806B4FCF1897D01E00851038 /* UTIDataStore.m in Sources */,

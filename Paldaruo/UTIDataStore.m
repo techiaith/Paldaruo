@@ -120,9 +120,17 @@
 -(void) http_uploadAudio: (NSString*) uid
                identifier:(NSString*) ident {
     
-    NSURL *audioFileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:@"audioRecording.wav"]];
+    NSString *filename = [NSString stringWithFormat:@"%@.wav", ident];
+    NSString *audioFileSource = [NSTemporaryDirectory() stringByAppendingString:@"audioRecording.wav"];
+    NSString *audoFileTarget = [NSTemporaryDirectory() stringByAppendingString:filename];
+    
+    [[NSFileManager defaultManager] copyItemAtPath:audioFileSource toPath:audoFileTarget error:nil];
+    
+    NSURL *audioFileURL = [NSURL fileURLWithPath:audoFileTarget];
+    //[NSTemporaryDirectory()stringByAppendingString:@"audioRecording.wav"]];
     
     NSData *file1Data = [[NSData alloc] initWithContentsOfURL:audioFileURL];
+    
     //NSString *urlString = @"http://techiaith.bangor.ac.uk/gallu/upload/upload.php";
     NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/savePrompt";
     
@@ -145,7 +153,7 @@
     [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"promptId\"\r\n\r\n%@", ident]] dataUsingEncoding:NSUTF8StringEncoding]];
 
     // add wav file
-    NSString *filename = [NSString stringWithFormat:@"%@.wav", ident];
+    
     [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n", filename]] dataUsingEncoding:NSUTF8StringEncoding]];
     
@@ -198,6 +206,15 @@
     if (error==nil) {
         
         //newUserId=[[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
+        NSString *jsonString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
+        
+        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
+        //                                                message: jsonString
+        //                                               delegate: nil
+        //                                      cancelButtonTitle: @"Iawn"
+        //                                      otherButtonTitles: nil];
+        
+        //[alert show];
         
         NSDictionary *json=[NSJSONSerialization JSONObjectWithData:result
                                                            options:kNilOptions
@@ -434,21 +451,39 @@
 -(void) handleResponseUploadAudio:(NSData *)data error:(NSError *)error {
     
     
-    //    if ([data length] >0 && error == nil) {
-    //
-    //        NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    //
-    //        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
-    //                                                        message: message
-    //                                                       delegate: nil
-    //                                              cancelButtonTitle: @"Iawn"
-    //                                              otherButtonTitles: nil];
-    //
-    //        [alert show];
-    //
-    //    }
-    //    else
-    if ([data length] == 0 && error == nil) {
+    
+    if ([data length] >0 && error == nil) {
+    
+        //NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
+        //                                                   options:kNilOptions
+        //                                                     error:nil];
+        
+        NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
+                                                           options:kNilOptions
+                                                             error:nil];
+        
+        
+        NSDictionary *jsonResponse = json[@"response"];
+        NSString *filename = jsonResponse[@"fileId"];
+        NSString *deleteFileTarget = [NSTemporaryDirectory() stringByAppendingString:filename];
+        
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        BOOL fileExists = [fileManager fileExistsAtPath:deleteFileTarget];
+        if (fileExists){
+            [fileManager removeItemAtPath:deleteFileTarget error:Nil];
+        }
+        
+        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
+        //                                                    message: jsonString
+        //                                                   delegate: nil
+        //                                          cancelButtonTitle: @"Iawn"
+        //                                          otherButtonTitles: nil];
+        //
+        //[alert show];
+    
+    }
+    else if ([data length] == 0 && error == nil) {
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
                                                         message: @"Ymateb gwag"
