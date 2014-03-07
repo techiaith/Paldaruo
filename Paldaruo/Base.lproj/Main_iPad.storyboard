@@ -266,6 +266,8 @@
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
+                        <outlet property="btnOutletAccept" destination="0CL-HL-NLQ" id="nHH-83-a6u"/>
+                        <outlet property="btnOutletReject" destination="5vH-71-Qi3" id="Mgw-QL-rwi"/>
                         <outlet property="webViewOutletTermsAndConditionsText" destination="hZm-Z8-AT1" id="7B1-ah-twS"/>
                     </connections>
                 </viewController>
@@ -513,6 +515,7 @@
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
+                        <outlet property="btnOutletAddProfile" destination="ed5-Yi-4d4" id="Xoc-53-nDc"/>
                         <outlet property="btnOutletStartSession" destination="p58-Zt-Yii" id="HWH-qu-UJG"/>
                         <outlet property="picklistOutletExistingUsers" destination="S8Z-mm-WUq" id="kvW-ev-axC"/>
                     </connections>
@@ -654,7 +657,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="5bf-fF-HrE"/>
+        <segue reference="dmM-2h-biV"/>
         <segue reference="4EU-DI-fMf"/>
     </inferredMetricsTieBreakers>
 </document>

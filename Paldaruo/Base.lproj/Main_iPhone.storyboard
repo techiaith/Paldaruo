@@ -283,6 +283,7 @@
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
+                        <outlet property="btnOutletAddProfile" destination="RVh-mz-TQ7" id="Gvx-kB-ElI"/>
                         <outlet property="picklistOutletExistingUsers" destination="Wsn-xR-xVO" id="MJx-iP-tpK"/>
                     </connections>
                 </viewController>
@@ -529,6 +530,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="btnOutletAccept" destination="L7O-KY-hhM" id="EmR-AE-rxh"/>
+                        <outlet property="btnOutletReject" destination="V54-3V-vln" id="zvk-UQ-fVF"/>
                         <outlet property="webViewOutletTermsAndConditionsText" destination="lNB-t8-33i" id="zS7-ga-Qbz"/>
                     </connections>
                 </viewController>
@@ -674,6 +677,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="1Ct-8Q-A1y"/>
-        <segue reference="1VZ-BB-wvx"/>
+        <segue reference="BnI-HV-cL2"/>
     </inferredMetricsTieBreakers>
 </document>

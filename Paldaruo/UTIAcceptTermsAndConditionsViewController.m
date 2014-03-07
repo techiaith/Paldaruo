@@ -7,9 +7,12 @@
 //
 
 #import "UTIAcceptTermsAndConditionsViewController.h"
+#import "UTIReachability.h"
 
 @interface UTIAcceptTermsAndConditionsViewController ()
 @property (weak, nonatomic) IBOutlet UIWebView *webViewOutletTermsAndConditionsText;
+@property (weak, nonatomic) IBOutlet UIButton *btnOutletAccept;
+@property (weak, nonatomic) IBOutlet UIButton *btnOutletReject;
 
 @end
 
@@ -24,6 +27,20 @@
     return self;
 }
 
+
+- (void) dealloc {
+    
+    // view did load
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetReachable"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetUnreachable"
+                                                  object:nil];
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -36,6 +53,21 @@
     
     [self.webViewOutletTermsAndConditionsText loadRequest:requestObj];
     
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetReachable:)
+                                                 name:@"InternetReachable"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetUnreachable:)
+                                                 name:@"InternetUnreachable"
+                                               object:nil];
+    
+    [UTIReachability instance];
+    
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -43,5 +75,19 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+-(void)handleInternetReachable:(NSNotification *)notification {
+    [self.btnOutletAccept setEnabled:YES];
+    [self.btnOutletReject setEnabled:YES];
+}
+
+
+-(void)handleInternetUnreachable:(NSNotification *)notification {
+    [self.btnOutletAccept setEnabled:NO];
+    [self.btnOutletReject setEnabled:NO];
+}
+
+
 
 @end

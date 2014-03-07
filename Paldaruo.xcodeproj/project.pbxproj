@@ -60,6 +60,8 @@
 		806B502F18B64EB900851038 /* UTIFurtherInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B502E18B64EB900851038 /* UTIFurtherInformationViewController.m */; };
 		806B503218BCED5000851038 /* UTIIntroductionScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B503118BCED5000851038 /* UTIIntroductionScreenViewController.m */; };
 		806B503518C788C600851038 /* UTIAcceptTermsAndConditionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B503418C788C600851038 /* UTIAcceptTermsAndConditionsViewController.m */; };
+		806B503918C8882200851038 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B503818C8882200851038 /* Reachability.m */; };
+		806B503C18C9EE1100851038 /* UTIReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B503B18C9EE1100851038 /* UTIReachability.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,6 +145,10 @@
 		806B503118BCED5000851038 /* UTIIntroductionScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIIntroductionScreenViewController.m; sourceTree = "<group>"; };
 		806B503318C788C600851038 /* UTIAcceptTermsAndConditionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIAcceptTermsAndConditionsViewController.h; sourceTree = "<group>"; };
 		806B503418C788C600851038 /* UTIAcceptTermsAndConditionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIAcceptTermsAndConditionsViewController.m; sourceTree = "<group>"; };
+		806B503718C8882200851038 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		806B503818C8882200851038 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		806B503A18C9EE1100851038 /* UTIReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIReachability.h; sourceTree = "<group>"; };
+		806B503B18C9EE1100851038 /* UTIReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIReachability.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,6 +217,7 @@
 		5C7C7F94186E159A00E13FC0 /* Paldaruo */ = {
 			isa = PBXGroup;
 			children = (
+				806B503618C887B200851038 /* External Classes */,
 				5C7C7F9D186E159A00E13FC0 /* UTIAppDelegate.h */,
 				5C7C7F9E186E159A00E13FC0 /* UTIAppDelegate.m */,
 				5C7C7FA0186E159A00E13FC0 /* Main_iPhone.storyboard */,
@@ -237,6 +244,8 @@
 				806B503118BCED5000851038 /* UTIIntroductionScreenViewController.m */,
 				806B503318C788C600851038 /* UTIAcceptTermsAndConditionsViewController.h */,
 				806B503418C788C600851038 /* UTIAcceptTermsAndConditionsViewController.m */,
+				806B503A18C9EE1100851038 /* UTIReachability.h */,
+				806B503B18C9EE1100851038 /* UTIReachability.m */,
 			);
 			path = Paldaruo;
 			sourceTree = "<group>";
@@ -311,6 +320,15 @@
 				806B501F18AE53CE00851038 /* release_notes.md */,
 			);
 			name = TestFlight;
+			sourceTree = "<group>";
+		};
+		806B503618C887B200851038 /* External Classes */ = {
+			isa = PBXGroup;
+			children = (
+				806B503718C8882200851038 /* Reachability.h */,
+				806B503818C8882200851038 /* Reachability.m */,
+			);
+			name = "External Classes";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -440,10 +458,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				806B503918C8882200851038 /* Reachability.m in Sources */,
 				806B4FD5189FE95300851038 /* UTIMetaDataField.m in Sources */,
 				5C7C7F9B186E159A00E13FC0 /* main.m in Sources */,
 				8020410A187EC8EE00C9A4F3 /* UTIPromptsTracker.m in Sources */,
 				806B502F18B64EB900851038 /* UTIFurtherInformationViewController.m in Sources */,
+				806B503C18C9EE1100851038 /* UTIReachability.m in Sources */,
 				806B4FCC188D441100851038 /* UTIWelcomeViewController.m in Sources */,
 				5C7C7F9F186E159A00E13FC0 /* UTIAppDelegate.m in Sources */,
 				806B4FD2189BBE8200851038 /* UTINewProfileViewController.m in Sources */,
