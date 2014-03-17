@@ -10,6 +10,7 @@
 
 @implementation UTIReachability
 
+BOOL internetActive;
 
 +(id) instance {
     
@@ -80,6 +81,9 @@
     
 }
 
++(BOOL) isPaldaruoReachable{
+    return internetActive;
+}
 
 
 @end

@@ -7,6 +7,8 @@
 //
 
 #import "UTIDataStore.h"
+#import "UTIReachability.h"
+
 
 @implementation UTIDataStore
 
@@ -474,39 +476,13 @@
             [fileManager removeItemAtPath:deleteFileTarget error:Nil];
         }
         
-        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
-        //                                                    message: jsonString
-        //                                                   delegate: nil
-        //                                          cancelButtonTitle: @"Iawn"
-        //                                          otherButtonTitles: nil];
-        //
-        //[alert show];
-    
     }
-    else if ([data length] == 0 && error == nil) {
+    else{
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
-                                                        message: @"Ymateb gwag"
-                                                       delegate: nil
-                                              cancelButtonTitle: @"Iawn"
-                                              otherButtonTitles: nil];
-        [alert show];
+        //[[UTIReachability instance] isPaldaruoReachable];
         
-    }
-    else if (error != nil && error.code == NSURLErrorTimedOut){
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
-                                                        message: @"Timeout"
-                                                       delegate: nil
-                                              cancelButtonTitle: @"Iawn"
-                                              otherButtonTitles: nil];
-        [alert show];
-        
-    }
-    else if (error != nil) {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
-                                                        message: @"Gwall cyffredinol"
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Problem Cysylltu"
+                                                        message: @"Gwiriwch ac ail-gysylltwch eich ddyfais i'r rhwydwaith ddi-wifr cyn barhau"
                                                        delegate: nil
                                               cancelButtonTitle: @"Iawn"
                                               otherButtonTitles: nil];
@@ -515,5 +491,6 @@
     }
     
 }
+
 
 @end

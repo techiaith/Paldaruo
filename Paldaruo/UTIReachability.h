@@ -15,10 +15,12 @@
     
     Reachability* hostReachable;
     Reachability* wifiReachable;
-    BOOL internetActive;
     
 }
+
+    -(BOOL) isPaldaruoReachable;
 
     +(id) instance;
 
 @end
+
