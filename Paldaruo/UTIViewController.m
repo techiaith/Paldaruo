@@ -7,13 +7,18 @@
 //
 
 #import "UTIViewController.h"
+#import "UTIReachability.h"
 
+
+
+#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+#define IS_IPHONE_5 (IS_IPHONE && [[UIScreen mainScreen] bounds].size.height == 568.0f)
 
 @interface UTIViewController ()
 
 - (IBAction)btnMoveToNextRecordingState:(id)sender;
 - (IBAction)btnRedoRecording:(id)sender;
-
 
 @property (weak) UTIPrompt *currentPrompt;
 
@@ -27,6 +32,7 @@
 @property (strong, nonatomic) NSTimer *lblOutletRecordingStatusTimer;
 
 @end
+
 
 
 @implementation UTIViewController
@@ -46,7 +52,6 @@
     //[[UTIDataStore sharedDataStore] fetchOutstandingPrompts:self identifier:uid];
     //[[UTIDataStore sharedDataStore] http_fetchOutsandingPrompts:prompts identifier:uid];
     [[UTIDataStore sharedDataStore] http_fetchOutstandingPrompts:prompts useridentifier:uid];
-    
     
     //
     NSURL *audioFileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:@"audioRecording.wav"]];
@@ -70,10 +75,35 @@
     currentRecordingStatus=RECORDING_SESSION_START;
     [self btnMoveToNextRecordingState:(self)];
     
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetReachable:)
+                                                 name:@"InternetReachable"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetUnreachable:)
+                                                 name:@"InternetUnreachable"
+                                               object:nil];
+    
+    [UTIReachability instance];
+    
+
     [super viewDidLoad];
     
 }
 
+- (void) dealloc {
+    
+    // view did load
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetReachable"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetUnreachable"
+                                                  object:nil];
+}
 
 -(void) toggleLabelRecordingStatus{
     [self.lblOutletRecordingStatus setHidden:(!self.lblOutletRecordingStatus.hidden)];
@@ -109,7 +139,7 @@
         
         [self gotoNextPrompt];
         
-        [self setMoveToNextRecordStateTitle:@"Cliciwch i gychwyn recordio"];
+        [self setMoveToNextRecordStateTitle:@"Cychwyn Recordio"];
         
         [self.lblOutletSessionProgress setHidden:NO];
         [self.btnOutletMoveToNextRecordingState setHidden:NO];
@@ -122,7 +152,7 @@
     }
     else if (currentRecordingStatus==RECORDING_WAIT_TO_START) {
         
-        [self setMoveToNextRecordStateTitle:@"Cliciwch i orffen recordio"];
+        [self setMoveToNextRecordStateTitle:@"Gorffen Recordio"];
         
         //[self.lblOutletRecordingStatus setHidden:NO];
         [self.btnOutletRedoRecording setHidden:YES];
@@ -141,7 +171,10 @@
         [self.lblOutletRecordingStatus setHidden:YES];
         [self.btnOutletRedoRecording setHidden:YES];
         
-        [self setMoveToNextRecordStateTitle:@"Cliciwch i wrando ar eich recordiad"];
+        if (IS_IPHONE)
+            [self setMoveToNextRecordStateTitle:@"Gwrando"];
+        else
+            [self setMoveToNextRecordStateTitle:@"Cliciwch i wrando ar eich recordiad"];
         
         [self setRedoRecordingText:@"Recordio eto"];
         [self.btnOutletRedoRecording setHidden:NO];
@@ -169,7 +202,7 @@
         
     } else if (currentRecordingStatus==RECORDING_WAIT_TO_REDO_RECORDING){
         
-        [self setMoveToNextRecordStateTitle:@"Cychwyn recordio"];
+        [self setMoveToNextRecordStateTitle:@"Cychwyn Recordio"];
         [self.lblOutletRecordingStatus setHidden:YES];
         [self.btnOutletRedoRecording setHidden:YES];
         
@@ -185,7 +218,7 @@
         
         [self updateSessionProgress];
         
-        [self setMoveToNextRecordStateTitle:@"Cychwyn recordio"];
+        [self setMoveToNextRecordStateTitle:@"Cychwyn Recordio"];
         [self.lblOutletRecordingStatus setHidden:YES];
         [self.btnOutletRedoRecording setHidden:YES];
         
@@ -321,6 +354,30 @@
         [self.lblOutletRecordingStatusTimer invalidate];
         self.lblOutletRecordingStatusTimer=nil;
     }
+    
+}
+
+
+-(void)handleInternetReachable:(NSNotification *)notification {
+    
+    [self.lblOutletNextPrompt setEnabled:YES];
+    [self.lblOutletRecordingStatus setEnabled:YES];
+    [self.btnOutletMoveToNextRecordingState setEnabled:YES];
+    [self.btnOutletRedoRecording setEnabled:YES];
+    [self.lblOutletProfileName setEnabled:YES];
+    [self.lblOutletSessionProgress setEnabled:YES];
+    
+}
+
+
+-(void)handleInternetUnreachable:(NSNotification *)notification {
+    
+    [self.lblOutletNextPrompt setEnabled:NO];
+    [self.lblOutletRecordingStatus setEnabled:NO];
+    [self.btnOutletMoveToNextRecordingState setEnabled:NO];
+    [self.btnOutletRedoRecording setEnabled:NO];
+    [self.lblOutletProfileName setEnabled:NO];
+    [self.lblOutletSessionProgress setEnabled:NO];
     
 }
 

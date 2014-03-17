@@ -8,6 +8,8 @@
 
 #import "UTINewProfileViewController.h"
 #import "UTIDataStore.h"
+#import "UTIReachability.h"
+
 
 @interface UTINewProfileViewController () 
 
@@ -46,6 +48,19 @@
 }
 
 
+- (void) dealloc {
+    
+    // view did load
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetReachable"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetUnreachable"
+                                                  object:nil];
+}
+
+
 - (void)viewDidLoad
 {
     [self.btnOutletStartSession setHidden:YES];
@@ -73,6 +88,21 @@
     [self.btnOutletPreviousQuestion setHidden:YES];
     
     //[self.lblOutletMetaDataField_Explanation sizeToFit];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetReachable:)
+                                                 name:@"InternetReachable"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetUnreachable:)
+                                                 name:@"InternetUnreachable"
+                                               object:nil];
+    
+    [UTIReachability instance];
+    
+
     
     [super viewDidLoad];
     
@@ -307,6 +337,42 @@
     }
 
 }
+
+
+-(void)handleInternetReachable:(NSNotification *)notification {
+    
+    [self.btnOutletCreateUser setEnabled:YES];
+    [self.btnOutletStartSession setEnabled:YES];
+    [self.btnOutletNextQuestion setEnabled:YES];
+    [self.btnOutletPreviousQuestion setEnabled:YES];
+    
+    [self.lblOutletNewProfileNameFieldDescription setEnabled:YES];
+    
+    [self.lblOutletMetaDataField_Title setEnabled:YES];
+    [self.lblOutletMetaDataField_Question setEnabled:YES];
+    [self.lblOutletMetaDataField_Explanation setEnabled:YES];
+    
+    [self.textFieldOutletMetaDataFreeText setEnabled:YES];
+
+}
+
+
+-(void)handleInternetUnreachable:(NSNotification *)notification {
+    
+    [self.btnOutletCreateUser setEnabled:NO];
+    [self.btnOutletStartSession setEnabled:NO];
+    [self.btnOutletNextQuestion setEnabled:NO];
+    [self.btnOutletPreviousQuestion setEnabled:NO];
+    
+    [self.lblOutletNewProfileNameFieldDescription setEnabled:NO];
+    
+    [self.lblOutletMetaDataField_Title setEnabled:NO];
+    [self.lblOutletMetaDataField_Question setEnabled:NO];
+    [self.lblOutletMetaDataField_Explanation setEnabled:NO];
+    
+    [self.textFieldOutletMetaDataFreeText setEnabled:NO];
+}
+
 
 
 @end

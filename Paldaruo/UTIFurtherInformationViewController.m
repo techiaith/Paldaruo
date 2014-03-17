@@ -23,6 +23,7 @@
 
 @end
 
+
 @implementation UTIFurtherInformationViewController
 
 
@@ -40,18 +41,31 @@
 {
     [super viewDidLoad];
     
+    NSURL *url = [[NSBundle mainBundle] URLForResource:@"about" withExtension:@"html"];
+    
+    NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
+    
+    [self.uiWebViewOutletContent loadRequest:requestObj];
+    self.uiWebViewOutletContent.delegate = self;
+
+}
+
+-(BOOL) webView:(UIWebView *)inWeb shouldStartLoadWithRequest:(NSURLRequest *)inRequest navigationType:(UIWebViewNavigationType)inType {
+    if ( inType == UIWebViewNavigationTypeLinkClicked ) {
+        [[UIApplication sharedApplication] openURL:[inRequest URL]];
+        return NO;
+    }
+    
+    return YES;
+    
 }
 
 
 - (void)viewDidAppear:(BOOL)animated
 {
     // Do any additional setup after loading the view.
-    NSString *urlAdress=@"http://techiaith.bangor.ac.uk/gallu";
+    //NSString *urlAdress=@"http://techiaith.bangor.ac.uk/gallu";
     
-    NSURL *url = [NSURL URLWithString:urlAdress];
-    NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
-    
-    [self.uiWebViewOutletContent loadRequest:requestObj];
     
     /*
     CGRect paldaruoIcon = self.imageOutletPaldaruoIcon.frame;

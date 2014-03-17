@@ -8,17 +8,22 @@
 
 #import "UTIWelcomeViewController.h"
 #import "UTIDataStore.h"
+#import "UTIReachability.h"
+
 
 @interface UTIWelcomeViewController ()
 
 @property (weak, nonatomic) IBOutlet UIPickerView *picklistOutletExistingUsers;
+@property (weak, nonatomic) IBOutlet UIButton *btnOutletStartSession;
+@property (weak, nonatomic) IBOutlet UIButton *btnOutletAddProfile;
+
 - (IBAction)btnStartSession:(id)sender;
 - (IBAction)btnCreateNewProfile:(id)sender;
 
-@property (weak, nonatomic) IBOutlet UIButton *btnOutletStartSession;
 @end
 
 @implementation UTIWelcomeViewController
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,9 +34,21 @@
     return self;
 }
 
+- (void) dealloc {
+    
+    // view did load
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetReachable"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetUnreachable"
+                                                  object:nil];
+}
+
+
 - (void)viewDidLoad
 {
-
     //self.dataStore=[[UTIDataStore alloc] init];
 
 	// Do any additional setup after loading the view.
@@ -42,8 +59,21 @@
     if ([[[UTIDataStore sharedDataStore] allProfilesArray] count] == 0)
         [self.btnOutletStartSession setHidden:YES];
    
-    [super viewDidLoad];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetReachable:)
+                                                 name:@"InternetReachable"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetUnreachable:)
+                                                 name:@"InternetUnreachable"
+                                               object:nil];
+    
+    [UTIReachability instance];
+   
+    
+    [super viewDidLoad];
     
 }
 
@@ -66,11 +96,11 @@
 
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    
     return [[[[UTIDataStore sharedDataStore] allProfilesArray] objectAtIndex:row] objectForKey:@"name"];
 }
 
 - (IBAction)btnStartSession:(id)sender {
+    
     NSInteger row;
     
     row = [self.picklistOutletExistingUsers selectedRowInComponent:0];
@@ -91,5 +121,18 @@
     [alert show];
     */
 }
+
+
+-(void)handleInternetReachable:(NSNotification *)notification {
+    [self.btnOutletStartSession setEnabled:YES];
+    [self.btnOutletAddProfile setEnabled:YES];
+}
+
+
+-(void)handleInternetUnreachable:(NSNotification *)notification {
+    [self.btnOutletStartSession setEnabled:NO];
+    [self.btnOutletAddProfile setEnabled:NO];
+}
+
 
 @end
