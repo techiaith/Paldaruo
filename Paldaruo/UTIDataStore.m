@@ -85,7 +85,7 @@
 -(void) addNewUser: (NSString *)userName {
     
     NSString *uid=[self http_createUser];
-    
+        
     NSDictionary *newUserDictionary=[[NSDictionary alloc] initWithObjectsAndKeys:
         userName, @"name",
         uid, @"uid",
