@@ -43,6 +43,7 @@ class TorfRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
     def getPostResponse(self, path, query):
         if path == '/resetDatabase':
+            raise ValueError("Refused to reset database")
             return self.resetDatabase()
         if path == '/createUser':
             return self.createUser()
