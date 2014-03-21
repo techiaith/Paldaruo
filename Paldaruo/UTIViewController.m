@@ -360,12 +360,18 @@
 
 -(void)handleInternetReachable:(NSNotification *)notification {
     
+    // try to upload any outstanding wav files.
+    [[UTIDataStore sharedDataStore] http_uploadOutstandingAudio:uid];
+    
     [self.lblOutletNextPrompt setEnabled:YES];
     [self.lblOutletRecordingStatus setEnabled:YES];
     [self.btnOutletMoveToNextRecordingState setEnabled:YES];
     [self.btnOutletRedoRecording setEnabled:YES];
     [self.lblOutletProfileName setEnabled:YES];
     [self.lblOutletSessionProgress setEnabled:YES];
+    
+    
+
     
 }
 
