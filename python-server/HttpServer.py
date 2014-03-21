@@ -182,7 +182,7 @@ class TorfRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                 "id": u"iaithgyntaf",
                 "title": u"Acen Iaith Gyntaf",
                 "question": u"Ydych chi'n siarad Cymraeg gydag acen iaith gyntaf?",
-                "explanation": u"Atebwch 'Iaith Gyntaf' os os gennych chi acen iaith gyntaf, neu 'Dysgwr' os oes gennych chi acen dysgwr.",
+                "explanation": u"Atebwch 'Iaith Gyntaf' os oes gennych chi acen iaith gyntaf, neu 'Dysgwr' os oes gennych chi acen dysgwr.",
                 "options": [
                     {"id": u"dysgwr", "text": u"Acen Dysgwr"},
                     {"id": u"iaithgyntaf", "text": u"Acen Iaith Gyntaf"},
