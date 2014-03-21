@@ -47,7 +47,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Gofalwch bod eich ddyfais ddim yn rhy agos i'ch ceg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r37-6O-7gf">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Gofalwch bod eich dyfais ddim yn rhy agos i'ch ceg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r37-6O-7gf">
                                 <rect key="frame" x="57" y="345" width="938" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -62,7 +62,7 @@
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="938" translatesAutoresizingMaskIntoConstraints="NO" id="lOE-HB-JfI">
                                 <rect key="frame" x="57" y="451" width="938" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <string key="text">Os hoffwch chi cysylltu â ni ynghylch eich data a'ch recordiadau yna e-bostiwch ni ar techiaith@bangor.ac.uk gan dyfynnu eich rhif unigryw canlynol :</string>
+                                <string key="text">Os hoffwch chi gysylltu â ni ynghylch eich data a'ch recordiadau yna e-bostiwch ni ar techiaith@bangor.ac.uk gan ddyfynnu eich rhif unigryw canlynol :</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
