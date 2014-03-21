@@ -32,7 +32,7 @@
 -(id) init {
     
     //NSString *domainName = [[NSBundle mainBundle] bundleIdentifier];
-    //[[NSUserDefaults standardUserDefaults] removePersistentDomainForName:domainName];
+    //[NSUserDefaults standardUserDefaults] removePersistentDomainForName:domainName];
         
     if (self = [super init]){
 
