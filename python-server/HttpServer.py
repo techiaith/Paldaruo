@@ -266,7 +266,7 @@ class TorfRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         print uid + ", " + promptId
 
         filename=promptId+".wav" 
-        return {"fileId":filename}
+        return {"uid":uid, "fileId":filename}
 
 class HttpServer(SocketServer.ThreadingMixIn, BaseHTTPServer.HTTPServer):
     def __init__(self, hostAndPort, dbFile, storeDir):
