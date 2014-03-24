@@ -56,29 +56,6 @@
     
 }
 
-
--(NSString *) getJsonData {
-    
-        return @"[{\"name\":\"Alice\",\"uid\":\"1\"},{\"name\":\"Bob\",\"uid\":\"2\"},{\"name\":\"Charlie\",\"uid\":\"3\"}]";
-    
-    //store("profileInfo", @"[{\"name\":\"Alice\",\"uid\":\"1\"},{\"name\":\"Bob\",\"uid\":\"2\"},{\"name\":\"Charlie\",\"uid\":\"3\"}]");
-    //return retrieve("profileInfo");
-}
-
-
-
--(void) setJsonData: (NSString *) jsonData {
-        
-}
-
-
-
--(NSString *) getUid: (NSString *) userName {
-    return @"42";
-}
-
-
-
 -(void) addNewUser: (NSString *)userName {
     
     NSString *uid = [self http_createUser];

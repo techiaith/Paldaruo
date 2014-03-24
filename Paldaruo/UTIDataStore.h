@@ -22,29 +22,21 @@
 }
 
 @property UTIUser *activeUser;
+@property (nonatomic, retain) NSArray *allProfilesArray;
+@property (nonatomic, retain) NSArray *metaDataFields;
 
 - (UTIUser *)userAtIndex:(NSUInteger)idx;
 
-    -(NSString *) getJsonData;
-    //-(NSArray *) getArrayData;
+-(void) addNewUser: (NSString *)userName;
 
-    -(void) setJsonData: (NSString *) jsonData;
+-(NSString*) http_createUser;
+-(void) http_fetchOutstandingPrompts: (UTIPromptsTracker*)prompts useridentifier:(NSString*) ident;
+-(void) http_uploadAudio: (NSString*) uid identifier:(NSString*) ident;
+-(void) http_getMetadata: (NSString*) uid;
+-(void) http_saveMetadata: (NSString*) uid;
 
-    -(NSString *) getUid: (NSString *) userName;
 
-    -(void) addNewUser: (NSString *)userName;
 
-    -(NSString*) http_createUser;
-    -(void) http_fetchOutstandingPrompts: (UTIPromptsTracker*)prompts useridentifier:(NSString*) ident;
-    -(void) http_uploadAudio: (NSString*) uid identifier:(NSString*) ident;
-    -(void) http_getMetadata: (NSString*) uid;
-    -(void) http_saveMetadata: (NSString*) uid;
-
-    @property (nonatomic, retain) NSArray *allProfilesArray;
-    @property (nonatomic, retain) NSArray *metaDataFields;
-
-    @property NSInteger activeUserIndex;
-
-    +(id) sharedDataStore;
++(id) sharedDataStore;
 
 @end

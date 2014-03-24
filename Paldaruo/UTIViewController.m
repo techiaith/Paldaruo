@@ -32,11 +32,9 @@
 @implementation UTIViewController
 
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     
-    NSInteger userIndex=[[UTIDataStore sharedDataStore] activeUserIndex];
-    uid=[[[[UTIDataStore sharedDataStore] allProfilesArray] objectAtIndex:userIndex] objectForKey:@"uid"];
+    uid=[[UTIDataStore sharedDataStore] activeUser].uid;
     
     currentRecordingStatus=DOWNLOADING_PROMPTS;
     [self btnMoveToNextRecordingState:self];
@@ -91,9 +89,7 @@
     
     if (currentRecordingStatus==DOWNLOADING_PROMPTS){
         
-        NSInteger userIndex=[[UTIDataStore sharedDataStore] activeUserIndex];
-        
-        NSString* userName=[[[[UTIDataStore sharedDataStore] allProfilesArray] objectAtIndex:userIndex] objectForKey:@"name"];
+        NSString* userName = [[UTIDataStore sharedDataStore] activeUser].name;
         NSString* userGreeting=[NSString stringWithFormat:@"Helo %@!", userName];
         
         [[self lblOutletProfileName] setText:userGreeting];
@@ -197,11 +193,10 @@
         [self.btnOutletRedoRecording setHidden:YES];
         
         [self.lblOutletSessionProgress setHidden:YES];
+
+        NSString* userName=[[UTIDataStore sharedDataStore] activeUser].name;
         
-        NSInteger userIndex=[[UTIDataStore sharedDataStore] activeUserIndex];
-        NSString* userName=[[[[UTIDataStore sharedDataStore] allProfilesArray] objectAtIndex:userIndex] objectForKey:@"name"];
-        
-        NSString* userGreeting=[NSString stringWithFormat:@"Diolch yn fawr iawn am gyfrannu dy lais %@!", userName];
+        NSString* userGreeting = [NSString stringWithFormat:@"Diolch yn fawr iawn am gyfrannu dy lais %@!", userName];
         
         [[self lblOutletProfileName] setText:userGreeting];
 

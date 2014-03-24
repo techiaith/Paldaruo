@@ -151,8 +151,7 @@
         [[self lblOutletNewProfileNameFieldDescription] setHidden:YES];
         
         // new user made automatically the active user.
-        NSInteger userIndex=[[UTIDataStore sharedDataStore] activeUserIndex];
-        NSString *uid=[[[[UTIDataStore sharedDataStore] allProfilesArray] objectAtIndex:userIndex] objectForKey:@"uid"];
+        NSString *uid = [[UTIDataStore sharedDataStore] activeUser].uid;
         
         [[UTIDataStore sharedDataStore] http_getMetadata:uid];
         
@@ -173,8 +172,7 @@
 
 - (IBAction)btnActionStartSession:(id)sender {
     
-    NSInteger userIndex=[[UTIDataStore sharedDataStore] activeUserIndex];
-    NSString *uid=[[[[UTIDataStore sharedDataStore] allProfilesArray] objectAtIndex:userIndex] objectForKey:@"uid"];
+    NSString *uid=[[UTIDataStore sharedDataStore] activeUser].uid;
     
     [[UTIDataStore sharedDataStore] http_saveMetadata:uid];
     
