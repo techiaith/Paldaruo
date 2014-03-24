@@ -203,10 +203,7 @@
 
 - (IBAction)btnActionStartSession:(id)sender {
     
-    NSInteger userIndex=[[UTIDataStore sharedDataStore] activeUserIndex];
-    NSString *uid=[[[[UTIDataStore sharedDataStore] allProfilesArray] objectAtIndex:userIndex] objectForKey:@"uid"];
-    
-    [[UTIDataStore sharedDataStore] http_saveMetadata:uid];
+   
     
 }
 
@@ -260,7 +257,6 @@
         } else {
             NSInteger row = [self.pickerViewOutletMetaDataOption selectedRowInComponent:0];
             [localCopyCurrentMetaDataField setSelectedOptionWithIndex:row];
-            //[self.pickerViewOutletMetaDataOption selectRow:0 inComponent:0 animated:NO];
         }
         currentMetaDataFieldIndex++;
         
@@ -324,15 +320,22 @@
     } else {
         
         [self.btnOutletNextQuestion setHidden:YES];
-        //[self.btnOutletPreviousQuestion setHidden:YES];
         
         [self.lblOutletMetaDataField_Title setHidden:YES];
         [self.lblOutletMetaDataField_Question setHidden:YES];
         [self.lblOutletMetaDataField_Explanation setHidden:YES];
         [self.textFieldOutletMetaDataFreeText setHidden:YES];
         [self.pickerViewOutletMetaDataOption setHidden:YES];
+
+        NSInteger userIndex=[[UTIDataStore sharedDataStore] activeUserIndex];
+        NSString *uid=[[[[UTIDataStore sharedDataStore] allProfilesArray] objectAtIndex:userIndex] objectForKey:@"uid"];
         
-        [self.btnOutletStartSession setHidden:NO];
+        BOOL success = [[UTIDataStore sharedDataStore] http_saveMetadata:uid];
+        
+        if (success){
+            [self.btnOutletStartSession setHidden:NO];
+            [self.btnOutletPreviousQuestion setHidden:YES];
+        }
         
     }
 

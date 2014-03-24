@@ -185,7 +185,7 @@ class TorfRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                 "id": u"iaithgyntaf",
                 "title": u"Acen Iaith Gyntaf",
                 "question": u"Ydych chi'n siarad Cymraeg gydag acen iaith gyntaf?",
-                "explanation": u"Atebwch 'Iaith Gyntaf' os os gennych chi acen iaith gyntaf, neu 'Dysgwr' os oes gennych chi acen dysgwr.",
+                "explanation": u"Atebwch 'Iaith Gyntaf' os oes gennych chi acen iaith gyntaf, neu 'Dysgwr' os oes gennych chi acen dysgwr.",
                 "options": [
                     {"id": u"dysgwr", "text": u"Acen Dysgwr"},
                     {"id": u"iaithgyntaf", "text": u"Acen Iaith Gyntaf"},
@@ -236,7 +236,7 @@ class TorfRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                 {"identifier": "sample20", "text": u"HYNNY, CATH, DEG, ADDAS"},  
                 {"identifier": "sample21", "text": u"DDOE, GADAEL, AGOS, LARWM"},
                 {"identifier": "sample22", "text": u"ALAW, AFAL, YMLACIO, ANODD"},   
-                {"identifier": "sample23", "text": u"BRAN, PEDWERYDD, AWR, BANGOR"}, 
+                {"identifier": "sample23", "text": u"BRÂN, PEDWERYDD, AWR, BANGOR"}, 
                 {"identifier": "sample24", "text": u"BARN, TRO, YMLACIO, FYCHAN"},
                 {"identifier": "sample25", "text": u"AFAL, MYNYDD, TRO"},
                 {"identifier": "sample26", "text": u"YSGOL, ASGWRN, CHWAER, CATH"},
@@ -248,7 +248,7 @@ class TorfRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                 {"identifier": "sample32", "text": u"ASGWRN, HYNNY, CATH, DEG"},
                 {"identifier": "sample33", "text": u"ADDAS, DDOE, GADAEL, AGOS"},
                 {"identifier": "sample34", "text": u"LARWM, ALAW, AFAL, YMLACIO"}, 
-                {"identifier": "sample35", "text": u"ANODD, BRAN, PEDWERYDD, AWR"}, 
+                {"identifier": "sample35", "text": u"ANODD, BRÂN, PEDWERYDD, AWR"}, 
                 {"identifier": "sample36", "text": u"BANGOR, BARN, TRO, YMLACIO"},
                 {"identifier": "sample37", "text": u"FYCHAN, MYNYDD, TRO, YSGOL"},
                 {"identifier": "sample38", "text": u"ASGWRN, CHWAER, CATH, AFAL"},
@@ -269,7 +269,7 @@ class TorfRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         print uid + ", " + promptId
 
         filename=promptId+".wav" 
-        return {"fileId":filename}
+        return {"uid":uid, "fileId":filename}
 
 class HttpServer(SocketServer.ThreadingMixIn, BaseHTTPServer.HTTPServer):
     def __init__(self, hostAndPort, dbFile, storeDir):

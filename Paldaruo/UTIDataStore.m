@@ -123,13 +123,53 @@
                identifier:(NSString*) ident {
     
     NSString *filename = [NSString stringWithFormat:@"%@.wav", ident];
+    NSString *uidTempDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:uid];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:uidTempDirectory])
+        [[NSFileManager defaultManager] createDirectoryAtPath:uidTempDirectory
+                                  withIntermediateDirectories:NO
+                                                   attributes:nil
+                                                        error:nil];
+    
     NSString *audioFileSource = [NSTemporaryDirectory() stringByAppendingString:@"audioRecording.wav"];
-    NSString *audoFileTarget = [NSTemporaryDirectory() stringByAppendingString:filename];
+    NSString *audioFileTarget = [uidTempDirectory stringByAppendingFormat:@"/%@", filename];
     
-    [[NSFileManager defaultManager] copyItemAtPath:audioFileSource toPath:audoFileTarget error:nil];
+    [[NSFileManager defaultManager] copyItemAtPath:audioFileSource toPath:audioFileTarget error:nil];
     
-    NSURL *audioFileURL = [NSURL fileURLWithPath:audoFileTarget];
+    NSURL *audioFileURL = [NSURL fileURLWithPath:audioFileTarget];
     //[NSTemporaryDirectory()stringByAppendingString:@"audioRecording.wav"]];
+    
+    [self http_uploadAudioFile:uid identifier:ident filename:filename URL:audioFileURL];
+    
+}
+
+
+-(void) http_uploadOutstandingAudio:(NSString*) uid {
+    
+    NSString *uidTempDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:uid];
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    
+    for (NSString* fileName in [fileManager contentsOfDirectoryAtPath:uidTempDirectory error:nil]) {
+        
+        NSString *audioFileTarget = [uidTempDirectory stringByAppendingFormat:@"/%@", fileName];
+        NSURL *audioFileURL = [NSURL fileURLWithPath:audioFileTarget];
+        
+        NSString* ident = [fileName stringByReplacingOccurrencesOfString:@".wav"withString:@""];
+        
+        [self http_uploadAudioFile:uid
+                        identifier:ident
+                          filename:fileName
+                               URL:audioFileURL];
+
+    }
+
+}
+
+
+-(void) http_uploadAudioFile:(NSString*) uid
+                  identifier:(NSString*) ident
+                    filename:(NSString*) filename
+                         URL:(NSURL*) audioFileURL {
     
     NSData *file1Data = [[NSData alloc] initWithContentsOfURL:audioFileURL];
     
@@ -302,6 +342,8 @@
 
 }
 
+
+
 -(void) http_getMetadata: (NSString*) uid {
     
     NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/getMetadata";
@@ -384,7 +426,10 @@
     
 }
 
--(void) http_saveMetadata: (NSString*) uid {
+
+-(BOOL) http_saveMetadata: (NSString*) uid {
+    
+    BOOL returnResult = YES;
     
     NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/saveMetadata";
 
@@ -402,7 +447,6 @@
     [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
     
     [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid]] dataUsingEncoding:NSUTF8StringEncoding]];
-    
     
     // get the metadata fields values as a key/value dictionary
     NSMutableDictionary *metaDataValues = [[NSMutableDictionary alloc] init];
@@ -431,11 +475,17 @@
     [request setHTTPBody:body];
 
     NSError *error;
+    NSURLResponse *returningResponse;
+    
     NSData *result = [NSURLConnection sendSynchronousRequest:request
-                                           returningResponse:nil
+                                           returningResponse:&returningResponse
                                                        error:&error];
     
-    if (error!=nil) {
+    NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)returningResponse;
+    int code = [httpResponse statusCode];
+
+    
+    if ((error!=nil) || (code!=200)) {
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho Meta Data"
                                                         message: @"Gwall cyffredinol wrth lwytho eich metadata i fyny"
@@ -443,15 +493,18 @@
                                               cancelButtonTitle: @"Iawn"
                                               otherButtonTitles: nil];
         [alert show];
-    }
+        
+        returnResult=NO;
 
+    }
+    
+    return returnResult;
     
 }
 
 
 
 -(void) handleResponseUploadAudio:(NSData *)data error:(NSError *)error {
-    
     
     
     if ([data length] >0 && error == nil) {
@@ -465,10 +518,12 @@
                                                            options:kNilOptions
                                                              error:nil];
         
-        
         NSDictionary *jsonResponse = json[@"response"];
         NSString *filename = jsonResponse[@"fileId"];
-        NSString *deleteFileTarget = [NSTemporaryDirectory() stringByAppendingString:filename];
+        NSString *uid = jsonResponse[@"uid"];
+        
+        NSString *uidTempDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:uid];
+        NSString *deleteFileTarget = [uidTempDirectory stringByAppendingFormat:@"/%@",filename];
         
         NSFileManager *fileManager = [NSFileManager defaultManager];
         BOOL fileExists = [fileManager fileExistsAtPath:deleteFileTarget];
