@@ -59,6 +59,7 @@
 		806B502C18B3A27900851038 /* WelshGovtlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B502A18B3A27900851038 /* WelshGovtlogo.png */; };
 		806B502F18B64EB900851038 /* UTIFurtherInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B502E18B64EB900851038 /* UTIFurtherInformationViewController.m */; };
 		806B503218BCED5000851038 /* UTIIntroductionScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B503118BCED5000851038 /* UTIIntroductionScreenViewController.m */; };
+		CD1020DC18E08F2200610EB2 /* UTIUser.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1020DB18E08F2200610EB2 /* UTIUser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,6 +141,8 @@
 		806B502E18B64EB900851038 /* UTIFurtherInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIFurtherInformationViewController.m; sourceTree = "<group>"; };
 		806B503018BCED5000851038 /* UTIIntroductionScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIIntroductionScreenViewController.h; sourceTree = "<group>"; };
 		806B503118BCED5000851038 /* UTIIntroductionScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIIntroductionScreenViewController.m; sourceTree = "<group>"; };
+		CD1020DA18E08F2200610EB2 /* UTIUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIUser.h; sourceTree = "<group>"; };
+		CD1020DB18E08F2200610EB2 /* UTIUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIUser.m; sourceTree = "<group>"; };
 		CD79988618C4DF760033860D /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -209,6 +212,8 @@
 		5C7C7F94186E159A00E13FC0 /* Paldaruo */ = {
 			isa = PBXGroup;
 			children = (
+				CD1020DA18E08F2200610EB2 /* UTIUser.h */,
+				CD1020DB18E08F2200610EB2 /* UTIUser.m */,
 				5C7C7F9D186E159A00E13FC0 /* UTIAppDelegate.h */,
 				5C7C7F9E186E159A00E13FC0 /* UTIAppDelegate.m */,
 				5C7C7FA0186E159A00E13FC0 /* Main_iPhone.storyboard */,
@@ -442,6 +447,7 @@
 				8020410A187EC8EE00C9A4F3 /* UTIPromptsTracker.m in Sources */,
 				806B502F18B64EB900851038 /* UTIFurtherInformationViewController.m in Sources */,
 				806B4FCC188D441100851038 /* UTIWelcomeViewController.m in Sources */,
+				CD1020DC18E08F2200610EB2 /* UTIUser.m in Sources */,
 				5C7C7F9F186E159A00E13FC0 /* UTIAppDelegate.m in Sources */,
 				806B4FD2189BBE8200851038 /* UTINewProfileViewController.m in Sources */,
 				8020410D187EC9B200C9A4F3 /* UTIPrompt.m in Sources */,

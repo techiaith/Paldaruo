@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "UTIPromptsTracker.h"
 #import "UTIMetaDataField.h"
+#import "UTIUser.h"
 
 //
 // implements a singleton as per : http://www.galloway.me.uk/tutorials/singleton-classes/
@@ -17,9 +18,12 @@
 
     NSArray *allProfilesArray;
     NSArray *metaDataFields;
-    NSInteger activeUserIndex;
     
 }
+
+@property UTIUser *activeUser;
+
+- (UTIUser *)userAtIndex:(NSUInteger)idx;
 
     -(NSString *) getJsonData;
     //-(NSArray *) getArrayData;
@@ -28,7 +32,6 @@
 
     -(NSString *) getUid: (NSString *) userName;
 
-    -(void) setActiveUser: (NSInteger) userIndex;
     -(void) addNewUser: (NSString *)userName;
 
     -(NSString*) http_createUser;

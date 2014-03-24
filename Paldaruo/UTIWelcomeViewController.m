@@ -66,17 +66,19 @@
 
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    
-    return [[[[UTIDataStore sharedDataStore] allProfilesArray] objectAtIndex:row] objectForKey:@"name"];
+    UTIUser *user = [[UTIDataStore sharedDataStore] userAtIndex:row];
+    return user.name;
 }
 
 - (IBAction)btnStartSession:(id)sender {
     NSInteger row;
     
     row = [self.picklistOutletExistingUsers selectedRowInComponent:0];
-    [[UTIDataStore sharedDataStore] setActiveUser:row];
+    UTIUser *user = [[UTIDataStore sharedDataStore] userAtIndex:row];
+    [[UTIDataStore sharedDataStore] setActiveUser:user];
     
 }
+
 
 - (IBAction)btnCreateNewProfile:(id)sender {
     

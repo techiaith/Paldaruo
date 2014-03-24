@@ -12,7 +12,6 @@
 
 @synthesize allProfilesArray;
 @synthesize metaDataFields;
-@synthesize activeUserIndex;
 
 +(id) sharedDataStore {
     
@@ -84,38 +83,24 @@
     
     NSString *uid = [self http_createUser];
     
-    NSDictionary *newUserDictionary=[[NSDictionary alloc] initWithObjectsAndKeys:
-        userName, @"name",
-        uid, @"uid",
-        nil];
+    
+    UTIUser *newUser = [UTIUser userWithName:userName uid:uid];
     
     //NSString *newUserJsonString=[NSString stringWithFormat:@"{\"name\":\"%@\",\"uid\":\"%@\"}",userName, uid];
     //
-    allProfilesArray = [allProfilesArray arrayByAddingObject:newUserDictionary];
-    
-    // persist...
-    //
-    NSData *jsonData=[NSJSONSerialization dataWithJSONObject:allProfilesArray options:0 error:nil];
-    NSString *jsonString=[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    
-    NSUserDefaults *persistedStore=[NSUserDefaults standardUserDefaults];
-    [persistedStore setObject:jsonString forKey:@"AllProfilesJson"];
-    
-    [persistedStore synchronize];
+    allProfilesArray = [allProfilesArray arrayByAddingObject:newUser];
     
     // make the new user the active user
-    [self setActiveUser:[allProfilesArray count]-1];
+    [self setActiveUser:newUser];
     
 }
 
-
-
--(void) setActiveUser:(NSInteger)userIndex {
-    activeUserIndex=userIndex;
-    
+- (UTIUser *)userAtIndex:(NSUInteger)idx {
+    if (idx >= [self.allProfilesArray count]) {
+        return nil;
+    }
+    return [self.allProfilesArray objectAtIndex:idx];
 }
-
-
 
 -(void) http_uploadAudio: (NSString*) uid
                identifier:(NSString*) ident {
