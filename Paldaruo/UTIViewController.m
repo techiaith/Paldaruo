@@ -213,7 +213,7 @@
 - (void) updateSessionProgress {
     
     
-    NSString* progressString = [NSString stringWithFormat:@"%ld / %ld testun ar \xc3\xb4l",
+    NSString* progressString = [NSString stringWithFormat:@"%ld / %ld testun ar ôl",
                                 (long)[prompts getRemainingCount],
                                 (long)[prompts getInitialCount]
                                 ];
