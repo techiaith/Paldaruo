@@ -11,3 +11,5 @@
 
 // Macro er mwyn creu URL i'r gweinydd
 #define UTIServerURL(path) [kServerHost stringByAppendingPathComponent:path]
+
+#define kRequestBoundary @"---------------------------14737809831466499882746641449"

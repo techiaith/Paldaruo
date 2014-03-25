@@ -11,11 +11,6 @@
 
 @interface UTIWelcomeViewController ()
 
-@property (weak, nonatomic) IBOutlet UIPickerView *picklistOutletExistingUsers;
-- (IBAction)btnStartSession:(id)sender;
-- (IBAction)btnCreateNewProfile:(id)sender;
-
-@property (weak, nonatomic) IBOutlet UIButton *btnOutletStartSession;
 @end
 
 @implementation UTIWelcomeViewController
@@ -39,8 +34,11 @@
     self.picklistOutletExistingUsers.dataSource = self;
     self.picklistOutletExistingUsers.showsSelectionIndicator=YES;
     
-    if ([[[UTIDataStore sharedDataStore] allProfilesArray] count] == 0)
+    if ([[[UTIDataStore sharedDataStore] allProfilesArray] count] == 0) {
         [self.btnOutletStartSession setHidden:YES];
+        [self.noProfilesLabel setHidden:NO];
+        [self.picklistOutletExistingUsers setHidden:YES];
+    }
    
     [super viewDidLoad];
     

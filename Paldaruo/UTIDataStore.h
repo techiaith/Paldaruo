@@ -10,10 +10,13 @@
 #import "UTIPromptsTracker.h"
 #import "UTIMetaDataField.h"
 #import "UTIUser.h"
+#import "UTIRequest.h"
 
 //
 // implements a singleton as per : http://www.galloway.me.uk/tutorials/singleton-classes/
 //
+
+
 @interface UTIDataStore : NSObject {
 
     NSArray *allProfilesArray;
@@ -27,13 +30,21 @@
 
 - (UTIUser *)userAtIndex:(NSUInteger)idx;
 
--(void) addNewUser: (NSString *)userName;
+/**
+ *  Adds a new user (on the server side) for the given name
+ *
+ *  @param userName The username to associate with this user
+ *
+ *  @return a UID value, as created by the server, for this user. If the UID is nil,
+ *  then user was not created successfully
+ */
+- (UTIUser *)addNewUser: (NSString *)userName;
 
--(NSString*) http_createUser;
--(void) http_fetchOutstandingPrompts: (UTIPromptsTracker*)prompts useridentifier:(NSString*) ident;
--(void) http_uploadAudio: (NSString*) uid identifier:(NSString*) ident;
--(void) http_getMetadata: (NSString*) uid;
--(void) http_saveMetadata: (NSString*) uid;
+- (NSString *) http_createUser;
+- (void)http_fetchOutstandingPrompts:(UTIPromptsTracker *)prompts useridentifier:(NSString *)ident;
+- (void)http_uploadAudio:(NSString *)uid identifier:(NSString*)ident;
+- (void)http_getMetadata:(NSString *)uid;
+- (void)http_saveMetadata:(NSString *)uid;
 
 
 

@@ -142,31 +142,28 @@
     
     if ([newUserName length]>0){
         
-        [[UTIDataStore sharedDataStore] addNewUser:newUserName];
-        
-        [[self btnOutletCreateUser] setUserInteractionEnabled:NO];
-        [[self btnOutletCreateUser]setHidden:YES];
-        
-        [[self txtBoxNewProfileName] setHidden:YES];
-        [[self lblOutletNewProfileNameFieldDescription] setHidden:YES];
-        
-        // new user made automatically the active user.
-        NSString *uid = [[UTIDataStore sharedDataStore] activeUser].uid;
-        
-        [[UTIDataStore sharedDataStore] http_getMetadata:uid];
-        
-        [self.lblOutletMetaDataField_Title setHidden:NO];
-        [self.lblOutletMetaDataField_Question setHidden:NO];
-        [self.lblOutletMetaDataField_Explanation setHidden:NO];
-        [self.pickerViewOutletMetaDataOption setHidden:NO];
-        [self.btnOutletNextQuestion setHidden:NO];
-        
-        //[self.btnOutletPreviousQuestion setHidden:NO];
-        
-        [self goToNextMetaDataField:NO];
-
-    }
+        // The new user (if created) is automatically made the active user
+        UTIUser *user = [[UTIDataStore sharedDataStore] addNewUser:newUserName];
     
+        if (user && user.uid) {
+            [[self btnOutletCreateUser] setUserInteractionEnabled:NO];
+            [[self btnOutletCreateUser]setHidden:YES];
+            
+            [[self txtBoxNewProfileName] setHidden:YES];
+            [[self lblOutletNewProfileNameFieldDescription] setHidden:YES];
+            
+            [[UTIDataStore sharedDataStore] http_getMetadata:user.uid];
+            
+            [self.lblOutletMetaDataField_Title setHidden:NO];
+            [self.lblOutletMetaDataField_Question setHidden:NO];
+            [self.lblOutletMetaDataField_Explanation setHidden:NO];
+            [self.pickerViewOutletMetaDataOption setHidden:NO];
+            [self.btnOutletNextQuestion setHidden:NO];
+        } else {
+            // display some kind of error
+            NSLog(@"OOPS");
+        }
+    }
 }
 
 

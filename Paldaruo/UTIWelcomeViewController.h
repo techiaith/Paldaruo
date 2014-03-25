@@ -10,4 +10,12 @@
 
 @interface UTIWelcomeViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate>
 
+@property (weak, nonatomic) IBOutlet UILabel *noProfilesLabel;
+@property (weak, nonatomic) IBOutlet UIPickerView *picklistOutletExistingUsers;
+@property (weak, nonatomic) IBOutlet UIButton *btnOutletStartSession;
+
+- (IBAction)btnStartSession:(id)sender;
+- (IBAction)btnCreateNewProfile:(id)sender;
+
+
 @end
