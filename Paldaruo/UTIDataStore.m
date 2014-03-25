@@ -32,18 +32,12 @@
     //[[NSUserDefaults standardUserDefaults] removePersistentDomainForName:domainName];
         
     if (self = [super init]){
-
-        NSUserDefaults *persistedStore=[NSUserDefaults standardUserDefaults];
-        NSString *allProfiles=[persistedStore stringForKey:@"AllProfilesJson"];
-        
         metaDataFields=[[NSArray alloc] init];
         
+        NSUserDefaults *persistedStore=[NSUserDefaults standardUserDefaults];
+        NSData *allProfiles=[persistedStore dataForKey:@"AllProfiles"];
         if (allProfiles!=nil) {
-            
-            NSData* data=[allProfiles dataUsingEncoding:NSUTF8StringEncoding];
-            allProfilesArray=(NSArray*)[NSJSONSerialization JSONObjectWithData:data
-                                                                       options:NSJSONReadingMutableContainers
-                                                                         error:nil];
+            allProfilesArray = [NSKeyedUnarchiver unarchiveObjectWithData:allProfiles];
         } else {
             
             allProfilesArray=[[NSArray alloc] init];
@@ -330,6 +324,11 @@
         
     }
     
+}
+
+- (void)saveProfiles {
+    NSData *profilesData = [NSKeyedArchiver archivedDataWithRootObject:allProfilesArray];
+    [[NSUserDefaults standardUserDefaults] setObject:profilesData forKey:@"AllProfiles"];
 }
 
 @end

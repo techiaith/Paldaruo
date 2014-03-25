@@ -30,6 +30,12 @@
 
 - (UTIUser *)userAtIndex:(NSUInteger)idx;
 
+
+/**
+ *  Saves the current user profiles
+ */
+- (void)saveProfiles;
+
 /**
  *  Adds a new user (on the server side) for the given name
  *
