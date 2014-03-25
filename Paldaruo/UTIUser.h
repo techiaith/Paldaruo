@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UTIUser : NSObject
+@interface UTIUser : NSObject <NSCoding>
 
 @property NSString *name;
 @property NSString *uid;

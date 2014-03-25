@@ -26,4 +26,17 @@
     return u;
 }
 
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:self.name forKey:@"name"];
+    [aCoder encodeObject:self.uid forKey:@"uid"];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [self init]) {
+        _name = [aDecoder decodeObjectForKey:@"name"];
+        _uid = [aDecoder decodeObjectForKey:@"uid"];
+    }
+    return self;
+}
+
 @end
