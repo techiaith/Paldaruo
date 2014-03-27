@@ -32,17 +32,17 @@
     -(void) addNewUser: (NSString *)userName;
 
     -(NSString*) http_createUser;
+
     -(void) http_fetchOutstandingPrompts: (UTIPromptsTracker*)prompts useridentifier:(NSString*) ident;
     -(void) http_uploadOutstandingAudio:(NSString*) uid;
     -(void) http_uploadAudio: (NSString*) uid identifier:(NSString*) ident;
+    -(void) http_getMetadata: (NSString*) uid;
+    -(BOOL) http_saveMetadata: (NSString*) uid;
 
     -(void) http_uploadAudioFile:(NSString*) uid
                       identifier:(NSString*) ident
                         filename:(NSString*) filename
                              URL:(NSURL*) audioFileURL;
-
-    -(void) http_getMetadata: (NSString*) uid;
-    -(BOOL) http_saveMetadata: (NSString*) uid;
 
     @property (nonatomic, retain) NSArray *allProfilesArray;
     @property (nonatomic, retain) NSArray *metaDataFields;

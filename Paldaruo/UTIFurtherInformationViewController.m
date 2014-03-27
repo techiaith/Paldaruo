@@ -7,6 +7,7 @@
 //
 
 #import "UTIFurtherInformationViewController.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
@@ -20,6 +21,11 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageOutletTechiaithLogo;
 @property (weak, nonatomic) IBOutlet UIImageView *imageOutletPaldaruoIcon;
 @property (weak, nonatomic) IBOutlet UIWebView *uiWebViewOutletContent;
+
+- (IBAction)btnVideoPlay:(id)sender;
+
+@property (strong, nonatomic) MPMoviePlayerViewController *moviePlayerController;
+
 
 @end
 
@@ -115,6 +121,56 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)btnVideoPlay:(id)sender {
+    
+    NSURL *movieURL = [[NSBundle mainBundle] URLForResource:@"sarah_yn_paldaruo_llai" withExtension:@".m4v"];
+    _moviePlayerController = [[MPMoviePlayerViewController alloc] initWithContentURL:movieURL];
+
+    
+    // Remove the movie player view controller from the "playback did finish" notification observers
+    [[NSNotificationCenter defaultCenter] removeObserver:_moviePlayerController
+                                                    name:MPMoviePlayerPlaybackDidFinishNotification
+                                                  object:_moviePlayerController.moviePlayer];
+    
+    // Register this class as an observer instead
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(movieFinishedCallback:)
+                                                 name:MPMoviePlayerPlaybackDidFinishNotification
+                                               object:_moviePlayerController.moviePlayer];
+    
+    
+    // Set the modal transition style of your choice
+    _moviePlayerController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    
+    // Present the movie player view controller
+    [self presentViewController:_moviePlayerController animated:YES completion:Nil];
+    
+    // Start playback
+    [_moviePlayerController.moviePlayer prepareToPlay];
+    [_moviePlayerController.moviePlayer play];
+    
+}
+
+- (void)movieFinishedCallback:(NSNotification*)aNotification
+{
+    // Obtain the reason why the movie playback finished
+    NSNumber *finishReason = [[aNotification userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
+    
+    // Dismiss the view controller ONLY when the reason is not "playback ended"
+    if ([finishReason intValue] != MPMovieFinishReasonPlaybackEnded)
+    {
+        MPMoviePlayerController *moviePlayer = [aNotification object];
+        
+        // Remove this class from the observers
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                        name:MPMoviePlayerPlaybackDidFinishNotification
+                                                      object:moviePlayer];
+        
+        // Dismiss the view controller
+        [self dismissViewControllerAnimated:NO completion:nil];
+    }
 }
 
 @end

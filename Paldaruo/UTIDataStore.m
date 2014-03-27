@@ -212,7 +212,7 @@
                                        queue:[NSOperationQueue mainQueue]
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
      {
-         [self handleResponseUploadAudio:data error:error];
+         [self handleResponseUploadAudio:response data:data error:error];
      }
      
      ];
@@ -504,9 +504,26 @@
 
 
 
--(void) handleResponseUploadAudio:(NSData *)data error:(NSError *)error {
+-(void) handleResponseUploadAudio:(NSURLResponse *)response data:(NSData *)data error:(NSError *)error {
     
+    NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+    int code = [httpResponse statusCode];
     
+    if ((error!=nil) || (code!=200)) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"PaldaruoServerApplicationError" object:nil];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho Recordiad"
+                                                        message: @"Roedd gwall ar y gweinydd wrth geisio llwytho'r recordiad i fyny. Ewch yn ôl i'r dechrau a dewisiwch 'Cychwyn arni' eto."
+                                                       delegate: nil
+                                              cancelButtonTitle: @"Iawn"
+                                              otherButtonTitles: nil];
+        [alert show];
+        
+        
+    }
+    
+
     if ([data length] >0 && error == nil) {
     
         //NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
