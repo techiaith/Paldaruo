@@ -2,6 +2,9 @@
 #encoding: utf-8
 import os, re, traceback, BaseHTTPServer, SocketServer, json, sys, cgi, uuid, sqlite3
 
+def getParam(query, name):
+    return query.get(name)[0].decode('UTF-8')
+
 class AuthError(Exception):
     pass
 
@@ -47,16 +50,16 @@ class TorfRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             return self.resetDatabase()
         if path == '/createUser':
             return self.createUser()
-        uid = query.get('uid')[0]
+        uid = getParam(query, 'uid')
         #self.checkUid(uid)
         if path == '/getMetadata':
             return self.getMetadata()
         elif path == '/saveMetadata':
-            return self.saveMetadata(uid, query.get('metadata')[0])
+            return self.saveMetadata(uid, getParam(query, 'metadata'))
         elif path == '/getOutstandingPrompts':
             return self.getOutstandingPrompts(uid)
         elif path == '/savePrompt':
-            return self.savePrompt(uid, query.get('promptId')[0], query.get('file')[0])
+            return self.savePrompt(uid, getParam(query, 'promptId'), getParam(query, 'file'))
         else:
             raise ValueError("Bad path: " + path)
 
@@ -233,7 +236,7 @@ class TorfRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                 {"identifier": "sample20", "text": u"HYNNY, CATH, DEG, ADDAS"},  
                 {"identifier": "sample21", "text": u"DDOE, GADAEL, AGOS, LARWM"},
                 {"identifier": "sample22", "text": u"ALAW, AFAL, YMLACIO, ANODD"},   
-                {"identifier": "sample23", "text": u"BRAN, PEDWERYDD, AWR, BANGOR"}, 
+                {"identifier": "sample23", "text": u"BRÂN, PEDWERYDD, AWR, BANGOR"}, 
                 {"identifier": "sample24", "text": u"BARN, TRO, YMLACIO, FYCHAN"},
                 {"identifier": "sample25", "text": u"AFAL, MYNYDD, TRO"},
                 {"identifier": "sample26", "text": u"YSGOL, ASGWRN, CHWAER, CATH"},
@@ -245,7 +248,7 @@ class TorfRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                 {"identifier": "sample32", "text": u"ASGWRN, HYNNY, CATH, DEG"},
                 {"identifier": "sample33", "text": u"ADDAS, DDOE, GADAEL, AGOS"},
                 {"identifier": "sample34", "text": u"LARWM, ALAW, AFAL, YMLACIO"}, 
-                {"identifier": "sample35", "text": u"ANODD, BRAN, PEDWERYDD, AWR"}, 
+                {"identifier": "sample35", "text": u"ANODD, BRÂN, PEDWERYDD, AWR"}, 
                 {"identifier": "sample36", "text": u"BANGOR, BARN, TRO, YMLACIO"},
                 {"identifier": "sample37", "text": u"FYCHAN, MYNYDD, TRO, YSGOL"},
                 {"identifier": "sample38", "text": u"ASGWRN, CHWAER, CATH, AFAL"},
