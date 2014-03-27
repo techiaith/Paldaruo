@@ -24,6 +24,7 @@
 		5C7C7FBD186E159A00E13FC0 /* PaldaruoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7C7FBC186E159A00E13FC0 /* PaldaruoTests.m */; };
 		5C7C7FC718720EB300E13FC0 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7C7FC618720EB300E13FC0 /* AVFoundation.framework */; };
 		5C7C7FC918720F6000E13FC0 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7C7FC818720F6000E13FC0 /* CoreAudio.framework */; };
+		801ACF3F18E1D9BF00B85FC9 /* sarah_yn_paldaruo_llai.m4v in Resources */ = {isa = PBXBuildFile; fileRef = 801ACF3E18E1D9BF00B85FC9 /* sarah_yn_paldaruo_llai.m4v */; };
 		8020410A187EC8EE00C9A4F3 /* UTIPromptsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 80204109187EC8EE00C9A4F3 /* UTIPromptsTracker.m */; };
 		8020410D187EC9B200C9A4F3 /* UTIPrompt.m in Sources */ = {isa = PBXBuildFile; fileRef = 8020410C187EC9B200C9A4F3 /* UTIPrompt.m */; };
 		8021AC9C187C44770069B508 /* logos4c.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 8021AC9B187C44770069B508 /* logos4c.jpeg */; };
@@ -99,6 +100,7 @@
 		5C7C7FBC186E159A00E13FC0 /* PaldaruoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaldaruoTests.m; sourceTree = "<group>"; };
 		5C7C7FC618720EB300E13FC0 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5C7C7FC818720F6000E13FC0 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		801ACF3E18E1D9BF00B85FC9 /* sarah_yn_paldaruo_llai.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = sarah_yn_paldaruo_llai.m4v; sourceTree = "<group>"; };
 		80204108187EC8EE00C9A4F3 /* UTIPromptsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIPromptsTracker.h; sourceTree = "<group>"; };
 		80204109187EC8EE00C9A4F3 /* UTIPromptsTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIPromptsTracker.m; sourceTree = "<group>"; };
 		8020410B187EC9B200C9A4F3 /* UTIPrompt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIPrompt.h; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 		5C7C7F95186E159A00E13FC0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				801ACF3E18E1D9BF00B85FC9 /* sarah_yn_paldaruo_llai.m4v */,
 				806B503D18CDEF0300851038 /* HTML */,
 				806B502918B3A27900851038 /* 150px-S4C_logo.svg.png */,
 				806B502A18B3A27900851038 /* WelshGovtlogo.png */,
@@ -431,6 +434,7 @@
 				8021AC9E187C450A0069B508 /* Llywodraeth-Cymru-1315259625.jpg in Resources */,
 				806B502C18B3A27900851038 /* WelshGovtlogo.png in Resources */,
 				806B501618AE41BC00851038 /* AppIcon60x60@2x.png in Resources */,
+				801ACF3F18E1D9BF00B85FC9 /* sarah_yn_paldaruo_llai.m4v in Resources */,
 				806B500F18AE41BC00851038 /* AppIcon40x40.png in Resources */,
 				8021ACA0187C456B0069B508 /* bangor_header_crest.jpg in Resources */,
 				806B502418AE53CF00851038 /* README.md in Resources */,
@@ -564,8 +568,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gruffudd Prys (SF3NF653GZ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gruffudd Prys (SF3NF653GZ)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -583,7 +587,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "7088A429-32E4-4BFC-87BE-A6A11AC7C1C5";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -619,7 +623,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = paldaruo;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "7088A429-32E4-4BFC-87BE-A6A11AC7C1C5";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -642,7 +646,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "8784AF66-9817-4903-9F6D-DED6A11CA316";
-				"PROVISIONING_PROFILE[sdk=*]" = "94EBA72C-6D28-4F37-879A-989A3ADD34A5";
+				"PROVISIONING_PROFILE[sdk=*]" = "7088A429-32E4-4BFC-87BE-A6A11AC7C1C5";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -662,7 +666,7 @@
 					/Users/apiau/Developer/Paldaruo/Paldaruo,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8784AF66-9817-4903-9F6D-DED6A11CA316";
+				PROVISIONING_PROFILE = "7088A429-32E4-4BFC-87BE-A6A11AC7C1C5";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

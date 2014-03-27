@@ -86,6 +86,11 @@
                                                  name:@"InternetUnreachable"
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetUnreachable:)
+                                                 name:@"PaldaruoServerApplicationError"
+                                               object:nil];
+    
     [UTIReachability instance];
     
 
@@ -387,6 +392,14 @@
     
 }
 
+-(void)handlePaldaruoServerApplicationError:(NSNotification *)notification {
+    [self.lblOutletNextPrompt setEnabled:NO];
+    [self.lblOutletRecordingStatus setEnabled:NO];
+    [self.btnOutletMoveToNextRecordingState setEnabled:NO];
+    [self.btnOutletRedoRecording setEnabled:NO];
+    [self.lblOutletProfileName setEnabled:NO];
+    [self.lblOutletSessionProgress setEnabled:NO];
+}
 
 @end
 
