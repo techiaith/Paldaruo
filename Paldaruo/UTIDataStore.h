@@ -44,9 +44,8 @@
  *  @return a UID value, as created by the server, for this user. If the UID is nil,
  *  then user was not created successfully
  */
-- (UTIUser *)addNewUser: (NSString *)userName error:(NSError __autoreleasing **)error;
-
-- (NSArray *) http_createUser_error:(NSError __autoreleasing **)error;
+- (UTIUser *)addNewUser:(NSString *)userName;
+- (NSString *)http_createUser_delegate:(id <UTIRequestDelegate>)delegate;
 - (void)http_fetchOutstandingPrompts:(UTIPromptsTracker *)prompts useridentifier:(NSString *)ident;
 - (void)http_uploadAudio:(NSString *)uid identifier:(NSString*)ident;
 - (void)http_getMetadata:(NSString *)uid;

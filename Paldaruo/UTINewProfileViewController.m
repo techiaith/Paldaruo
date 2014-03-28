@@ -8,6 +8,7 @@
 
 #import "UTINewProfileViewController.h"
 #import "UTIDataStore.h"
+#import "DejalActivityView.h"
 
 @interface UTINewProfileViewController () 
 
@@ -26,12 +27,13 @@
 @property (weak, nonatomic) IBOutlet UITextField *textFieldOutletMetaDataFreeText;
 @property (weak, nonatomic) IBOutlet UILabel *lblOutletError;
 
+@property (weak, nonatomic) IBOutlet UITextField *txtBoxNewProfileName;
+
 - (IBAction)btnActionNextQuestion:(id)sender;
 - (IBAction)btnActionCreateUser:(id)sender;
 - (IBAction)btnActionStartSession:(id)sender;
 - (IBAction)btnActionPreviousQuestion:(id)sender;
 
-@property (weak, nonatomic) IBOutlet UITextField *txtBoxNewProfileName;
 
 @end
 
@@ -143,31 +145,13 @@
     
     NSString *errorText = nil;
     if ([newUserName length] > 0){
-        
-        NSError *err = nil;
         // The new user (if created) is automatically made the active user
-        UTIUser *user = [[UTIDataStore sharedDataStore] addNewUser:newUserName error:&err];
+        [self.txtBoxNewProfileName resignFirstResponder];
+        [[UTIDataStore sharedDataStore] http_createUser_delegate:self];
+        [DejalBezelActivityView activityViewForView:self.view withLabel:@"Llwytho…"];
     
-        if (user && user.uid) {
-            [[self btnOutletCreateUser] setUserInteractionEnabled:NO];
-            [[self btnOutletCreateUser]setHidden:YES];
-            
-            [[self txtBoxNewProfileName] setHidden:YES];
-            [[self lblOutletNewProfileNameFieldDescription] setHidden:YES];
-            
-            [[UTIDataStore sharedDataStore] http_getMetadata:user.uid];
-            
-            [self.lblOutletMetaDataField_Title setHidden:NO];
-            [self.lblOutletMetaDataField_Question setHidden:NO];
-            [self.lblOutletMetaDataField_Explanation setHidden:NO];
-            [self.pickerViewOutletMetaDataOption setHidden:NO];
-            [self.btnOutletNextQuestion setHidden:NO];
-        } else {
-            // display some kind of error
-            errorText = err.localizedDescription;
-        }
     } else {
-        errorText = @"Rhaid creu enw i'r proffil";
+        errorText = @"Rhaid rhoi enw i'r proffil";
     }
     
     if (errorText) {
@@ -175,6 +159,45 @@
         self.lblOutletError.hidden = NO;
     }
 }
+
+
+- (void)handleRequest:(UTIRequest *)request withResponse:(NSURLResponse *)response body:(NSData *)data error:(NSError *)error {
+    [DejalBezelActivityView removeView];
+    if (!data) {
+        [self.txtBoxNewProfileName becomeFirstResponder];
+        self.lblOutletError.text =  error.localizedDescription;
+        self.lblOutletError.hidden = NO;
+        return;
+    }
+    
+    NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
+                                                       options:kNilOptions
+                                                         error:nil];
+
+    NSDictionary *jsonResponse = json[@"response"];
+    NSString *uid = jsonResponse[@"uid"];
+
+    if (uid) {
+        [[self btnOutletCreateUser] setUserInteractionEnabled:NO];
+        [[self btnOutletCreateUser]setHidden:YES];
+        
+        [[self txtBoxNewProfileName] setHidden:YES];
+        [[self lblOutletNewProfileNameFieldDescription] setHidden:YES];
+        
+        [[UTIDataStore sharedDataStore] http_getMetadata:uid];
+        
+        [self.lblOutletMetaDataField_Title setHidden:NO];
+        [self.lblOutletMetaDataField_Question setHidden:NO];
+        [self.lblOutletMetaDataField_Explanation setHidden:NO];
+        [self.pickerViewOutletMetaDataOption setHidden:NO];
+        [self.btnOutletNextQuestion setHidden:NO];
+    } else {
+        // display some kind of error
+        self.lblOutletError.text =  error.localizedDescription;
+        self.lblOutletError.hidden = NO;
+    }
+}
+
 
 
 - (IBAction)btnActionStartSession:(id)sender {

@@ -50,17 +50,9 @@
     
 }
 
-- (UTIUser *)addNewUser:(NSString *)userName error:(NSError __autoreleasing **)error {
-    
-    NSError __autoreleasing *err = nil;
-    NSArray *responseInfo = [self http_createUser_error:&err];
-    
-    NSString *uid = responseInfo[0];
-    
-    if (error != NULL) {
-        // Set up error handling
-        error = &err;
-    }
+- (UTIUser *)addNewUser:(NSString *)userName {
+
+    NSString *uid = [self http_createUser_delegate:nil];
     
     if (!uid) {
         return nil;
@@ -91,15 +83,15 @@
     request.requestPath = @"savePrompt";
     
     // Add the UID data object
-    [request addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid] usingEncoding:NSUTF8StringEncoding];
+    [request addBodyString:[NSString stringWithFormat:@"content-disposition: form-data; name=\"uid\"\r\n\r\n%@", uid] usingEncoding:NSUTF8StringEncoding];
 
     // add prompt id
-    [request addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"promptId\"\r\n\r\n%@", ident] usingEncoding:NSUTF8StringEncoding];
+    [request addBodyString:[NSString stringWithFormat:@"content-disposition: form-data; name=\"promptId\"\r\n\r\n%@", ident] usingEncoding:NSUTF8StringEncoding];
 
     // add wav file
     NSString *filename = [NSString stringWithFormat:@"%@.wav", ident];
 
-    [request addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n", filename] usingEncoding:NSUTF8StringEncoding];
+    [request addBodyString:[NSString stringWithFormat:@"content-disposition: form-data; name=\"file\"; filename=\"%@\"\r\n", filename] usingEncoding:NSUTF8StringEncoding];
     
     [request addBodyString:@"Content-Type: audio/wav\r\n\r\n" usingEncoding:NSUTF8StringEncoding];
     
@@ -132,11 +124,15 @@
 
 
 
-- (NSString *)http_createUser_error:(NSError __autoreleasing **)err {
+- (NSString *)http_createUser_delegate:(id <UTIRequestDelegate>)delegate {
     NSString __block *newUserId=nil;
     
     UTIRequest *r = [UTIRequest new];
     r.requestPath = @"createUser";
+    if (delegate) {
+        r.delegate = delegate;
+        [r sendRequestAsync];
+    } else {
     r.completionHandler = ^(NSURLResponse *response, NSData *data, NSError *error) {
         if (!error) {
             NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
@@ -148,6 +144,7 @@
         }
     };
     [r sendRequestSync];
+    }
     
 
     return newUserId;

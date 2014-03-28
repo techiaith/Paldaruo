@@ -60,6 +60,7 @@
 		806B502F18B64EB900851038 /* UTIFurtherInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B502E18B64EB900851038 /* UTIFurtherInformationViewController.m */; };
 		806B503218BCED5000851038 /* UTIIntroductionScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B503118BCED5000851038 /* UTIIntroductionScreenViewController.m */; };
 		CD1020DC18E08F2200610EB2 /* UTIUser.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1020DB18E08F2200610EB2 /* UTIUser.m */; };
+		CD32104F18E5E2E8009056EE /* DejalActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD32104E18E5E2E8009056EE /* DejalActivityView.m */; };
 		CDC3152618E17E45003A2440 /* UTIButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC3152518E17E45003A2440 /* UTIButton.m */; };
 		CDC3152918E17FEA003A2440 /* UTIRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC3152818E17FEA003A2440 /* UTIRequest.m */; };
 /* End PBXBuildFile section */
@@ -145,6 +146,8 @@
 		806B503118BCED5000851038 /* UTIIntroductionScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIIntroductionScreenViewController.m; sourceTree = "<group>"; };
 		CD1020DA18E08F2200610EB2 /* UTIUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIUser.h; sourceTree = "<group>"; };
 		CD1020DB18E08F2200610EB2 /* UTIUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIUser.m; sourceTree = "<group>"; };
+		CD32104D18E5E2E8009056EE /* DejalActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DejalActivityView.h; path = Externals/DejalActivityView/DejalActivityView.h; sourceTree = "<group>"; };
+		CD32104E18E5E2E8009056EE /* DejalActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DejalActivityView.m; path = Externals/DejalActivityView/DejalActivityView.m; sourceTree = "<group>"; };
 		CD79988618C4DF760033860D /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		CDC3152418E17E45003A2440 /* UTIButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIButton.h; sourceTree = "<group>"; };
 		CDC3152518E17E45003A2440 /* UTIButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIButton.m; sourceTree = "<group>"; };
@@ -218,6 +221,7 @@
 		5C7C7F94186E159A00E13FC0 /* Paldaruo */ = {
 			isa = PBXGroup;
 			children = (
+				CD32104B18E5E2D8009056EE /* Externals */,
 				CD1020DA18E08F2200610EB2 /* UTIUser.h */,
 				CD1020DB18E08F2200610EB2 /* UTIUser.m */,
 				5C7C7F9D186E159A00E13FC0 /* UTIAppDelegate.h */,
@@ -323,6 +327,23 @@
 				806B501F18AE53CE00851038 /* release_notes.md */,
 			);
 			name = TestFlight;
+			sourceTree = "<group>";
+		};
+		CD32104B18E5E2D8009056EE /* Externals */ = {
+			isa = PBXGroup;
+			children = (
+				CD32104C18E5E2DF009056EE /* DejalActivityView */,
+			);
+			name = Externals;
+			sourceTree = "<group>";
+		};
+		CD32104C18E5E2DF009056EE /* DejalActivityView */ = {
+			isa = PBXGroup;
+			children = (
+				CD32104D18E5E2E8009056EE /* DejalActivityView.h */,
+				CD32104E18E5E2E8009056EE /* DejalActivityView.m */,
+			);
+			name = DejalActivityView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -461,6 +482,7 @@
 				CD1020DC18E08F2200610EB2 /* UTIUser.m in Sources */,
 				5C7C7F9F186E159A00E13FC0 /* UTIAppDelegate.m in Sources */,
 				CDC3152618E17E45003A2440 /* UTIButton.m in Sources */,
+				CD32104F18E5E2E8009056EE /* DejalActivityView.m in Sources */,
 				806B4FD2189BBE8200851038 /* UTINewProfileViewController.m in Sources */,
 				8020410D187EC9B200C9A4F3 /* UTIPrompt.m in Sources */,
 				806B503218BCED5000851038 /* UTIIntroductionScreenViewController.m in Sources */,

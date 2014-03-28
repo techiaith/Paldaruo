@@ -80,7 +80,9 @@
     
     if (async) {
         [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-            if (self.completionHandler) {
+            if (self.delegate) {
+                [self.delegate handleRequest:self withResponse:response body:data error:connectionError];
+            } else if (self.completionHandler) {
                 self.completionHandler(response, data, connectionError);
             }
             // Clear the old request. A new one will be generated if need be
@@ -95,7 +97,6 @@
     }
 
 }
-
 
 - (void)addBodyData:(NSData *)data {
     if (![data isKindOfClass:[NSData class]]) {
