@@ -29,7 +29,6 @@
 -(void) setRecordStatusText : (NSString *) text;
 -(void) setMoveToNextRecordStateTitle : (NSString *) text;
 
-//-(void) handleResponseUploadAudio : (NSData *) data error:(NSError *) errorData;
 //-(void) handleResponseDownloadPrompts : (NSData *) data error:(NSError *) errorData;
 
 @end

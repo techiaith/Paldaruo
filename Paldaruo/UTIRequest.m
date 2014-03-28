@@ -45,6 +45,16 @@
     
     [request addValue:contentType forHTTPHeaderField: @"Content-Type"];
     
+    NSMutableData *body = [NSMutableData new];
+    NSData *boundaryData = [[NSString stringWithFormat:@"\r\n--%@\r\n", kRequestBoundary]dataUsingEncoding:NSUTF8StringEncoding];
+    [body appendData:boundaryData];
+    for (NSData *data in self.bodyDataArray) {
+        [body appendData:data];
+        [body appendData:boundaryData];
+    }
+    
+    [request setHTTPBody:body];
+    
     _request = request;
     return request;
     
@@ -68,16 +78,6 @@
         return;
     }
     
-    NSMutableData *body = [NSMutableData new];
-    NSData *boundaryData = [[NSString stringWithFormat:@"\r\n--%@\r\n", kRequestBoundary]dataUsingEncoding:NSUTF8StringEncoding];
-    [body appendData:boundaryData];
-    for (NSData *data in self.bodyDataArray) {
-        [body appendData:data];
-        [body appendData:boundaryData];
-    }
-    
-    [request setHTTPBody:body];
-    
     if (async) {
         [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
             if (self.completionHandler) {
@@ -91,6 +91,7 @@
         NSError *error = nil;
         NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         self.completionHandler(response, data, error);
+        self.responseError = error;
     }
 
 }

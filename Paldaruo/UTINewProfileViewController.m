@@ -24,6 +24,7 @@
 
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerViewOutletMetaDataOption;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldOutletMetaDataFreeText;
+@property (weak, nonatomic) IBOutlet UILabel *lblOutletError;
 
 - (IBAction)btnActionNextQuestion:(id)sender;
 - (IBAction)btnActionCreateUser:(id)sender;
@@ -137,13 +138,15 @@
 
 
 - (IBAction)btnActionCreateUser:(id)sender {
-    
+    self.lblOutletError.hidden = YES;
     NSString *newUserName=[_txtBoxNewProfileName text];
     
-    if ([newUserName length]>0){
+    NSString *errorText = nil;
+    if ([newUserName length] > 0){
         
+        NSError *err = nil;
         // The new user (if created) is automatically made the active user
-        UTIUser *user = [[UTIDataStore sharedDataStore] addNewUser:newUserName];
+        UTIUser *user = [[UTIDataStore sharedDataStore] addNewUser:newUserName error:&err];
     
         if (user && user.uid) {
             [[self btnOutletCreateUser] setUserInteractionEnabled:NO];
@@ -161,8 +164,15 @@
             [self.btnOutletNextQuestion setHidden:NO];
         } else {
             // display some kind of error
-            NSLog(@"OOPS");
+            errorText = err.localizedDescription;
         }
+    } else {
+        errorText = @"Rhaid creu enw i'r proffil";
+    }
+    
+    if (errorText) {
+        self.lblOutletError.text = errorText;
+        self.lblOutletError.hidden = NO;
     }
 }
 

@@ -408,12 +408,13 @@
                                     <segue destination="Teu-rc-PHm" kind="modal" id="dw2-jE-ONX"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" minimumFontSize="25" id="Tqb-n7-EgH">
-                                <rect key="frame" x="21" y="215" width="280" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8hA-az-iKj">
+                                <rect key="frame" x="21" y="203" width="279" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -423,8 +424,8 @@
                         <outlet property="btnOutletNextQuestion" destination="ufZ-2M-oBh" id="BhM-P3-oRQ"/>
                         <outlet property="btnOutletPreviousQuestion" destination="vKH-uE-eQt" id="iuH-KC-hOW"/>
                         <outlet property="btnOutletStartSession" destination="I4n-GG-heL" id="VXt-M3-W5B"/>
+                        <outlet property="lblOutletError" destination="8hA-az-iKj" id="KXd-VJ-AF7"/>
                         <outlet property="lblOutletNewProfileNameFieldDescription" destination="vof-7p-R0t" id="EgD-xe-qbA"/>
-                        <outlet property="textFieldOutletMetaDataFreeText" destination="Tqb-n7-EgH" id="FJ4-kX-CNW"/>
                         <outlet property="txtBoxNewProfileName" destination="MLD-xI-mqA" id="4SC-Jw-rBy"/>
                     </connections>
                 </viewController>

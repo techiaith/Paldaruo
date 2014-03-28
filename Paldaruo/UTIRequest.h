@@ -23,6 +23,7 @@ typedef void (^urlCompletionHandler)(NSURLResponse *response, NSData *data, NSEr
 @property NSString * requestPath;
 @property (readonly, strong, nonatomic) NSMutableURLRequest *request;
 @property NSString *contentType;
+@property NSError __block *responseError;
 
 /**
  *  An array of strings which are added to the body of the http request. Separated by the boundary string
@@ -31,6 +32,7 @@ typedef void (^urlCompletionHandler)(NSURLResponse *response, NSData *data, NSEr
 
 - (void)sendRequestAsync;
 - (void)sendRequestSync;
+
 - (void)setCompletionHandler:(urlCompletionHandler)c;
 - (urlCompletionHandler)completionHandler;
 - (void)addBodyData:(NSData *)data;

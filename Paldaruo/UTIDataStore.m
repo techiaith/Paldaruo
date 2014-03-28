@@ -35,7 +35,7 @@
         metaDataFields=[[NSArray alloc] init];
         
         NSUserDefaults *persistedStore=[NSUserDefaults standardUserDefaults];
-        NSData *allProfiles=[persistedStore dataForKey:@"AllProfiles"];
+        NSData *allProfiles = [persistedStore dataForKey:@"AllProfiles"];
         if (allProfiles!=nil) {
             allProfilesArray = [NSKeyedUnarchiver unarchiveObjectWithData:allProfiles];
         } else {
@@ -50,9 +50,17 @@
     
 }
 
-- (UTIUser *)addNewUser:(NSString *)userName {
+- (UTIUser *)addNewUser:(NSString *)userName error:(NSError __autoreleasing **)error {
     
-    NSString *uid = [self http_createUser];
+    NSError __autoreleasing *err = nil;
+    NSArray *responseInfo = [self http_createUser_error:&err];
+    
+    NSString *uid = responseInfo[0];
+    
+    if (error != NULL) {
+        // Set up error handling
+        error = &err;
+    }
     
     if (!uid) {
         return nil;
@@ -99,7 +107,23 @@
     [request addBodyData:[[NSData alloc] initWithContentsOfURL:audioFileURL]];
     
     [request setCompletionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        [self handleResponseUploadAudio:data error:error];
+        NSString *message = nil;
+        if ([data length] == 0 && error == nil) {
+            message = @"Ymateb gwag";
+        }
+        else if (error != nil && error.code == NSURLErrorTimedOut){
+            message = @"Timeout";
+        }
+        else if (error != nil) {
+            message = @"Gwall cyffredinol";
+        }
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
+                                                        message: message
+                                                       delegate: nil
+                                              cancelButtonTitle: @"Iawn"
+                                              otherButtonTitles: nil];
+        [alert show];
     }];
     
     [request sendRequestAsync];
@@ -108,14 +132,12 @@
 
 
 
--(NSString *) http_createUser {
-    
+- (NSString *)http_createUser_error:(NSError __autoreleasing **)err {
     NSString __block *newUserId=nil;
     
     UTIRequest *r = [UTIRequest new];
     r.requestPath = @"createUser";
-    
-    r.completionHandler = ^(NSURLResponse *response, NSData *data, NSError *error){
+    r.completionHandler = ^(NSURLResponse *response, NSData *data, NSError *error) {
         if (!error) {
             NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
                                                                options:kNilOptions
@@ -125,11 +147,10 @@
             newUserId = jsonResponse[@"uid"];
         }
     };
-    
     [r sendRequestSync];
     
+
     return newUserId;
-    
 }
 
 
@@ -271,58 +292,6 @@
             [alert show];
         }
     }];
-    
-}
-
-
-
--(void) handleResponseUploadAudio:(NSData *)data error:(NSError *)error {
-    
-    
-    //    if ([data length] >0 && error == nil) {
-    //
-    //        NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    //
-    //        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
-    //                                                        message: message
-    //                                                       delegate: nil
-    //                                              cancelButtonTitle: @"Iawn"
-    //                                              otherButtonTitles: nil];
-    //
-    //        [alert show];
-    //
-    //    }
-    //    else
-    if ([data length] == 0 && error == nil) {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
-                                                        message: @"Ymateb gwag"
-                                                       delegate: nil
-                                              cancelButtonTitle: @"Iawn"
-                                              otherButtonTitles: nil];
-        [alert show];
-        
-    }
-    else if (error != nil && error.code == NSURLErrorTimedOut){
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
-                                                        message: @"Timeout"
-                                                       delegate: nil
-                                              cancelButtonTitle: @"Iawn"
-                                              otherButtonTitles: nil];
-        [alert show];
-        
-    }
-    else if (error != nil) {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
-                                                        message: @"Gwall cyffredinol"
-                                                       delegate: nil
-                                              cancelButtonTitle: @"Iawn"
-                                              otherButtonTitles: nil];
-        [alert show];
-        
-    }
     
 }
 
