@@ -11,15 +11,6 @@
 typedef void (^voidBlock)(void);
 typedef void (^urlCompletionHandler)(NSURLResponse *response, NSData *data, NSError *error);
 
-
-@class UTIRequest;
-@protocol UTIRequestDelegate <NSObject>
-
-@required
-
-- (void)handleRequest:(UTIRequest *)request withResponse:(NSURLResponse *)response body:(NSData *)data error:(NSError *)error;
-
-@end
 /**
  *  Handles request objects to/from the server
  */
@@ -27,7 +18,6 @@ typedef void (^urlCompletionHandler)(NSURLResponse *response, NSData *data, NSEr
     urlCompletionHandler _completionHandler;
 }
 
-@property id <UTIRequestDelegate> delegate;
 @property NSString * serverURLString;
 @property NSString * requestHTTPMethod;
 @property NSString * requestPath;

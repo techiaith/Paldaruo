@@ -9,36 +9,17 @@
 #import <Foundation/Foundation.h>
 
 @interface UTIMetaDataField : NSObject
-{
 
-    @public
-
-        NSString *fieldId;
-        NSString *title;
-        NSString *question;
-        NSString *explanation;
-    
-        BOOL    isText;
-    
-        // if isText==false
-        NSMutableArray  *optionKey;
-        NSMutableArray  *optionValue;
-        NSInteger selectedOptionIndex;
-    
-        // if isText==true
-        NSString *value;
-    
-}
+@property (strong) NSString *fieldId;
+@property (strong) NSString *title;
+@property (strong) NSString *question;
+@property (strong) NSString *explanation;
+@property BOOL isText;
+@property (strong) NSMutableArray *optionKey;
+@property (strong) NSMutableArray *optionValue;
+@property (strong) NSString *value;
+@property NSInteger selectedOptionIndex;
 
 -(void) addOptionWithId: (NSString*)idValue text:(NSString*)textValue;
-
--(void) setSelectedOptionWithIndex: (NSInteger)selectedIndex;
--(NSInteger) getSelectedOptionIndex;
-
--(void) setTextValue:(NSString *) textValue;
--(NSString *) getTextValue;
-
--(NSString *) getValue;
--(NSString *) getKey;
 
 @end

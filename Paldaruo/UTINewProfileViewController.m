@@ -94,7 +94,7 @@
     
     if (localCopyMetaDataFields.count>0) {
         UTIMetaDataField *localCopyMetaDataField=[localCopyMetaDataFields objectAtIndex:currentMetaDataFieldIndex];
-        return localCopyMetaDataField->optionKey.count;
+        return localCopyMetaDataField.optionKey.count;
     } else {
         return 0;
     }
@@ -109,7 +109,7 @@
     if (localCopyMetaDataFields.count>0) {
         UTIMetaDataField *localCopyMetaDataField=[localCopyMetaDataFields objectAtIndex:currentMetaDataFieldIndex];
         
-        return [localCopyMetaDataField->optionValue objectAtIndex:row];
+        return [localCopyMetaDataField.optionValue objectAtIndex:row];
     }
     else {
         return Nil;
@@ -166,6 +166,7 @@
             NSString *uid = jsonResponse[@"uid"];
             
             if (uid) {
+                [[UTIDataStore sharedDataStore] addNewUser:newUserName uid:uid];
                 [[self btnOutletCreateUser] setUserInteractionEnabled:NO];
                 [[self btnOutletCreateUser]setHidden:YES];
                 
@@ -214,13 +215,13 @@
     NSArray *localCopyMetaDataFields=[[UTIDataStore sharedDataStore] metaDataFields];
     UTIMetaDataField *localCopyCurrentMetaDataField=[localCopyMetaDataFields objectAtIndex:currentMetaDataFieldIndex];
     
-    if (localCopyCurrentMetaDataField->isText==YES){
+    if (localCopyCurrentMetaDataField.isText==YES){
         
-        [self.textFieldOutletMetaDataFreeText setText:[localCopyCurrentMetaDataField getTextValue]];
+        self.textFieldOutletMetaDataFreeText.text = localCopyCurrentMetaDataField.value;
         
     } else {
         
-        NSInteger selected=[localCopyCurrentMetaDataField getSelectedOptionIndex];
+        NSInteger selected = localCopyCurrentMetaDataField.selectedOptionIndex;
         [self.pickerViewOutletMetaDataOption selectRow:selected inComponent:0 animated:NO];
         
     }
@@ -242,12 +243,12 @@
         
         UTIMetaDataField *localCopyCurrentMetaDataField=[localCopyMetaDataFields objectAtIndex:currentMetaDataFieldIndex];
         
-        if (localCopyCurrentMetaDataField->isText==YES){
-            [localCopyCurrentMetaDataField setTextValue:[self.textFieldOutletMetaDataFreeText text]];
+        if (localCopyCurrentMetaDataField.isText==YES){
+            localCopyCurrentMetaDataField.value = [self.textFieldOutletMetaDataFreeText text];
             [self.textFieldOutletMetaDataFreeText setText:@""];
         } else {
             NSInteger row = [self.pickerViewOutletMetaDataOption selectedRowInComponent:0];
-            [localCopyCurrentMetaDataField setSelectedOptionWithIndex:row];
+            localCopyCurrentMetaDataField.selectedOptionIndex = row;
         }
         currentMetaDataFieldIndex++;
         
@@ -272,16 +273,16 @@
         //
         UTIMetaDataField *localCopyNextMetaDataField=[localCopyMetaDataFields objectAtIndex:currentMetaDataFieldIndex];
         
-        [self.lblOutletMetaDataField_Title setText:localCopyNextMetaDataField->title];
-        [self.lblOutletMetaDataField_Question setText:localCopyNextMetaDataField->question];
-        [self.lblOutletMetaDataField_Explanation setText:localCopyNextMetaDataField->explanation];
+        [self.lblOutletMetaDataField_Title setText:localCopyNextMetaDataField.title];
+        [self.lblOutletMetaDataField_Question setText:localCopyNextMetaDataField.question];
+        [self.lblOutletMetaDataField_Explanation setText:localCopyNextMetaDataField.explanation];
         
         [self.lblOutletMetaDataField_Title setHidden:NO];
         [self.lblOutletMetaDataField_Question setHidden:NO];
         [self.lblOutletMetaDataField_Explanation setHidden:NO];
         
         //
-        if (localCopyNextMetaDataField->isText==YES){
+        if (localCopyNextMetaDataField.isText==YES){
             
             [self.pickerViewOutletMetaDataOption setHidden:YES];
             

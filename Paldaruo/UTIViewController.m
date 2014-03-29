@@ -307,7 +307,7 @@
         NSString* displayedPrompt=[self.currentPrompt.text stringByReplacingOccurrencesOfString:@" "
                                                                                       withString:@"  "];
         
-        self.lblOutletNextPrompt.text=displayedPrompt;//self.currentPrompt->text;
+        self.lblOutletNextPrompt.text=displayedPrompt;
     }
  
 }

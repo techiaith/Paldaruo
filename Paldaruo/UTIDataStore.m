@@ -52,8 +52,13 @@
 }
 
 - (UTIUser *)addNewUser:(NSString *)userName {
+    return [self addNewUser:userName uid:nil];
+}
 
-    NSString *uid = [self http_createUser];
+- (UTIUser *)addNewUser:(NSString *)userName uid:(NSString *)uid {
+    if (!uid) {
+        uid = [self http_createUser];
+    }
     
     if (!uid) {
         return nil;
@@ -258,33 +263,28 @@
             NSArray *jsonFieldsArray = json[@"response"];
             
             // initialise the prompts tracker.
-            for (int x = 0; x < jsonFieldsArray.count; x++)
-            {
+            for (NSDictionary *jsonFieldAttributes in jsonFieldsArray) {
                 UTIMetaDataField *newField=[[UTIMetaDataField alloc] init];
-                NSDictionary *jsonFieldAttributes=[jsonFieldsArray objectAtIndex:x];
                 
-                newField->fieldId=jsonFieldAttributes[@"id"];
-                newField->title=jsonFieldAttributes[@"title"];
-                newField->question=jsonFieldAttributes[@"question"];
-                newField->explanation=jsonFieldAttributes[@"explanation"];
+                newField.fieldId=jsonFieldAttributes[@"id"];
+                newField.title=jsonFieldAttributes[@"title"];
+                newField.question=jsonFieldAttributes[@"question"];
+                newField.explanation=jsonFieldAttributes[@"explanation"];
                 
                 // options.
                 NSArray *jsonOptionsArray=jsonFieldAttributes[@"options"];
                 
                 if (jsonOptionsArray!=(id)[NSNull null]){
                     
-                    newField->isText=NO;
+                    newField.isText=NO;
                     
-                    for (int o=0; o<jsonOptionsArray.count; o++){
-                        
-                        NSString *optionId=[[jsonOptionsArray objectAtIndex:o] objectForKey:@"id"];
-                        NSString *optionText=[[jsonOptionsArray objectAtIndex:o] objectForKey:@"text"];
-                        
+                    for (NSDictionary *options in jsonOptionsArray) {
+                        NSString *optionId = [options objectForKey:@"id"];
+                        NSString *optionText = [options objectForKey:@"text"];
                         [newField addOptionWithId:optionId text:optionText];
-                        
                     }
                 } else {
-                    newField->isText=YES;
+                    newField.isText=YES;
                 }
                 metaDataFields = [metaDataFields arrayByAddingObject:newField];
             }
@@ -302,7 +302,7 @@
 
     }];
     
-    
+    [r sendRequestAsync];
 }
 
 
@@ -329,7 +329,7 @@
     // get the metadata fields values as a key/value dictionary
     NSMutableDictionary *metaDataValues = [[NSMutableDictionary alloc] init];
     [metaDataFields enumerateObjectsUsingBlock:^(UTIMetaDataField *field, NSUInteger idx, BOOL *stop) {
-        [metaDataValues setValue:[field getValue] forKey:[field getKey]];
+        [metaDataValues setValue:field.value forKey:field.fieldId];
     }];
     
     NSData *jsonData=[NSJSONSerialization dataWithJSONObject:metaDataValues

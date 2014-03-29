@@ -47,7 +47,8 @@
     [request addValue:contentType forHTTPHeaderField: @"Content-Type"];
     
     NSMutableData *body = [NSMutableData new];
-    NSData *boundaryData = [[NSString stringWithFormat:@"\r\n--%@\r\n", kRequestBoundary]dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSData *boundaryData = [[NSString stringWithFormat:@"\r\n--%@--\r\n", kRequestBoundary]dataUsingEncoding:NSUTF8StringEncoding];
     [body appendData:boundaryData];
     for (NSData *data in self.bodyDataArray) {
         [body appendData:data];
@@ -81,9 +82,7 @@
     
     if (async) {
         [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-            if (self.delegate) {
-                [self.delegate handleRequest:self withResponse:response body:data error:connectionError];
-            } else if (self.completionHandler) {
+            if (self.completionHandler) {
                 self.completionHandler(response, data, connectionError);
             }
             // Clear the old request. A new one will be generated if need be

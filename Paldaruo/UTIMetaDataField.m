@@ -10,20 +10,22 @@
 
 @implementation UTIMetaDataField
 
+@synthesize value = _value;
+
 -(id) init {
     
     if ((self = [super init]) != nil) {
         
-        fieldId=nil;
-        title=nil;
-        question=nil;
-        explanation=nil;
-        value=nil;
+        _fieldId=nil;
+        _title=nil;
+        _question=nil;
+        _explanation=nil;
+        _value=nil;
 
-        optionKey=[[NSMutableArray alloc] init];
-        optionValue=[[NSMutableArray alloc] init];
+        _optionKey=[[NSMutableArray alloc] init];
+        _optionValue=[[NSMutableArray alloc] init];
         
-        selectedOptionIndex=-1;
+        _selectedOptionIndex=-1;
         
     }
     
@@ -32,38 +34,22 @@
 }
 
 -(void) addOptionWithId: (NSString*)idValue text:(NSString*)textValue {
-    [optionKey addObject:idValue];
-    [optionValue addObject:textValue];
+    [self.optionKey addObject:idValue];
+    [self.optionValue addObject:textValue];
 }
 
--(void) setSelectedOptionWithIndex:(NSInteger)selectedIndex {
-    selectedOptionIndex=selectedIndex;
+-(void)setValue:(NSString *) textValue {
+    _value = textValue;
 }
 
--(NSInteger) getSelectedOptionIndex {
-    return selectedOptionIndex;
-}
-
--(void) setTextValue:(NSString *) textValue {
-    value=textValue;
-}
-
--(NSString *) getTextValue {
-    return value;
-}
-
--(NSString *) getValue {
+- (NSString *)value {
     
-    if (isText==YES){
-        return value;
+    if (self.isText==YES){
+        return self.value;
     } else {
-        return (NSString *)[optionKey objectAtIndex:selectedOptionIndex];
+        return (NSString *)[self.optionKey objectAtIndex:self.selectedOptionIndex];
     }
     
-}
-
--(NSString *) getKey {
-    return fieldId;
 }
 
 @end

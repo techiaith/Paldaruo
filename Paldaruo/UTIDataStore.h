@@ -45,6 +45,8 @@
  *  then user was not created successfully
  */
 - (UTIUser *)addNewUser:(NSString *)userName;
+- (UTIUser *)addNewUser:(NSString *)userName uid:(NSString *)uid;
+
 - (NSString *)http_createUser_completionBlock:(urlCompletionHandler)block;
 - (void)http_fetchOutstandingPrompts:(UTIPromptsTracker *)prompts useridentifier:(NSString *)ident;
 - (void)http_uploadAudio:(NSString *)uid identifier:(NSString*)ident;

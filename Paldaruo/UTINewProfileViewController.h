@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "UTIRequest.h"
 
-@interface UTINewProfileViewController : UIViewController <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UTIRequestDelegate> {
+@interface UTINewProfileViewController : UIViewController <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource> {
     int currentMetaDataFieldIndex;
 }
 
