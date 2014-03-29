@@ -32,10 +32,11 @@
         NSLog(@"ERROR: You must set a request path before submitting a request");
     }
     
-    NSString *urlString = [(self.serverURLString ? self.serverURLString : kServerHost) stringByAppendingPathComponent:self.requestPath];
+    NSURL *url = [NSURL URLWithString:(self.serverURLString ? self.serverURLString : kServerHost)];
+    url = [url URLByAppendingPathComponent:self.requestPath];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:urlString]];
+    [request setURL:url];
     [request setHTTPMethod:(self.requestHTTPMethod ? self.requestHTTPMethod : @"POST")];
     
     NSString *contentType = self.contentType;
