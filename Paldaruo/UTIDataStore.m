@@ -7,7 +7,7 @@
 //
 
 #import "UTIDataStore.h"
-
+#import "UTIRequest.h"
 
 @implementation UTIDataStore
 
@@ -53,7 +53,7 @@
 
 - (UTIUser *)addNewUser:(NSString *)userName {
 
-    NSString *uid = [self http_createUser_delegate:nil];
+    NSString *uid = [self http_createUser];
     
     if (!uid) {
         return nil;
@@ -166,47 +166,34 @@
 }
 
 
+- (NSString *)http_createUser {
+    return [self http_createUser_completionBlock:nil];
+}
 
-- (NSString *)http_createUser_delegate:(id <UTIRequestDelegate>)delegate {
+
+- (NSString *)http_createUser_completionBlock:(urlCompletionHandler)block {
+    
+    
     NSString __block *newUserId=nil;
     
-    NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/createUser";
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:urlString]];
-    [request setHTTPMethod:@"POST"];
     
-    NSString *boundary = @"---------------------------14737809831466499882746641449";
-    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
-    [request addValue:contentType forHTTPHeaderField:@"Content-Type"];
-    
-    NSMutableData *body = [NSMutableData data];
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [request setHTTPBody:body];
-    
-    NSError *error;
-    
-    NSData *result = [NSURLConnection sendSynchronousRequest:request
-                          returningResponse:nil
-                                      error:&error];
-    
-    if (error==nil) {
-        
-        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
-        //                                                message: jsonString
-        //                                               delegate: nil
-        //                                      cancelButtonTitle: @"Iawn"
-        //                                      otherButtonTitles: nil];
-        
-        //[alert show];
-        
-        NSDictionary *json=[NSJSONSerialization JSONObjectWithData:result
-                                                           options:kNilOptions
-                                                             error:nil];
-        
-        NSDictionary *jsonResponse = json[@"response"];
-        newUserId = jsonResponse[@"uid"];
-        
+    UTIRequest *r = [UTIRequest new];
+    r.requestPath = @"createUser";
+    if (block) {
+        r.completionHandler = block;
+        [r sendRequestAsync];
+        return nil;
+    } else {
+        r.completionHandler = ^(NSURLResponse *response, NSData *data, NSError *error) {
+            if (error==nil) {
+                NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
+                                                                   options:kNilOptions
+                                                                     error:nil];
+                NSDictionary *jsonResponse = json[@"response"];
+                newUserId = jsonResponse[@"uid"];
+            }
+        };
+        [r sendRequestSync];
     }
     return newUserId;
 }

@@ -45,7 +45,7 @@
  *  then user was not created successfully
  */
 - (UTIUser *)addNewUser:(NSString *)userName;
-- (NSString *)http_createUser_delegate:(id <UTIRequestDelegate>)delegate;
+- (NSString *)http_createUser_completionBlock:(urlCompletionHandler)block;
 - (void)http_fetchOutstandingPrompts:(UTIPromptsTracker *)prompts useridentifier:(NSString *)ident;
 - (void)http_uploadAudio:(NSString *)uid identifier:(NSString*)ident;
 - (void)http_uploadAudioFile:(NSString *)uid

@@ -138,7 +138,54 @@
     if ([newUserName length] > 0){
         // The new user (if created) is automatically made the active user
         [self.txtBoxNewProfileName resignFirstResponder];
-        [[UTIDataStore sharedDataStore] http_createUser_delegate:self];
+        [[UTIDataStore sharedDataStore] http_createUser_completionBlock:^(NSURLResponse *response, NSData *data, NSError *error) {
+            [DejalBezelActivityView removeView];
+            if (!data) {
+                [self.txtBoxNewProfileName becomeFirstResponder];
+                NSString *errmsg = nil;
+                switch (error.code) {
+                    case -1001: {
+                        errmsg = @"Terfyn Amser Gweinydd";
+                        break;
+                    }
+                default: {
+                    errmsg = error.localizedDescription;
+                    break;
+                }
+                }
+                self.lblOutletError.text =  errmsg;
+                self.lblOutletError.hidden = NO;
+                return;
+            }
+            
+            NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
+                                                               options:kNilOptions
+                                                                 error:nil];
+            
+            NSDictionary *jsonResponse = json[@"response"];
+            NSString *uid = jsonResponse[@"uid"];
+            
+            if (uid) {
+                [[self btnOutletCreateUser] setUserInteractionEnabled:NO];
+                [[self btnOutletCreateUser]setHidden:YES];
+                
+                [[self txtBoxNewProfileName] setHidden:YES];
+                [[self lblOutletNewProfileNameFieldDescription] setHidden:YES];
+                
+                [[UTIDataStore sharedDataStore] http_getMetadata:uid];
+                
+                [self.lblOutletMetaDataField_Title setHidden:NO];
+                [self.lblOutletMetaDataField_Question setHidden:NO];
+                [self.lblOutletMetaDataField_Explanation setHidden:NO];
+                [self.pickerViewOutletMetaDataOption setHidden:NO];
+                [self.btnOutletNextQuestion setHidden:NO];
+            } else {
+                // display some kind of error
+                self.lblOutletError.text =  error.localizedDescription;
+                self.lblOutletError.hidden = NO;
+            }
+            
+        }];
         [DejalBezelActivityView activityViewForView:self.view withLabel:@"Llwytho…"];
         
     } else {
@@ -149,52 +196,6 @@
         self.lblOutletError.text = errorText;
         self.lblOutletError.hidden = NO;
     }
-}
-
-
-- (void)handleRequest:(UTIRequest *)request withResponse:(NSURLResponse *)response body:(NSData *)data error:(NSError *)error {
-    [DejalBezelActivityView removeView];
-    if (!data) {
-        [self.txtBoxNewProfileName becomeFirstResponder];
-        self.lblOutletError.text =  error.localizedDescription;
-        self.lblOutletError.hidden = NO;
-        return;
-    }
-    
-    NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
-                                                       options:kNilOptions
-                                                         error:nil];
-    
-    NSDictionary *jsonResponse = json[@"response"];
-    NSString *uid = jsonResponse[@"uid"];
-    
-    if (uid) {
-        [[self btnOutletCreateUser] setUserInteractionEnabled:NO];
-        [[self btnOutletCreateUser]setHidden:YES];
-        
-        [[self txtBoxNewProfileName] setHidden:YES];
-        [[self lblOutletNewProfileNameFieldDescription] setHidden:YES];
-        
-        [[UTIDataStore sharedDataStore] http_getMetadata:uid];
-        
-        [self.lblOutletMetaDataField_Title setHidden:NO];
-        [self.lblOutletMetaDataField_Question setHidden:NO];
-        [self.lblOutletMetaDataField_Explanation setHidden:NO];
-        [self.pickerViewOutletMetaDataOption setHidden:NO];
-        [self.btnOutletNextQuestion setHidden:NO];
-    } else {
-        // display some kind of error
-        self.lblOutletError.text =  error.localizedDescription;
-        self.lblOutletError.hidden = NO;
-    }
-}
-
-
-
-- (IBAction)btnActionStartSession:(id)sender {
-    
-    
-    
 }
 
 
