@@ -8,12 +8,15 @@
 
 #import "UTIWelcomeViewController.h"
 #import "UTIDataStore.h"
+#import "UTIReachability.h"
+
 
 @interface UTIWelcomeViewController ()
 
 @end
 
 @implementation UTIWelcomeViewController
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -24,9 +27,21 @@
     return self;
 }
 
+- (void) dealloc {
+    
+    // view did load
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetReachable"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetUnreachable"
+                                                  object:nil];
+}
+
+
 - (void)viewDidLoad
 {
-
     //self.dataStore=[[UTIDataStore alloc] init];
 
 	// Do any additional setup after loading the view.
@@ -40,8 +55,21 @@
         [self.picklistOutletExistingUsers setHidden:YES];
     }
    
-    [super viewDidLoad];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetReachable:)
+                                                 name:@"InternetReachable"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetUnreachable:)
+                                                 name:@"InternetUnreachable"
+                                               object:nil];
+    
+    [UTIReachability instance];
+   
+    
+    [super viewDidLoad];
     
 }
 
@@ -69,6 +97,7 @@
 }
 
 - (IBAction)btnStartSession:(id)sender {
+    
     NSInteger row;
     
     row = [self.picklistOutletExistingUsers selectedRowInComponent:0];
@@ -91,5 +120,18 @@
     [alert show];
     */
 }
+
+
+-(void)handleInternetReachable:(NSNotification *)notification {
+    [self.btnOutletStartSession setEnabled:YES];
+    [self.btnOutletAddProfile setEnabled:YES];
+}
+
+
+-(void)handleInternetUnreachable:(NSNotification *)notification {
+    [self.btnOutletStartSession setEnabled:NO];
+    [self.btnOutletAddProfile setEnabled:NO];
+}
+
 
 @end

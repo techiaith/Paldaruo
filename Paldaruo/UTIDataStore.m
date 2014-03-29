@@ -7,6 +7,8 @@
 //
 
 #import "UTIDataStore.h"
+#import "UTIReachability.h"
+
 
 @implementation UTIDataStore
 
@@ -79,19 +81,81 @@
 -(void) http_uploadAudio: (NSString*) uid
               identifier:(NSString*) ident {
     
-    UTIRequest *request = [UTIRequest new];
-    request.requestPath = @"savePrompt";
+    NSString *filename = [NSString stringWithFormat:@"%@.wav", ident];
+    NSString *uidTempDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:uid];
     
-    // Add the UID data object
-    [request addBodyString:[NSString stringWithFormat:@"content-disposition: form-data; name=\"uid\"\r\n\r\n%@", uid] usingEncoding:NSUTF8StringEncoding];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:uidTempDirectory])
+        [[NSFileManager defaultManager] createDirectoryAtPath:uidTempDirectory
+                                  withIntermediateDirectories:NO
+                                                   attributes:nil
+                                                        error:nil];
+    
+    NSString *audioFileSource = [NSTemporaryDirectory() stringByAppendingString:@"audioRecording.wav"];
+    NSString *audioFileTarget = [uidTempDirectory stringByAppendingFormat:@"/%@", filename];
+    
+    [[NSFileManager defaultManager] copyItemAtPath:audioFileSource toPath:audioFileTarget error:nil];
+    
+    NSURL *audioFileURL = [NSURL fileURLWithPath:audioFileTarget];
+    //[NSTemporaryDirectory()stringByAppendingString:@"audioRecording.wav"]];
+    
+    [self http_uploadAudioFile:uid identifier:ident filename:filename URL:audioFileURL];
+    
+}
+
+
+- (void)http_uploadOutstandingAudio:(NSString*) uid {
+    
+    NSString *uidTempDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:uid];
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    
+    for (NSString* fileName in [fileManager contentsOfDirectoryAtPath:uidTempDirectory error:nil]) {
+        
+        NSString *audioFileTarget = [uidTempDirectory stringByAppendingFormat:@"/%@", fileName];
+        NSURL *audioFileURL = [NSURL fileURLWithPath:audioFileTarget];
+        
+        NSString* ident = [fileName stringByReplacingOccurrencesOfString:@".wav"withString:@""];
+        
+        [self http_uploadAudioFile:uid
+                        identifier:ident
+                          filename:fileName
+                               URL:audioFileURL];
+
+    }
+
+}
+
+
+- (void)http_uploadAudioFile:(NSString*) uid
+                  identifier:(NSString*) ident
+                    filename:(NSString*) filename
+                         URL:(NSURL*) audioFileURL {
+    
+    NSData *file1Data = [[NSData alloc] initWithContentsOfURL:audioFileURL];
+    
+    //NSString *urlString = @"http://techiaith.bangor.ac.uk/gallu/upload/upload.php";
+    NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/savePrompt";
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:urlString]];
+    [request setHTTPMethod:@"POST"];
+    
+    NSString *boundary = @"---------------------------14737809831466499882746641449";
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
+    [request addValue:contentType forHTTPHeaderField: @"Content-Type"];
+    
+    NSMutableData *body = [NSMutableData data];
+    
+    // add uid
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid]] dataUsingEncoding:NSUTF8StringEncoding]];
 
     // add prompt id
     [request addBodyString:[NSString stringWithFormat:@"content-disposition: form-data; name=\"promptId\"\r\n\r\n%@", ident] usingEncoding:NSUTF8StringEncoding];
 
     // add wav file
-    NSString *filename = [NSString stringWithFormat:@"%@.wav", ident];
-
-    [request addBodyString:[NSString stringWithFormat:@"content-disposition: form-data; name=\"file\"; filename=\"%@\"\r\n", filename] usingEncoding:NSUTF8StringEncoding];
+    
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n", filename]] dataUsingEncoding:NSUTF8StringEncoding]];
     
     [request addBodyString:@"Content-Type: audio/wav\r\n\r\n" usingEncoding:NSUTF8StringEncoding];
     
@@ -127,29 +191,51 @@
 - (NSString *)http_createUser_delegate:(id <UTIRequestDelegate>)delegate {
     NSString __block *newUserId=nil;
     
-    UTIRequest *r = [UTIRequest new];
-    r.requestPath = @"createUser";
-    if (delegate) {
-        r.delegate = delegate;
-        [r sendRequestAsync];
-    } else {
-    r.completionHandler = ^(NSURLResponse *response, NSData *data, NSError *error) {
-        if (!error) {
-            NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
-                                                               options:kNilOptions
-                                                                 error:nil];
-            
-            NSDictionary *jsonResponse = json[@"response"];
-            newUserId = jsonResponse[@"uid"];
-        }
-    };
-    [r sendRequestSync];
-    }
+    NSString *newUserId=nil;
     
-
+    NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/createUser";
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:urlString]];
+    [request setHTTPMethod:@"POST"];
+    
+    NSString *boundary = @"---------------------------14737809831466499882746641449";
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
+    [request addValue:contentType forHTTPHeaderField:@"Content-Type"];
+    
+    NSMutableData *body = [NSMutableData data];
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    [request setHTTPBody:body];
+    
+    NSError *error;
+    
+    NSData *result = [NSURLConnection sendSynchronousRequest:request
+                          returningResponse:nil
+                                      error:&error];
+    
+    if (error==nil) {
+        
+        //newUserId=[[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
+        NSString *jsonString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
+        
+        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
+        //                                                message: jsonString
+        //                                               delegate: nil
+        //                                      cancelButtonTitle: @"Iawn"
+        //                                      otherButtonTitles: nil];
+        
+        //[alert show];
+        
+        NSDictionary *json=[NSJSONSerialization JSONObjectWithData:result
+                                                           options:kNilOptions
+                                                             error:nil];
+        
+        NSDictionary *jsonResponse = json[@"response"];
+        newUserId = jsonResponse[@"uid"];
+        
+    }
     return newUserId;
 }
-
 
 
 -(void) http_fetchOutstandingPrompts:(UTIPromptsTracker*)prompts useridentifier:(NSString *)uid {
@@ -192,6 +278,8 @@
     [r sendRequestSync];
     
 }
+
+
 
 -(void) http_getMetadata: (NSString*) uid {
     
@@ -256,12 +344,26 @@
     
 }
 
--(void) http_saveMetadata: (NSString*) uid {
-    UTIRequest *r = [UTIRequest new];
-    r.requestPath = @"saveMetadata";
+
+-(BOOL) http_saveMetadata: (NSString*) uid {
     
-    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid] usingEncoding:NSUTF8StringEncoding];
+    BOOL returnResult = YES;
     
+    NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/saveMetadata";
+
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:urlString]];
+    [request setHTTPMethod:@"POST"];
+    
+    
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
+    [request addValue:contentType forHTTPHeaderField:@"Content-Type"];
+    
+    NSMutableData *body = [NSMutableData data];
+    
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid]] dataUsingEncoding:NSUTF8StringEncoding]];
     
     // get the metadata fields values as a key/value dictionary
     NSMutableDictionary *metaDataValues = [[NSMutableDictionary alloc] init];
@@ -277,24 +379,80 @@
     
     [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"metadata\"\r\n\r\n%@", jsonString] usingEncoding:NSUTF8StringEncoding];
     
+    [request setHTTPBody:body];
+
+    NSError *error;
+    NSURLResponse *returningResponse;
     
-    [r setCompletionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        if (error!=nil) {
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho Meta Data"
-                                                            message: @"Gwall cyffredinol wrth lwytho eich metadata i fyny"
-                                                           delegate: nil
-                                                  cancelButtonTitle: @"Iawn"
-                                                  otherButtonTitles: nil];
-            [alert show];
-        }
-    }];
+    NSData *result = [NSURLConnection sendSynchronousRequest:request
+                                           returningResponse:&returningResponse
+                                                       error:&error];
+    
+    NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)returningResponse;
+    int code = [httpResponse statusCode];
+
+    
+    if ((error!=nil) || (code!=200)) {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho Meta Data"
+                                                        message: @"Gwall cyffredinol wrth lwytho eich metadata i fyny"
+                                                       delegate: nil
+                                              cancelButtonTitle: @"Iawn"
+                                              otherButtonTitles: nil];
+        [alert show];
+        
+        returnResult=NO;
+
+    }
+    
+    return returnResult;
     
 }
 
-- (void)saveProfiles {
-    NSData *profilesData = [NSKeyedArchiver archivedDataWithRootObject:allProfilesArray];
-    [[NSUserDefaults standardUserDefaults] setObject:profilesData forKey:@"AllProfiles"];
+
+
+-(void) handleResponseUploadAudio:(NSData *)data error:(NSError *)error {
+    
+    
+    if ([data length] >0 && error == nil) {
+    
+        //NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
+        //                                                   options:kNilOptions
+        //                                                     error:nil];
+        
+        NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
+                                                           options:kNilOptions
+                                                             error:nil];
+        
+        NSDictionary *jsonResponse = json[@"response"];
+        NSString *filename = jsonResponse[@"fileId"];
+        NSString *uid = jsonResponse[@"uid"];
+        
+        NSString *uidTempDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:uid];
+        NSString *deleteFileTarget = [uidTempDirectory stringByAppendingFormat:@"/%@",filename];
+        
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        BOOL fileExists = [fileManager fileExistsAtPath:deleteFileTarget];
+        if (fileExists){
+            [fileManager removeItemAtPath:deleteFileTarget error:Nil];
+        }
+        
+    }
+    else{
+        
+        //[[UTIReachability instance] isPaldaruoReachable];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Problem Cysylltu"
+                                                        message: @"Gwiriwch ac ail-gysylltwch eich ddyfais i'r rhwydwaith ddi-wifr cyn barhau"
+                                                       delegate: nil
+                                              cancelButtonTitle: @"Iawn"
+                                              otherButtonTitles: nil];
+        [alert show];
+        
+    }
+    
 }
+
 
 @end

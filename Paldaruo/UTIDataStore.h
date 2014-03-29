@@ -48,6 +48,11 @@
 - (NSString *)http_createUser_delegate:(id <UTIRequestDelegate>)delegate;
 - (void)http_fetchOutstandingPrompts:(UTIPromptsTracker *)prompts useridentifier:(NSString *)ident;
 - (void)http_uploadAudio:(NSString *)uid identifier:(NSString*)ident;
+- (void)http_uploadAudioFile:(NSString *)uid
+                  identifier:(NSString *)ident
+                    filename:(NSString *)filename
+                         URL:(NSURL *)audioFileURL;
+
 - (void)http_getMetadata:(NSString *)uid;
 - (void)http_saveMetadata:(NSString *)uid;
 

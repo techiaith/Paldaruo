@@ -8,7 +8,9 @@
 
 #import "UTINewProfileViewController.h"
 #import "UTIDataStore.h"
+#import "UTIReachability.h"
 #import "DejalActivityView.h"
+
 
 @interface UTINewProfileViewController () 
 
@@ -49,6 +51,19 @@
 }
 
 
+- (void) dealloc {
+    
+    // view did load
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetReachable"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetUnreachable"
+                                                  object:nil];
+}
+
+
 - (void)viewDidLoad
 {
     [self.btnOutletStartSession setHidden:YES];
@@ -76,6 +91,21 @@
     [self.btnOutletPreviousQuestion setHidden:YES];
     
     //[self.lblOutletMetaDataField_Explanation sizeToFit];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetReachable:)
+                                                 name:@"InternetReachable"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetUnreachable:)
+                                                 name:@"InternetUnreachable"
+                                               object:nil];
+    
+    [UTIReachability instance];
+    
+
     
     [super viewDidLoad];
     
@@ -202,9 +232,7 @@
 
 - (IBAction)btnActionStartSession:(id)sender {
     
-    NSString *uid=[[UTIDataStore sharedDataStore] activeUser].uid;
-    
-    [[UTIDataStore sharedDataStore] http_saveMetadata:uid];
+   
     
 }
 
@@ -258,7 +286,6 @@
         } else {
             NSInteger row = [self.pickerViewOutletMetaDataOption selectedRowInComponent:0];
             [localCopyCurrentMetaDataField setSelectedOptionWithIndex:row];
-            //[self.pickerViewOutletMetaDataOption selectRow:0 inComponent:0 animated:NO];
         }
         currentMetaDataFieldIndex++;
         
@@ -322,19 +349,62 @@
     } else {
         
         [self.btnOutletNextQuestion setHidden:YES];
-        //[self.btnOutletPreviousQuestion setHidden:YES];
         
         [self.lblOutletMetaDataField_Title setHidden:YES];
         [self.lblOutletMetaDataField_Question setHidden:YES];
         [self.lblOutletMetaDataField_Explanation setHidden:YES];
         [self.textFieldOutletMetaDataFreeText setHidden:YES];
         [self.pickerViewOutletMetaDataOption setHidden:YES];
+
+        NSInteger userIndex=[[UTIDataStore sharedDataStore] activeUserIndex];
+        NSString *uid=[[[[UTIDataStore sharedDataStore] allProfilesArray] objectAtIndex:userIndex] objectForKey:@"uid"];
         
-        [self.btnOutletStartSession setHidden:NO];
+        BOOL success = [[UTIDataStore sharedDataStore] http_saveMetadata:uid];
+        
+        if (success){
+            [self.btnOutletStartSession setHidden:NO];
+            [self.btnOutletPreviousQuestion setHidden:YES];
+        }
         
     }
 
 }
+
+
+-(void)handleInternetReachable:(NSNotification *)notification {
+    
+    [self.btnOutletCreateUser setEnabled:YES];
+    [self.btnOutletStartSession setEnabled:YES];
+    [self.btnOutletNextQuestion setEnabled:YES];
+    [self.btnOutletPreviousQuestion setEnabled:YES];
+    
+    [self.lblOutletNewProfileNameFieldDescription setEnabled:YES];
+    
+    [self.lblOutletMetaDataField_Title setEnabled:YES];
+    [self.lblOutletMetaDataField_Question setEnabled:YES];
+    [self.lblOutletMetaDataField_Explanation setEnabled:YES];
+    
+    [self.textFieldOutletMetaDataFreeText setEnabled:YES];
+
+}
+
+
+-(void)handleInternetUnreachable:(NSNotification *)notification {
+    
+    [self.btnOutletCreateUser setEnabled:NO];
+    [self.btnOutletStartSession setEnabled:NO];
+    [self.btnOutletNextQuestion setEnabled:NO];
+    [self.btnOutletPreviousQuestion setEnabled:NO];
+    
+    [self.lblOutletNewProfileNameFieldDescription setEnabled:NO];
+    
+    [self.lblOutletMetaDataField_Title setEnabled:NO];
+    [self.lblOutletMetaDataField_Question setEnabled:NO];
+    [self.lblOutletMetaDataField_Explanation setEnabled:NO];
+    
+    [self.textFieldOutletMetaDataFreeText setEnabled:NO];
+}
+
 
 
 @end
