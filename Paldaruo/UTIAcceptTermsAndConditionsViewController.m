@@ -23,6 +23,11 @@
 -(void)viewWillAppear:(BOOL)animated {
     [self.btnOutletAccept setHidden:NO];
     [self.btnOutletReject setHidden:NO];
+    
+    // Disable the buttons until the T&Cs have fully loaded
+    [self.btnOutletAccept setEnabled:NO];
+    [self.btnOutletReject setEnabled:NO];
+
     [self.backButton setHidden:YES];
     NSString *urlAdress=@"http://paldaruo.techiaith.bangor.ac.uk/telerau_v1.0.html";
     
@@ -33,11 +38,18 @@
     [self.webViewOutletTermsAndConditionsText loadRequest:requestObj];
     
 }
+
+#pragma mark WebView Delegate methods
+
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     
     [DejalActivityView removeView];
 #ifdef DEBUG
-    return;
+    [self.webViewOutletTermsAndConditionsText loadHTMLString:@"<p style='color:#ff0000;font-family:helvetica;text-align:center;vertical-align:middle;padding-top:20px'>DEBUG</p>" baseURL:nil];
+
+    [self.btnOutletAccept setEnabled:YES];
+    [self.btnOutletReject setEnabled:YES];
+    return
 #endif
     [self.btnOutletAccept setHidden:YES];
     [self.btnOutletReject setHidden:YES];
@@ -46,10 +58,10 @@
 
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [DejalActivityView removeView];
+    [self.btnOutletAccept setEnabled:YES];
+    [self.btnOutletReject setEnabled:YES];
 }
 
 @end

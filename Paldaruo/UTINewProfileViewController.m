@@ -167,19 +167,14 @@
             
             if (uid) {
                 [[UTIDataStore sharedDataStore] addNewUser:newUserName uid:uid];
-                [[self btnOutletCreateUser] setUserInteractionEnabled:NO];
-                [[self btnOutletCreateUser]setHidden:YES];
-                
-                [[self txtBoxNewProfileName] setHidden:YES];
-                [[self lblOutletNewProfileNameFieldDescription] setHidden:YES];
-                
                 [[UTIDataStore sharedDataStore] http_getMetadata:uid];
+                NSArray *prevViewControllers = [self.navigationController viewControllers];
+                if ([prevViewControllers count] > 2) {
+                    [self.navigationController popToViewController:[prevViewControllers objectAtIndex:1] animated:YES];
+                } else {
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                }
                 
-                [self.lblOutletMetaDataField_Title setHidden:NO];
-                [self.lblOutletMetaDataField_Question setHidden:NO];
-                [self.lblOutletMetaDataField_Explanation setHidden:NO];
-                [self.pickerViewOutletMetaDataOption setHidden:NO];
-                [self.btnOutletNextQuestion setHidden:NO];
             } else {
                 // display some kind of error
                 self.lblOutletError.text =  error.localizedDescription;

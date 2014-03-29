@@ -18,14 +18,13 @@
 
 
 @interface UTIDataStore : NSObject {
-
-    NSArray *allProfilesArray;
+    
     NSArray *metaDataFields;
     
 }
 
 @property UTIUser *activeUser;
-@property (nonatomic, retain) NSArray *allProfilesArray;
+@property (nonatomic, retain) NSMutableArray *allProfilesArray;
 @property (nonatomic, retain) NSArray *metaDataFields;
 
 - (UTIUser *)userAtIndex:(NSUInteger)idx;

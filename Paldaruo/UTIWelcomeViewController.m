@@ -16,7 +16,7 @@
 @implementation UTIWelcomeViewController
 
 
-- (void)viewDidLoad
+- (void)viewWillAppear:(BOOL)animated
 {
     //self.dataStore=[[UTIDataStore alloc] init];
 
@@ -25,18 +25,17 @@
     self.picklistOutletExistingUsers.dataSource = self;
     self.picklistOutletExistingUsers.showsSelectionIndicator=YES;
     
-    if ([[[UTIDataStore sharedDataStore] allProfilesArray] count] == 0) {
-        [self.btnOutletStartSession setHidden:YES];
-        [self.noProfilesLabel setHidden:NO];
-        [self.picklistOutletExistingUsers setHidden:YES];
-    }
+    BOOL hasNoProfiles = ([[[UTIDataStore sharedDataStore] allProfilesArray] count] == 0);
+    [self.btnOutletStartSession setHidden:hasNoProfiles];
+    [self.noProfilesLabel setHidden:!hasNoProfiles];
+    [self.picklistOutletExistingUsers setHidden:hasNoProfiles];
     
     UTIDataStore *d = [UTIDataStore sharedDataStore];
     [d addObserver:self forKeyPath:@"allProfilesArray" options:0 context:nil];
     
     [self.btnOutletStartSession setEnabled:([d.allProfilesArray count] > 0)];
     
-    [super viewDidLoad];
+    [super viewWillAppear:animated];
     
 }
 
@@ -48,14 +47,6 @@
     }
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
     return 1;
@@ -74,27 +65,11 @@
 
 - (IBAction)btnStartSession:(id)sender {
     
-    NSInteger row;
-    
-    row = [self.picklistOutletExistingUsers selectedRowInComponent:0];
+    NSInteger row = [self.picklistOutletExistingUsers selectedRowInComponent:0];
     UTIUser *user = [[UTIDataStore sharedDataStore] userAtIndex:row];
     [[UTIDataStore sharedDataStore] setActiveUser:user];
+    [self performSegueWithIdentifier:@"id_start" sender:self];
     
-}
-
-
-- (IBAction)btnCreateNewProfile:(id)sender {
-    
-    /*
-    NSString* newUserId = [[UTIDataStore sharedDataStore] http_createUser];
-    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
-                                                    message: newUserId
-                                                   delegate: nil
-                                          cancelButtonTitle: @"Iawn"
-                                          otherButtonTitles: nil];
-    [alert show];
-    */
 }
 
 

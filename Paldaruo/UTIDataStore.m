@@ -11,7 +11,6 @@
 
 @implementation UTIDataStore
 
-@synthesize allProfilesArray;
 @synthesize metaDataFields;
 
 +(id) sharedDataStore {
@@ -38,10 +37,10 @@
         NSUserDefaults *persistedStore=[NSUserDefaults standardUserDefaults];
         NSData *allProfiles = [persistedStore dataForKey:@"AllProfiles"];
         if (allProfiles!=nil) {
-            allProfilesArray = [NSKeyedUnarchiver unarchiveObjectWithData:allProfiles];
+            _allProfilesArray = [[NSKeyedUnarchiver unarchiveObjectWithData:allProfiles] mutableCopy];
         } else {
             
-            allProfilesArray=[[NSArray alloc] init];
+            _allProfilesArray=[[NSMutableArray alloc] init];
             
         }
         
@@ -63,14 +62,18 @@
     if (!uid) {
         return nil;
     }
+    
     UTIUser *newUser = [UTIUser userWithName:userName uid:uid];
     
     //NSString *newUserJsonString=[NSString stringWithFormat:@"{\"name\":\"%@\",\"uid\":\"%@\"}",userName, uid];
     //
-    allProfilesArray = [allProfilesArray arrayByAddingObject:newUser];
+    [self willChangeValueForKey:@"allProfilesArray"];
+    [self.allProfilesArray addObject:newUser];
+    [self didChangeValueForKey:@"allProfilesArray"];
     
     // make the new user the active user
     [self setActiveUser:newUser];
+    [self saveProfiles];
     return newUser;
     
 }
@@ -377,11 +380,6 @@
     
     if ([data length] >0 && error == nil) {
     
-        //NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
-        //                                                   options:kNilOptions
-        //                                                     error:nil];
-        
-        NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
                                                            options:kNilOptions
                                                              error:nil];
@@ -413,5 +411,10 @@
     
 }
 
+
+- (void)saveProfiles {
+    NSUserDefaults *persistedStore=[NSUserDefaults standardUserDefaults];
+    [persistedStore setObject:[NSKeyedArchiver archivedDataWithRootObject:self.allProfilesArray] forKey:@"AllProfiles"];
+}
 
 @end

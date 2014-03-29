@@ -16,7 +16,5 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletAddProfile;
 
 - (IBAction)btnStartSession:(id)sender;
-- (IBAction)btnCreateNewProfile:(id)sender;
-
 
 @end
