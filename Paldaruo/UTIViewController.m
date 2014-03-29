@@ -7,9 +7,6 @@
 //
 
 #import "UTIViewController.h"
-#import "UTIReachability.h"
-
-
 
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
@@ -83,8 +80,6 @@
                                              selector:@selector(handleInternetUnreachable:)
                                                  name:@"InternetUnreachable"
                                                object:nil];
-    
-    [UTIReachability instance];
     
 
     [super viewDidLoad];

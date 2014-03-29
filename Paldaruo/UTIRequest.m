@@ -107,6 +107,10 @@
     [self.bodyDataArray addObject:data];
 }
 
+- (void)addBodyString:(NSString *)string {
+    [self addBodyString:string usingEncoding:NSUTF8StringEncoding];
+}
+
 - (void)addBodyString:(NSString *)string usingEncoding:(NSStringEncoding)e {
     NSData *d = [string dataUsingEncoding:e];
     [self.bodyDataArray addObject:d];

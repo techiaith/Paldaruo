@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -56,10 +56,10 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="OvQ-eT-445">
-                                <rect key="frame" x="88" y="350" width="144" height="30"/>
+                                <rect key="frame" x="88" y="347" width="145" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Cychwyn arni >">
+                                <state key="normal" title="Cychwyn arni →">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -69,7 +69,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="6kj-aA-7P7">
                                 <rect key="frame" x="72" y="388" width="176" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Rhagor o wybodaeth...">
+                                <state key="normal" title="Rhagor o wybodaeth…">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -138,9 +138,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <webView contentMode="scaleToFill" id="0f8-zU-jgf">
-                                <rect key="frame" x="20" y="87" width="280" height="360"/>
+                                <rect key="frame" x="20" y="77" width="280" height="367"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.79474250637755106" green="0.79474250637755106" blue="0.79474250637755106" alpha="1" colorSpace="calibratedRGB"/>
                             </webView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="uti-logo.png" id="1RL-yX-s37">
                                 <rect key="frame" x="19" y="501" width="50" height="65"/>
@@ -165,9 +165,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ryy-dd-j5h" customClass="UTIButton">
-                                <rect key="frame" x="106" y="463" width="109" height="30"/>
+                                <rect key="frame" x="99" y="474" width="122" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <state key="normal" title="Nôl i'r Dechrau">
+                                <state key="normal" title="← Nôl i'r Dechrau">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -235,10 +235,10 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </pickerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="RVh-mz-TQ7" customClass="UTIButton">
-                                <rect key="frame" x="20" y="343" width="280" height="30"/>
+                                <rect key="frame" x="20" y="341" width="280" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Ychwanegu Proffil">
+                                <state key="normal" title="Ychwanegu Proffil +">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -246,10 +246,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="STx-HC-aCy" customClass="UTIButton">
-                                <rect key="frame" x="20" y="391" width="280" height="30"/>
+                                <rect key="frame" x="20" y="388" width="280" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Cychwyn >">
+                                <state key="normal" title="Cychwyn →">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -278,10 +278,12 @@
                                 <rect key="frame" x="237" y="510" width="65" height="51"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             </imageView>
-                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dim proffil ar hyn o bryd" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3Nv-Sn-NOD">
-                                <rect key="frame" x="21" y="233" width="279" height="21"/>
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3Nv-Sn-NOD">
+                                <rect key="frame" x="20" y="198" width="280" height="92"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <string key="text">Dim Proffil
+Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" name="keyboardFocusIndicatorColor" catalog="System" colorSpace="catalog"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -291,6 +293,8 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
                         <outlet property="btnOutletAddProfile" destination="RVh-mz-TQ7" id="Gvx-kB-ElI"/>
+                        <outlet property="btnOutletStartSession" destination="STx-HC-aCy" id="H8F-TE-1T2"/>
+                        <outlet property="noProfilesLabel" destination="3Nv-Sn-NOD" id="kLX-4u-lcb"/>
                         <outlet property="picklistOutletExistingUsers" destination="Wsn-xR-xVO" id="MJx-iP-tpK"/>
                     </connections>
                 </viewController>
@@ -487,6 +491,9 @@
                                 <rect key="frame" x="20" y="79" width="280" height="320"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Teu-rc-PHm" id="GMn-TA-3TU"/>
+                                </connections>
                             </webView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="L7O-KY-hhM">
                                 <rect key="frame" x="20" y="407" width="279" height="42"/>
@@ -508,10 +515,21 @@
                                     <segue destination="vXZ-lx-hvc" kind="modal" id="1Ct-8Q-A1y"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3Em-qn-GyZ">
+                                <rect key="frame" x="20" y="430" width="279" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <state key="normal" title="← Yn ôl">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="vXZ-lx-hvc" kind="modal" id="ymP-fK-mzx"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="backButton" destination="3Em-qn-GyZ" id="nT7-4o-Hh8"/>
                         <outlet property="btnOutletAccept" destination="L7O-KY-hhM" id="EmR-AE-rxh"/>
                         <outlet property="btnOutletReject" destination="V54-3V-vln" id="zvk-UQ-fVF"/>
                         <outlet property="webViewOutletTermsAndConditionsText" destination="lNB-t8-33i" id="zS7-ga-Qbz"/>
@@ -776,7 +794,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="1Ct-8Q-A1y"/>
-        <segue reference="MTr-r7-OSV"/>
+        <segue reference="VtZ-rJ-pzR"/>
+        <segue reference="fAV-jv-w5R"/>
     </inferredMetricsTieBreakers>
 </document>

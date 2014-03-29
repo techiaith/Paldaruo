@@ -46,6 +46,7 @@ typedef void (^urlCompletionHandler)(NSURLResponse *response, NSData *data, NSEr
 - (void)setCompletionHandler:(urlCompletionHandler)c;
 - (urlCompletionHandler)completionHandler;
 - (void)addBodyData:(NSData *)data;
+- (void)addBodyString:(NSString *)string;
 - (void)addBodyString:(NSString *)string usingEncoding:(NSStringEncoding)e;
 
 @end

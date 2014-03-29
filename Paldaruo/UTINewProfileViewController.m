@@ -8,11 +8,10 @@
 
 #import "UTINewProfileViewController.h"
 #import "UTIDataStore.h"
-#import "UTIReachability.h"
 #import "DejalActivityView.h"
+#import "Reachability.h"
 
-
-@interface UTINewProfileViewController () 
+@interface UTINewProfileViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletCreateUser;
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletStartSession;
@@ -41,29 +40,6 @@
 
 @implementation UTINewProfileViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-
-- (void) dealloc {
-    
-    // view did load
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:@"InternetReachable"
-                                                  object:nil];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:@"InternetUnreachable"
-                                                  object:nil];
-}
-
-
 - (void)viewDidLoad
 {
     [self.btnOutletStartSession setHidden:YES];
@@ -81,7 +57,7 @@
     self.pickerViewOutletMetaDataOption.delegate = self;
     self.pickerViewOutletMetaDataOption.dataSource = self;
     self.pickerViewOutletMetaDataOption.showsSelectionIndicator=YES;
-
+    
     // first form presentation is the text box for the profilename
     // select the text box and show the keyboard.
     
@@ -91,21 +67,6 @@
     [self.btnOutletPreviousQuestion setHidden:YES];
     
     //[self.lblOutletMetaDataField_Explanation sizeToFit];
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleInternetReachable:)
-                                                 name:@"InternetReachable"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleInternetUnreachable:)
-                                                 name:@"InternetUnreachable"
-                                               object:nil];
-    
-    [UTIReachability instance];
-    
-
     
     [super viewDidLoad];
     
@@ -147,7 +108,7 @@
     
     if (localCopyMetaDataFields.count>0) {
         UTIMetaDataField *localCopyMetaDataField=[localCopyMetaDataFields objectAtIndex:currentMetaDataFieldIndex];
-
+        
         return [localCopyMetaDataField->optionValue objectAtIndex:row];
     }
     else {
@@ -179,7 +140,7 @@
         [self.txtBoxNewProfileName resignFirstResponder];
         [[UTIDataStore sharedDataStore] http_createUser_delegate:self];
         [DejalBezelActivityView activityViewForView:self.view withLabel:@"Llwytho…"];
-    
+        
     } else {
         errorText = @"Rhaid rhoi enw i'r proffil";
     }
@@ -203,10 +164,10 @@
     NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
                                                        options:kNilOptions
                                                          error:nil];
-
+    
     NSDictionary *jsonResponse = json[@"response"];
     NSString *uid = jsonResponse[@"uid"];
-
+    
     if (uid) {
         [[self btnOutletCreateUser] setUserInteractionEnabled:NO];
         [[self btnOutletCreateUser]setHidden:YES];
@@ -232,7 +193,7 @@
 
 - (IBAction)btnActionStartSession:(id)sender {
     
-   
+    
     
 }
 
@@ -243,7 +204,7 @@
 
 
 -(void) goToPreviousMetaDataField {
-
+    
     if (currentMetaDataFieldIndex>0)
         currentMetaDataFieldIndex=currentMetaDataFieldIndex-1;
     else
@@ -266,12 +227,12 @@
     
     [self showFormForCurrentMetaDataField];
     
-
+    
 }
 
 
 -(void) goToNextMetaDataField:(BOOL) increment {
-
+    
     //
     NSArray *localCopyMetaDataFields=[[UTIDataStore sharedDataStore] metaDataFields];
     
@@ -303,7 +264,7 @@
 {
     //
     NSArray *localCopyMetaDataFields=[[UTIDataStore sharedDataStore] metaDataFields];
-
+    
     //
     if (currentMetaDataFieldIndex < localCopyMetaDataFields.count) {
         
@@ -355,9 +316,8 @@
         [self.lblOutletMetaDataField_Explanation setHidden:YES];
         [self.textFieldOutletMetaDataFreeText setHidden:YES];
         [self.pickerViewOutletMetaDataOption setHidden:YES];
-
-        NSInteger userIndex=[[UTIDataStore sharedDataStore] activeUserIndex];
-        NSString *uid=[[[[UTIDataStore sharedDataStore] allProfilesArray] objectAtIndex:userIndex] objectForKey:@"uid"];
+        
+        NSString *uid = [[UTIDataStore sharedDataStore] activeUser].uid;
         
         BOOL success = [[UTIDataStore sharedDataStore] http_saveMetadata:uid];
         
@@ -367,44 +327,8 @@
         }
         
     }
-
+    
 }
-
-
--(void)handleInternetReachable:(NSNotification *)notification {
-    
-    [self.btnOutletCreateUser setEnabled:YES];
-    [self.btnOutletStartSession setEnabled:YES];
-    [self.btnOutletNextQuestion setEnabled:YES];
-    [self.btnOutletPreviousQuestion setEnabled:YES];
-    
-    [self.lblOutletNewProfileNameFieldDescription setEnabled:YES];
-    
-    [self.lblOutletMetaDataField_Title setEnabled:YES];
-    [self.lblOutletMetaDataField_Question setEnabled:YES];
-    [self.lblOutletMetaDataField_Explanation setEnabled:YES];
-    
-    [self.textFieldOutletMetaDataFreeText setEnabled:YES];
-
-}
-
-
--(void)handleInternetUnreachable:(NSNotification *)notification {
-    
-    [self.btnOutletCreateUser setEnabled:NO];
-    [self.btnOutletStartSession setEnabled:NO];
-    [self.btnOutletNextQuestion setEnabled:NO];
-    [self.btnOutletPreviousQuestion setEnabled:NO];
-    
-    [self.lblOutletNewProfileNameFieldDescription setEnabled:NO];
-    
-    [self.lblOutletMetaDataField_Title setEnabled:NO];
-    [self.lblOutletMetaDataField_Question setEnabled:NO];
-    [self.lblOutletMetaDataField_Explanation setEnabled:NO];
-    
-    [self.textFieldOutletMetaDataFreeText setEnabled:NO];
-}
-
 
 
 @end

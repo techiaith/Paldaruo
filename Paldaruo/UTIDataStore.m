@@ -7,7 +7,6 @@
 //
 
 #import "UTIDataStore.h"
-#import "UTIReachability.h"
 
 
 @implementation UTIDataStore
@@ -130,39 +129,19 @@
                     filename:(NSString*) filename
                          URL:(NSURL*) audioFileURL {
     
-    NSData *file1Data = [[NSData alloc] initWithContentsOfURL:audioFileURL];
-    
-    //NSString *urlString = @"http://techiaith.bangor.ac.uk/gallu/upload/upload.php";
-    NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/savePrompt";
-    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:urlString]];
-    [request setHTTPMethod:@"POST"];
-    
-    NSString *boundary = @"---------------------------14737809831466499882746641449";
-    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
-    [request addValue:contentType forHTTPHeaderField: @"Content-Type"];
-    
-    NSMutableData *body = [NSMutableData data];
-    
-    // add uid
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid]] dataUsingEncoding:NSUTF8StringEncoding]];
-
-    // add prompt id
-    [request addBodyString:[NSString stringWithFormat:@"content-disposition: form-data; name=\"promptId\"\r\n\r\n%@", ident] usingEncoding:NSUTF8StringEncoding];
+    UTIRequest *r = [UTIRequest new];
+    r.requestPath = @"savePrompt";
+    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid]];
+    [r addBodyString:[NSString stringWithFormat:@"content-disposition: form-data; name=\"promptId\"\r\n\r\n%@", ident]];
 
     // add wav file
     
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n", filename]] dataUsingEncoding:NSUTF8StringEncoding]];
+    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n", filename]];
+    [r addBodyString:@"Content-Type: audio/wav\r\n\r\n"];
     
-    [request addBodyString:@"Content-Type: audio/wav\r\n\r\n" usingEncoding:NSUTF8StringEncoding];
+    [r addBodyData:[[NSData alloc] initWithContentsOfURL:audioFileURL]];
     
-    NSURL *audioFileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:@"audioRecording.wav"]];
-    [request addBodyData:[[NSData alloc] initWithContentsOfURL:audioFileURL]];
-    
-    [request setCompletionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+    [r setCompletionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         NSString *message = nil;
         if ([data length] == 0 && error == nil) {
             message = @"Ymateb gwag";
@@ -182,7 +161,7 @@
         [alert show];
     }];
     
-    [request sendRequestAsync];
+    [r sendRequestAsync];
     
 }
 
@@ -190,8 +169,6 @@
 
 - (NSString *)http_createUser_delegate:(id <UTIRequestDelegate>)delegate {
     NSString __block *newUserId=nil;
-    
-    NSString *newUserId=nil;
     
     NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/createUser";
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -214,9 +191,6 @@
                                       error:&error];
     
     if (error==nil) {
-        
-        //newUserId=[[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
-        NSString *jsonString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
         
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
         //                                                message: jsonString
@@ -242,7 +216,7 @@
     UTIRequest *r = [UTIRequest new];
     r.requestPath = @"getOutstandingPrompts";
     
-    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid] usingEncoding:NSUTF8StringEncoding];
+    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid]];
     
     [r setCompletionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         if (!error) {
@@ -286,7 +260,7 @@
     UTIRequest *r = [UTIRequest new];
     r.requestPath = @"getMetadata";
     
-    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid] usingEncoding:NSUTF8StringEncoding];
+    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid]];
     
     
     [r setCompletionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
@@ -345,7 +319,7 @@
 }
 
 
--(BOOL) http_saveMetadata: (NSString*) uid {
+- (BOOL)http_saveMetadata: (NSString*) uid {
     
     BOOL returnResult = YES;
     
@@ -356,12 +330,12 @@
     [request setHTTPMethod:@"POST"];
     
     
-    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",kRequestBoundary];
     [request addValue:contentType forHTTPHeaderField:@"Content-Type"];
     
     NSMutableData *body = [NSMutableData data];
     
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",kRequestBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
     
     [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid]] dataUsingEncoding:NSUTF8StringEncoding]];
     
@@ -377,7 +351,7 @@
     NSString *jsonString=[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
     
-    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"metadata\"\r\n\r\n%@", jsonString] usingEncoding:NSUTF8StringEncoding];
+    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"metadata\"\r\n\r\n%@", jsonString] dataUsingEncoding:NSUTF8StringEncoding]];
     
     [request setHTTPBody:body];
 
@@ -440,8 +414,6 @@
         
     }
     else{
-        
-        //[[UTIReachability instance] isPaldaruoReachable];
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Problem Cysylltu"
                                                         message: @"Gwiriwch ac ail-gysylltwch eich ddyfais i'r rhwydwaith ddi-wifr cyn barhau"
