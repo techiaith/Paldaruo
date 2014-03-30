@@ -16,6 +16,7 @@ typedef void (^urlCompletionHandler)(NSURLResponse *response, NSData *data, NSEr
  */
 @interface UTIRequest : NSObject {
     urlCompletionHandler _completionHandler;
+    NSData *_boundaryData;
 }
 
 @property NSString * serverURLString;
@@ -35,8 +36,8 @@ typedef void (^urlCompletionHandler)(NSURLResponse *response, NSData *data, NSEr
 
 - (void)setCompletionHandler:(urlCompletionHandler)c;
 - (urlCompletionHandler)completionHandler;
-- (void)addBodyData:(NSData *)data;
-- (void)addBodyString:(NSString *)string;
-- (void)addBodyString:(NSString *)string usingEncoding:(NSStringEncoding)e;
+- (void)addBodyData:(NSData *)data withBoundary:(BOOL)withBoundary;
+- (void)addBodyString:(NSString *)string withBoundary:(BOOL)withBoundary;
+- (void)addBodyString:(NSString *)string usingEncoding:(NSStringEncoding)e withBoundary:(BOOL)withBoundary;
 
 @end

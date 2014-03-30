@@ -135,40 +135,50 @@
                   identifier:(NSString*) ident
                     filename:(NSString*) filename
                          URL:(NSURL*) audioFileURL {
+
     
     UTIRequest *r = [UTIRequest new];
     r.requestPath = @"savePrompt";
-    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid]];
-    [r addBodyString:[NSString stringWithFormat:@"content-disposition: form-data; name=\"promptId\"\r\n\r\n%@", ident]];
+    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid] withBoundary:YES];
+    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"promptId\"\r\n\r\n%@", ident] withBoundary:YES];
 
     // add wav file
     
-    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n", filename]];
-    [r addBodyString:@"Content-Type: audio/wav\r\n\r\n"];
+    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n", filename] withBoundary:NO];
+    [r addBodyString:@"Content-Type: audio/wav\r\n\r\n" withBoundary:NO];
     
-    [r addBodyData:[[NSData alloc] initWithContentsOfURL:audioFileURL]];
+    [r addBodyData:[[NSData alloc] initWithContentsOfURL:audioFileURL] withBoundary:NO];
     
     [r setCompletionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         [self willChangeValueForKey:@"numberOfUploadingFiles"];
         self.numberOfUploadingFiles -= 1;
         [self didChangeValueForKey:@"numberOfUploadingFiles"];
         NSString *message = nil;
+        if ([data length]) {
+            NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+            NSString *error = responseDict[@"error"];
+            if (error && [error length]) {
+                message = @"Gwall gyda'r gweinydd";
+            }
+        }
         if ([data length] == 0 && error == nil) {
             message = @"Ymateb gwag";
         }
-        else if (error != nil && error.code == NSURLErrorTimedOut){
+        else if (error.code == NSURLErrorTimedOut){
             message = @"Timeout";
         }
         else if (error != nil) {
             message = @"Gwall cyffredinol";
         }
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
-                                                        message: message
-                                                       delegate: nil
-                                              cancelButtonTitle: @"Iawn"
-                                              otherButtonTitles: nil];
-        [alert show];
+        if (message) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
+                                                            message: message
+                                                           delegate: nil
+                                                  cancelButtonTitle: @"Iawn"
+                                                  otherButtonTitles: nil];
+            [alert show];
+        }
     }];
     [self willChangeValueForKey:@"numberOfUploadingFiles"];
     self.numberOfUploadingFiles += 1;
@@ -198,9 +208,7 @@
     } else {
         r.completionHandler = ^(NSURLResponse *response, NSData *data, NSError *error) {
             if (error==nil) {
-                NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
-                                                                   options:kNilOptions
-                                                                     error:nil];
+                NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
                 NSDictionary *jsonResponse = json[@"response"];
                 newUserId = jsonResponse[@"uid"];
             }
@@ -215,7 +223,7 @@
     UTIRequest *r = [UTIRequest new];
     r.requestPath = @"getOutstandingPrompts";
     
-    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid]];
+    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid] withBoundary:NO];
     
     [r setCompletionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         if (!error) {
@@ -259,7 +267,8 @@
     UTIRequest *r = [UTIRequest new];
     r.requestPath = @"getMetadata";
     
-    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid]];
+    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid] withBoundary:NO]
+    ;
     
     
     [r setCompletionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {

@@ -18,6 +18,7 @@
     if (self = [super init]) {
         _bodyDataArray = [NSMutableArray new];
         _completionHandler = nil;
+        _boundaryData = [[NSString stringWithFormat:@"\r\n--%@\r\n", kRequestBoundary]dataUsingEncoding:NSUTF8StringEncoding];
     }
     return self;
 }
@@ -48,20 +49,12 @@
     
     NSMutableData *body = [NSMutableData new];
     
-    // Used to separate all items. Slightly different from last bounday data (See below)
-    NSData *boundaryData = [[NSString stringWithFormat:@"\r\n--%@\r\n", kRequestBoundary]dataUsingEncoding:NSUTF8StringEncoding];
-    
     // The very first boundary data is slightly different from the rest (there is no trailing -- after the boundary
-    [body appendData:boundaryData];
+    [body appendData:_boundaryData];
     for (NSData *data in self.bodyDataArray) {
         [body appendData:data];
-        if (data == [self.bodyDataArray lastObject]) {
-            [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", kRequestBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
-        } else {
-            [body appendData:boundaryData];
-        }
     }
-    
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", kRequestBoundary]dataUsingEncoding:NSUTF8StringEncoding]];
     [request setHTTPBody:body];
     
     _request = request;
@@ -105,21 +98,24 @@
 
 }
 
-- (void)addBodyData:(NSData *)data {
+- (void)addBodyData:(NSData *)data withBoundary:(BOOL)withBoundary{
     if (![data isKindOfClass:[NSData class]]) {
         NSLog(@"ERROR: You must set an NSData object for the request body data. Aborting");
         return;
     }
     [self.bodyDataArray addObject:data];
+    if (withBoundary) {
+        [self.bodyDataArray addObject:_boundaryData];
+    }
 }
 
-- (void)addBodyString:(NSString *)string {
-    [self addBodyString:string usingEncoding:NSUTF8StringEncoding];
+- (void)addBodyString:(NSString *)string withBoundary:(BOOL)withBoundary {
+    [self addBodyString:string usingEncoding:NSUTF8StringEncoding withBoundary:withBoundary];
 }
 
-- (void)addBodyString:(NSString *)string usingEncoding:(NSStringEncoding)e {
+- (void)addBodyString:(NSString *)string usingEncoding:(NSStringEncoding)e withBoundary:(BOOL)withBoundary {
     NSData *d = [string dataUsingEncoding:e];
-    [self.bodyDataArray addObject:d];
+    [self addBodyData:d withBoundary:withBoundary];
 }
 
 #pragma mark Property accessors
