@@ -863,7 +863,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                     <constraint firstAttribute="height" constant="51" id="jDK-AZ-pNr"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Gofalwch bod twll eich meicroffon yn glir ac yn lân" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="285" translatesAutoresizingMaskIntoConstraints="NO" id="ZpU-EX-CXS">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" misplaced="YES" text="Gofalwch bod twll eich meicroffon yn glir ac yn lân" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="285" translatesAutoresizingMaskIntoConstraints="NO" id="ZpU-EX-CXS">
                                 <rect key="frame" x="18" y="133" width="285" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
@@ -917,7 +917,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kdu-fk-53d">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kdu-fk-53d">
                                 <rect key="frame" x="21" y="367" width="279" height="15"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
@@ -1207,6 +1207,6 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="wuK-sq-Jbq"/>
-        <segue reference="TET-MV-kmI"/>
+        <segue reference="jmG-0e-p10"/>
     </inferredMetricsTieBreakers>
 </document>

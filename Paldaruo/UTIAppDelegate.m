@@ -22,8 +22,10 @@
                                                        delegate: nil
                                               cancelButtonTitle: @"Iawn"
                                               otherButtonTitles: nil];
+        _isShowingAlert = YES;
         dispatch_async(dispatch_get_main_queue(), ^{
             [alert show];
+            _isShowingAlert = NO;
         });
     };
     self.appReachability.unreachableBlock = block;
