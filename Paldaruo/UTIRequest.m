@@ -48,11 +48,18 @@
     
     NSMutableData *body = [NSMutableData new];
     
-    NSData *boundaryData = [[NSString stringWithFormat:@"\r\n--%@--\r\n", kRequestBoundary]dataUsingEncoding:NSUTF8StringEncoding];
+    // Used to separate all items. Slightly different from last bounday data (See below)
+    NSData *boundaryData = [[NSString stringWithFormat:@"\r\n--%@\r\n", kRequestBoundary]dataUsingEncoding:NSUTF8StringEncoding];
+    
+    // The very first boundary data is slightly different from the rest (there is no trailing -- after the boundary
     [body appendData:boundaryData];
     for (NSData *data in self.bodyDataArray) {
         [body appendData:data];
-        [body appendData:boundaryData];
+        if (data == [self.bodyDataArray lastObject]) {
+            [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", kRequestBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        } else {
+            [body appendData:boundaryData];
+        }
     }
     
     [request setHTTPBody:body];
