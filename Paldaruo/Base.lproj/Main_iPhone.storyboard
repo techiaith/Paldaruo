@@ -28,7 +28,7 @@
                         <viewControllerLayoutGuide type="bottom" id="lyd-va-uYy"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppIcon50x50.png" translatesAutoresizingMaskIntoConstraints="NO" id="teF-TI-ZA6">
@@ -106,7 +106,7 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="uti-logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="fUz-uW-Qyt">
-                                <rect key="frame" x="15" y="415" width="50" height="65"/>
+                                <rect key="frame" x="15" y="503" width="50" height="65"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="9dI-4l-jpn"/>
@@ -114,7 +114,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uned Technolegau Iaith" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W66-VF-l2g">
-                                <rect key="frame" x="65" y="430" width="135" height="20"/>
+                                <rect key="frame" x="65" y="518" width="135" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="8mY-lu-i83"/>
@@ -125,7 +125,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Canolfan Bedwyr" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pqs-93-UXC">
-                                <rect key="frame" x="65" y="445" width="109" height="20"/>
+                                <rect key="frame" x="65" y="533" width="109" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="7FI-at-SyZ"/>
@@ -135,7 +135,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logoprifysgolbangor.gif" translatesAutoresizingMaskIntoConstraints="NO" id="rLG-h8-ARO">
-                                <rect key="frame" x="235" y="423" width="65" height="50"/>
+                                <rect key="frame" x="235" y="511" width="65" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="65" id="5HQ-BK-3Y2"/>
@@ -203,7 +203,7 @@
                         <viewControllerLayoutGuide type="bottom" id="yge-C5-tzg"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="MF6-rN-68X">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppIcon50x50.png" translatesAutoresizingMaskIntoConstraints="NO" id="L0S-yb-lbA">
@@ -227,16 +227,16 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0f8-zU-jgf">
-                                <rect key="frame" x="20" y="77" width="280" height="279"/>
+                                <rect key="frame" x="20" y="77" width="280" height="367"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.79474250637755106" green="0.79474250637755106" blue="0.79474250637755106" alpha="1" colorSpace="calibratedRGB"/>
                             </webView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="uti-logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="1RL-yX-s37">
-                                <rect key="frame" x="20" y="413" width="78" height="65"/>
+                                <rect key="frame" x="20" y="501" width="78" height="65"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uned Technolegau Iaith" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xQU-df-YI5">
-                                <rect key="frame" x="100" y="424" width="200" height="29"/>
+                                <rect key="frame" x="100" y="512" width="200" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="QpW-BW-jKV"/>
@@ -247,14 +247,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Canolfan Bedwyr" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KEI-DG-FP4">
-                                <rect key="frame" x="100" y="456" width="96" height="15"/>
+                                <rect key="frame" x="100" y="544" width="96" height="15"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logoprifysgolbangor.gif" translatesAutoresizingMaskIntoConstraints="NO" id="k0M-gc-Bn6">
-                                <rect key="frame" x="235" y="420" width="65" height="51"/>
+                                <rect key="frame" x="235" y="508" width="65" height="51"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="65" id="cL2-6K-Q5h"/>
@@ -262,7 +262,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ryy-dd-j5h" customClass="UTIButton">
-                                <rect key="frame" x="99" y="386" width="122" height="30"/>
+                                <rect key="frame" x="99" y="474" width="122" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <state key="normal" title="← Nôl i'r Dechrau">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -325,7 +325,7 @@
                         <viewControllerLayoutGuide type="bottom" id="TJX-NZ-BbT"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ycv-rC-dfZ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppIcon50x50.png" translatesAutoresizingMaskIntoConstraints="NO" id="mb4-ce-EFy">
@@ -385,7 +385,7 @@
                                 </constraints>
                             </pickerView>
                             <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RVh-mz-TQ7" customClass="UTIButton">
-                                <rect key="frame" x="20" y="328" width="280" height="34"/>
+                                <rect key="frame" x="20" y="416" width="280" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="9ch-zW-JXx"/>
@@ -399,7 +399,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="STx-HC-aCy" customClass="UTIButton">
-                                <rect key="frame" x="20" y="375" width="280" height="24"/>
+                                <rect key="frame" x="20" y="463" width="280" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="cc4-Ts-O4B"/>
@@ -413,7 +413,7 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="uti-logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="jED-Tc-0eh">
-                                <rect key="frame" x="21" y="415" width="50" height="75"/>
+                                <rect key="frame" x="21" y="503" width="50" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="Td0-Ab-hnU"/>
@@ -421,7 +421,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uned Technolegau Iaith" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="19i-HJ-gMw">
-                                <rect key="frame" x="74" y="422" width="200" height="29"/>
+                                <rect key="frame" x="74" y="510" width="200" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="29" id="Rj4-zW-qA3"/>
@@ -432,7 +432,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Canolfan Bedwyr" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sAv-xm-EgE">
-                                <rect key="frame" x="74" y="441" width="200" height="32"/>
+                                <rect key="frame" x="74" y="529" width="200" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="Gx3-mh-Zq6"/>
@@ -443,7 +443,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logoprifysgolbangor.gif" translatesAutoresizingMaskIntoConstraints="NO" id="5Uv-Mc-FID">
-                                <rect key="frame" x="237" y="422" width="65" height="51"/>
+                                <rect key="frame" x="237" y="510" width="65" height="51"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="51" id="DKc-Rb-Kqz"/>
@@ -515,29 +515,29 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                         <viewControllerLayoutGuide type="bottom" id="k2T-Ew-RAK"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="6UR-1g-aZs">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="uti-logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="YDZ-57-vsw">
-                                <rect key="frame" x="20" y="415" width="50" height="65"/>
+                                <rect key="frame" x="20" y="503" width="50" height="65"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Uned Technolegau Iaith" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iw0-1y-UEe">
-                                <rect key="frame" x="73" y="422" width="200" height="29"/>
+                                <rect key="frame" x="73" y="510" width="200" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Canolfan Bedwyr" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2BS-9e-LRh">
-                                <rect key="frame" x="73" y="441" width="385" height="32"/>
+                                <rect key="frame" x="73" y="529" width="385" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logoprifysgolbangor.gif" translatesAutoresizingMaskIntoConstraints="NO" id="GV6-IC-47r">
-                                <rect key="frame" x="236" y="422" width="65" height="51"/>
+                                <rect key="frame" x="236" y="510" width="65" height="51"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="AppIcon50x50.png" translatesAutoresizingMaskIntoConstraints="NO" id="ukT-tN-Dkl">
@@ -586,7 +586,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ufZ-2M-oBh" customClass="UTIButton">
-                                <rect key="frame" x="215" y="365" width="86" height="42"/>
+                                <rect key="frame" x="215" y="453" width="86" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Nesaf >">
@@ -597,7 +597,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vKH-uE-eQt" customClass="UTIButton">
-                                <rect key="frame" x="20" y="365" width="126" height="42"/>
+                                <rect key="frame" x="20" y="453" width="126" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="&lt; Blaenorol">
@@ -608,7 +608,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I4n-GG-heL">
-                                <rect key="frame" x="177" y="324" width="124" height="42"/>
+                                <rect key="frame" x="177" y="412" width="124" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Cychwyn >">
@@ -654,11 +654,11 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                         <viewControllerLayoutGuide type="bottom" id="3Lj-HS-S6O"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" id="wrK-fN-fIU">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="uti-logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="kWL-qB-FcE">
-                                <rect key="frame" x="20" y="415" width="50" height="65"/>
+                                <rect key="frame" x="20" y="503" width="50" height="65"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="Bl0-Zl-SB8"/>
@@ -666,7 +666,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uned Technolegau Iaith" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g8d-k3-wDQ">
-                                <rect key="frame" x="73" y="426" width="155" height="29"/>
+                                <rect key="frame" x="73" y="514" width="155" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="29" id="lfq-aN-Wmy"/>
@@ -677,7 +677,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Canolfan Bedwyr" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EYH-Qr-v5A">
-                                <rect key="frame" x="73" y="441" width="155" height="32"/>
+                                <rect key="frame" x="73" y="529" width="155" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="GY6-V1-Qab"/>
@@ -688,7 +688,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logoprifysgolbangor.gif" translatesAutoresizingMaskIntoConstraints="NO" id="71E-gB-uXc">
-                                <rect key="frame" x="236" y="422" width="65" height="51"/>
+                                <rect key="frame" x="236" y="510" width="65" height="51"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="65" id="bv1-bL-VWJ"/>
@@ -713,7 +713,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lNB-t8-33i">
-                                <rect key="frame" x="20" y="79" width="280" height="232"/>
+                                <rect key="frame" x="20" y="79" width="280" height="320"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
@@ -721,7 +721,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 </connections>
                             </webView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L7O-KY-hhM">
-                                <rect key="frame" x="20" y="319" width="279" height="42"/>
+                                <rect key="frame" x="20" y="407" width="279" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="279" id="6TH-8a-z2G"/>
@@ -735,7 +735,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V54-3V-vln">
-                                <rect key="frame" x="20" y="365" width="279" height="42"/>
+                                <rect key="frame" x="20" y="453" width="279" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="42" id="Lev-LW-u9m"/>
@@ -744,9 +744,12 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 <state key="normal" title="Rwy'n gwrthod y telerau ac amodau">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="unwindToSegue:" destination="Teu-rc-PHm" eventType="touchUpInside" id="Cwf-S5-Zez"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Em-qn-GyZ">
-                                <rect key="frame" x="20" y="342" width="279" height="42"/>
+                                <rect key="frame" x="20" y="430" width="279" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="279" id="QJC-mo-Kk3"/>
@@ -756,7 +759,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="vXZ-lx-hvc" kind="push" id="TET-MV-kmI"/>
+                                    <action selector="unwindToSegue:" destination="Teu-rc-PHm" eventType="touchUpInside" id="DYu-lI-ayV"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -776,7 +779,6 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                             <constraint firstItem="3Lj-HS-S6O" firstAttribute="top" secondItem="kWL-qB-FcE" secondAttribute="bottom" id="l9V-aL-dCw"/>
                             <constraint firstItem="g8d-k3-wDQ" firstAttribute="top" secondItem="V54-3V-vln" secondAttribute="bottom" constant="19" id="m31-wg-S8Z"/>
                             <constraint firstItem="3Em-qn-GyZ" firstAttribute="leading" secondItem="L7O-KY-hhM" secondAttribute="leading" id="ocR-5k-bSf"/>
-                            <constraint firstItem="3Lj-HS-S6O" firstAttribute="top" secondItem="L7O-KY-hhM" secondAttribute="bottom" constant="119" id="tdZ-nI-efo"/>
                             <constraint firstItem="3Lj-HS-S6O" firstAttribute="top" secondItem="3Em-qn-GyZ" secondAttribute="bottom" constant="96" id="tqO-Cf-6aq"/>
                             <constraint firstItem="3Em-qn-GyZ" firstAttribute="leading" secondItem="V54-3V-vln" secondAttribute="leading" id="tud-FB-KAs"/>
                             <constraint firstItem="3Lj-HS-S6O" firstAttribute="top" secondItem="V54-3V-vln" secondAttribute="bottom" constant="73" id="tuu-lB-mW6"/>
@@ -805,7 +807,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                         <viewControllerLayoutGuide type="bottom" id="ara-v1-byI"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" id="pVx-kj-mT8">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppIcon50x50.png" translatesAutoresizingMaskIntoConstraints="NO" id="yf6-xs-iyJ">
@@ -826,7 +828,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="uti-logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="smX-bB-jYa">
-                                <rect key="frame" x="20" y="415" width="50" height="65"/>
+                                <rect key="frame" x="20" y="503" width="50" height="65"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="65" id="3PN-gL-Fzs"/>
@@ -834,7 +836,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uned Technolegau Iaith" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yqv-V7-2Du">
-                                <rect key="frame" x="73" y="422" width="200" height="29"/>
+                                <rect key="frame" x="73" y="510" width="200" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="hmV-tn-GmY"/>
@@ -845,7 +847,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Canolfan Bedwyr" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jyh-Hy-WRW">
-                                <rect key="frame" x="73" y="441" width="385" height="32"/>
+                                <rect key="frame" x="73" y="529" width="385" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="w13-Gc-ML7"/>
@@ -856,14 +858,14 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logoprifysgolbangor.gif" translatesAutoresizingMaskIntoConstraints="NO" id="3TJ-Rv-8pm">
-                                <rect key="frame" x="236" y="422" width="65" height="51"/>
+                                <rect key="frame" x="236" y="510" width="65" height="51"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="65" id="SYK-Qc-XDM"/>
                                     <constraint firstAttribute="height" constant="51" id="jDK-AZ-pNr"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" misplaced="YES" text="Gofalwch bod twll eich meicroffon yn glir ac yn lân" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="285" translatesAutoresizingMaskIntoConstraints="NO" id="ZpU-EX-CXS">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Gofalwch bod twll eich meicroffon yn glir ac yn lân" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="285" translatesAutoresizingMaskIntoConstraints="NO" id="ZpU-EX-CXS">
                                 <rect key="frame" x="18" y="133" width="285" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
@@ -884,13 +886,16 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Peidiwch llefaru'r testunau yn rhy gyflym nag yn rhy uchel" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="282" translatesAutoresizingMaskIntoConstraints="NO" id="tIq-fe-RDU">
-                                <rect key="frame" x="19" y="223" width="282" height="48"/>
+                                <rect key="frame" x="19" y="223" width="282" height="136"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="282" id="rZE-UU-hbg"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="3Yf-I1-bhJ">
-                                <rect key="frame" x="20" y="279" width="280" height="80"/>
+                                <rect key="frame" x="20" y="367" width="280" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="280" id="rHf-aN-rpv"/>
@@ -917,18 +922,18 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kdu-fk-53d">
-                                <rect key="frame" x="21" y="367" width="279" height="15"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kdu-fk-53d">
+                                <rect key="frame" x="20" y="455" width="280" height="15"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="279" id="hhk-OF-Vt3"/>
+                                    <constraint firstAttribute="width" constant="280" id="hhk-OF-Vt3"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nbH-a1-Hum">
-                                <rect key="frame" x="20" y="384" width="280" height="36"/>
+                                <rect key="frame" x="20" y="472" width="280" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="SBt-XT-tLg"/>
@@ -957,9 +962,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                             <constraint firstAttribute="trailing" secondItem="3TJ-Rv-8pm" secondAttribute="trailing" constant="19" id="GxK-4L-TgW"/>
                             <constraint firstItem="ear-kJ-lWi" firstAttribute="leading" secondItem="yf6-xs-iyJ" secondAttribute="trailing" constant="8" id="Jrf-1z-bys"/>
                             <constraint firstItem="ara-v1-byI" firstAttribute="top" secondItem="Yqv-V7-2Du" secondAttribute="bottom" constant="29" id="NxZ-ie-BbB"/>
-                            <constraint firstItem="nbH-a1-Hum" firstAttribute="trailing" secondItem="kdu-fk-53d" secondAttribute="trailing" id="Obh-m5-DE8"/>
                             <constraint firstItem="kdu-fk-53d" firstAttribute="top" secondItem="3Yf-I1-bhJ" secondAttribute="bottom" constant="8" symbolic="YES" id="Pmt-Eo-15B"/>
-                            <constraint firstItem="3TJ-Rv-8pm" firstAttribute="trailing" secondItem="tIq-fe-RDU" secondAttribute="trailing" id="PqZ-pV-B2b"/>
                             <constraint firstItem="3Yf-I1-bhJ" firstAttribute="top" secondItem="tIq-fe-RDU" secondAttribute="bottom" constant="8" symbolic="YES" id="UkX-Nd-LCa"/>
                             <constraint firstItem="ear-kJ-lWi" firstAttribute="top" secondItem="nnq-tN-1lu" secondAttribute="bottom" constant="1" id="UxM-Le-QJu"/>
                             <constraint firstItem="Lnb-DD-xi1" firstAttribute="top" secondItem="ZpU-EX-CXS" secondAttribute="bottom" constant="8" symbolic="YES" id="Vbb-JN-Lm4"/>
@@ -969,7 +972,6 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                             <constraint firstItem="smX-bB-jYa" firstAttribute="top" secondItem="nbH-a1-Hum" secondAttribute="bottom" constant="-5" id="dex-v0-zCc"/>
                             <constraint firstItem="ara-v1-byI" firstAttribute="top" secondItem="smX-bB-jYa" secondAttribute="bottom" id="hPC-kf-sA7"/>
                             <constraint firstItem="ZpU-EX-CXS" firstAttribute="top" secondItem="lFr-Fa-ctS" secondAttribute="bottom" constant="25" id="jwk-rf-3gw"/>
-                            <constraint firstItem="Lnb-DD-xi1" firstAttribute="leading" secondItem="ZpU-EX-CXS" secondAttribute="leading" constant="1" id="mtG-Ke-36Q"/>
                             <constraint firstItem="yf6-xs-iyJ" firstAttribute="top" secondItem="nnq-tN-1lu" secondAttribute="bottom" constant="1" id="mwD-V1-Qkh"/>
                             <constraint firstItem="Jyh-Hy-WRW" firstAttribute="leading" secondItem="pVx-kj-mT8" secondAttribute="leading" constant="73" id="ou4-Fc-9hJ"/>
                             <constraint firstItem="Jyh-Hy-WRW" firstAttribute="leading" secondItem="Yqv-V7-2Du" secondAttribute="leading" id="r3L-Ll-e3g"/>
@@ -999,7 +1001,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                         <viewControllerLayoutGuide type="bottom" id="dqS-Z2-IHa"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="tBH-0M-tTw">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppIcon50x50.png" translatesAutoresizingMaskIntoConstraints="NO" id="MsB-Xr-PFU">
@@ -1032,7 +1034,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="700" verticalCompressionResistancePriority="700" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="284" translatesAutoresizingMaskIntoConstraints="NO" id="MuD-WZ-cDF">
-                                <rect key="frame" x="17" y="87" width="284" height="75"/>
+                                <rect key="frame" x="17" y="87" width="284" height="104"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="75" id="Hud-Ka-FQN"/>
@@ -1042,7 +1044,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y8e-aT-cDe">
-                                <rect key="frame" x="17" y="170" width="285" height="21"/>
+                                <rect key="frame" x="17" y="199" width="285" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="285" id="AcR-KY-OTj"/>
@@ -1052,7 +1054,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="700" verticalHuggingPriority="700" text="Mae hen wlad fy nhadau" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="287" translatesAutoresizingMaskIntoConstraints="NO" id="yR2-d2-YWV">
-                                <rect key="frame" x="17" y="199" width="287" height="91"/>
+                                <rect key="frame" x="17" y="228" width="287" height="150"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.89211973850000004" green="0.89211973850000004" blue="0.89211973850000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -1065,14 +1067,14 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="uti-logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="puB-Qc-chg">
-                                <rect key="frame" x="21" y="405" width="50" height="75"/>
+                                <rect key="frame" x="21" y="493" width="50" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="dkQ-GE-Tqq"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uned Technolegau Iaith" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pI5-IK-wAA">
-                                <rect key="frame" x="74" y="426" width="200" height="29"/>
+                                <rect key="frame" x="74" y="514" width="200" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="91m-OL-Srk"/>
@@ -1083,7 +1085,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Canolfan Bedwyr" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5QE-nq-10e">
-                                <rect key="frame" x="74" y="441" width="385" height="32"/>
+                                <rect key="frame" x="74" y="529" width="385" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="OFF-qf-8vK"/>
@@ -1094,7 +1096,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logoprifysgolbangor.gif" translatesAutoresizingMaskIntoConstraints="NO" id="Zpn-uW-WS8">
-                                <rect key="frame" x="237" y="422" width="65" height="51"/>
+                                <rect key="frame" x="237" y="510" width="65" height="51"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="65" id="WpO-7g-Fsj"/>
@@ -1102,14 +1104,14 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FvC-tC-v3z">
-                                <rect key="frame" x="16" y="338" width="287" height="25"/>
+                                <rect key="frame" x="16" y="426" width="287" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="RhU-6u-JVl"/>
                                     <constraint firstAttribute="width" constant="287" id="drL-Sa-i6F"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Button">
+                                <state key="normal" title="Recordio/Nesaf">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -1117,14 +1119,14 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lq1-hY-lx9">
-                                <rect key="frame" x="17" y="371" width="287" height="26"/>
+                                <rect key="frame" x="17" y="459" width="287" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="3sT-D8-y62"/>
                                     <constraint firstAttribute="width" constant="287" id="tXN-FY-eq1"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Button">
+                                <state key="normal" title="Ail-recordio">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -1132,13 +1134,35 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Cs-cX-KdJ">
-                                <rect key="frame" x="16" y="298" width="287" height="32"/>
+                                <rect key="frame" x="16" y="386" width="287" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="9lo-c0-yVl"/>
                                     <constraint firstAttribute="width" constant="287" id="GrJ-6X-E1f"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OKH-t1-Z5r" userLabel="Button - ">
+                                <rect key="frame" x="17" y="459" width="287" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="287" id="L1V-pr-PaO"/>
+                                    <constraint firstAttribute="height" constant="26" id="fbV-lz-ACU"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="← Yn ôl i'r dechrau">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="unwindToHome:" destination="08T-CN-MIq" eventType="touchUpInside" id="VMu-V8-j0j"/>
+                                </connections>
+                            </button>
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vpm-9D-ItG">
+                                <rect key="frame" x="79" y="485" width="186" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -1148,12 +1172,14 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                             <constraint firstItem="2Cs-cX-KdJ" firstAttribute="leading" secondItem="tBH-0M-tTw" secondAttribute="leading" constant="16" id="5f4-S3-RN6"/>
                             <constraint firstItem="dqS-Z2-IHa" firstAttribute="top" secondItem="puB-Qc-chg" secondAttribute="bottom" id="8dO-xT-F4F"/>
                             <constraint firstItem="puB-Qc-chg" firstAttribute="top" secondItem="lq1-hY-lx9" secondAttribute="bottom" constant="8" id="AHq-h2-ycd"/>
+                            <constraint firstItem="OKH-t1-Z5r" firstAttribute="baseline" secondItem="lq1-hY-lx9" secondAttribute="baseline" id="Ef9-Wa-bsJ"/>
                             <constraint firstItem="dqS-Z2-IHa" firstAttribute="top" secondItem="pI5-IK-wAA" secondAttribute="bottom" constant="25" id="Goi-Nz-Dkx"/>
                             <constraint firstItem="dqS-Z2-IHa" firstAttribute="top" secondItem="Zpn-uW-WS8" secondAttribute="bottom" constant="7" id="IWr-VK-AmP"/>
                             <constraint firstItem="5QE-nq-10e" firstAttribute="leading" secondItem="tBH-0M-tTw" secondAttribute="leading" constant="74" id="Juh-gB-55s"/>
                             <constraint firstItem="dqS-Z2-IHa" firstAttribute="top" secondItem="lq1-hY-lx9" secondAttribute="bottom" constant="83" id="LPQ-1q-H9X"/>
                             <constraint firstItem="MuD-WZ-cDF" firstAttribute="leading" secondItem="y8e-aT-cDe" secondAttribute="leading" id="Nck-0D-tGh"/>
                             <constraint firstItem="yR2-d2-YWV" firstAttribute="top" secondItem="y8e-aT-cDe" secondAttribute="bottom" constant="8" id="OHN-h0-3qe"/>
+                            <constraint firstItem="OKH-t1-Z5r" firstAttribute="leading" secondItem="lq1-hY-lx9" secondAttribute="leading" id="PkX-HJ-rZJ"/>
                             <constraint firstAttribute="trailing" secondItem="Zpn-uW-WS8" secondAttribute="trailing" constant="18" id="Rjf-SW-v5O"/>
                             <constraint firstItem="5QE-nq-10e" firstAttribute="leading" secondItem="pI5-IK-wAA" secondAttribute="leading" id="RoF-g3-dCq"/>
                             <constraint firstItem="MuD-WZ-cDF" firstAttribute="top" secondItem="MsB-Xr-PFU" secondAttribute="bottom" constant="16" id="Saj-kw-wTj"/>
@@ -1180,12 +1206,14 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                     <navigationItem key="navigationItem" id="vuE-yC-3mt"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
+                        <outlet property="btnOutletBackToHome" destination="OKH-t1-Z5r" id="Oan-fs-UoD"/>
                         <outlet property="btnOutletMoveToNextRecordingState" destination="FvC-tC-v3z" id="wki-ru-lmB"/>
                         <outlet property="btnOutletRedoRecording" destination="lq1-hY-lx9" id="aRY-MD-TwP"/>
                         <outlet property="lblOutletNextPrompt" destination="yR2-d2-YWV" id="4Jh-qe-60c"/>
                         <outlet property="lblOutletProfileName" destination="MuD-WZ-cDF" id="1hM-5Y-ona"/>
                         <outlet property="lblOutletRecordingStatus" destination="2Cs-cX-KdJ" id="5qd-z8-WMR"/>
                         <outlet property="lblOutletSessionProgress" destination="y8e-aT-cDe" id="W7B-40-T0O"/>
+                        <outlet property="lblUploadingFilesInfo" destination="vpm-9D-ItG" id="XRE-1w-22v"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mxr-gp-99b" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1203,10 +1231,9 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="wuK-sq-Jbq"/>
-        <segue reference="jmG-0e-p10"/>
     </inferredMetricsTieBreakers>
 </document>

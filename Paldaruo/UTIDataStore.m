@@ -33,7 +33,7 @@
         
     if (self = [super init]){
         metaDataFields=[[NSArray alloc] init];
-        
+        _numberOfUploadingFiles = 0;
         NSUserDefaults *persistedStore=[NSUserDefaults standardUserDefaults];
         NSData *allProfiles = [persistedStore dataForKey:@"AllProfiles"];
         if (allProfiles!=nil) {
@@ -121,7 +121,6 @@
         NSURL *audioFileURL = [NSURL fileURLWithPath:audioFileTarget];
         
         NSString* ident = [fileName stringByReplacingOccurrencesOfString:@".wav"withString:@""];
-        
         [self http_uploadAudioFile:uid
                         identifier:ident
                           filename:fileName
@@ -150,6 +149,9 @@
     [r addBodyData:[[NSData alloc] initWithContentsOfURL:audioFileURL]];
     
     [r setCompletionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        [self willChangeValueForKey:@"numberOfUploadingFiles"];
+        self.numberOfUploadingFiles -= 1;
+        [self didChangeValueForKey:@"numberOfUploadingFiles"];
         NSString *message = nil;
         if ([data length] == 0 && error == nil) {
             message = @"Ymateb gwag";
@@ -168,7 +170,9 @@
                                               otherButtonTitles: nil];
         [alert show];
     }];
-    
+    [self willChangeValueForKey:@"numberOfUploadingFiles"];
+    self.numberOfUploadingFiles += 1;
+    [self didChangeValueForKey:@"numberOfUploadingFiles"];
     [r sendRequestAsync];
     
 }

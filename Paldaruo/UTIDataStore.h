@@ -18,7 +18,6 @@
 
 
 @interface UTIDataStore : NSObject {
-    
     NSArray *metaDataFields;
     
 }
@@ -26,6 +25,7 @@
 @property UTIUser *activeUser;
 @property (nonatomic, retain) NSMutableArray *allProfilesArray;
 @property (nonatomic, retain) NSArray *metaDataFields;
+@property __block NSUInteger numberOfUploadingFiles;
 
 - (UTIUser *)userAtIndex:(NSUInteger)idx;
 

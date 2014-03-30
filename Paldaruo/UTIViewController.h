@@ -24,7 +24,7 @@
 
 -(void) updateSessionProgress;
 
--(void) gotoNextPrompt;
+-(BOOL) gotoNextPrompt;
 
 -(void) setRecordStatusText : (NSString *) text;
 -(void) setMoveToNextRecordStateTitle : (NSString *) text;

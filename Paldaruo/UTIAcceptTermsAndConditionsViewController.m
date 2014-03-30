@@ -16,6 +16,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletReject;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 
+- (IBAction)unwindToSegue:(id)sender;
+
 @end
 
 @implementation UTIAcceptTermsAndConditionsViewController
@@ -49,8 +51,9 @@
 
     [self.btnOutletAccept setEnabled:YES];
     [self.btnOutletReject setEnabled:YES];
-    return
+    return;
 #endif
+    
     [self.btnOutletAccept setHidden:YES];
     [self.btnOutletReject setHidden:YES];
     [self.backButton setHidden:NO];
@@ -64,4 +67,11 @@
     [self.btnOutletReject setEnabled:YES];
 }
 
+- (IBAction)unwindToSegue:(id)sender {
+    if (sender == self.backButton) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        return;
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+}
 @end
