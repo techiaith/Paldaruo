@@ -62,9 +62,17 @@
 		806B503218BCED5000851038 /* UTIIntroductionScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B503118BCED5000851038 /* UTIIntroductionScreenViewController.m */; };
 		806B503518C788C600851038 /* UTIAcceptTermsAndConditionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B503418C788C600851038 /* UTIAcceptTermsAndConditionsViewController.m */; };
 		806B503918C8882200851038 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B503818C8882200851038 /* Reachability.m */; };
-		806B503C18C9EE1100851038 /* UTIReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B503B18C9EE1100851038 /* UTIReachability.m */; };
 		806B503F18CDEF7800851038 /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 806B503E18CDEF7800851038 /* about.html */; };
 		806B504218D1D75A00851038 /* UTIAboutMyDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B504118D1D75A00851038 /* UTIAboutMyDataViewController.m */; };
+		CD1020DC18E08F2200610EB2 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		CD32104F18E5E2E8009056EE /* (null) in Sources */ = {isa = PBXBuildFile; };
+		CD32105418E6ADFF009056EE /* DejalActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD32105318E6ADFF009056EE /* DejalActivityView.m */; };
+		CD32105618E6AE48009056EE /* UTIDataStore in Resources */ = {isa = PBXBuildFile; fileRef = CD32105518E6AE47009056EE /* UTIDataStore */; };
+		CD32105918E6AEDB009056EE /* UTIRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CD32105818E6AEDB009056EE /* UTIRequest.m */; };
+		CDC3152618E17E45003A2440 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		CDC3152918E17FEA003A2440 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		CDEF14D218E6B01B008CAD01 /* UTIUser.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEF14D118E6B01B008CAD01 /* UTIUser.m */; };
+		CDEF14D518E6B054008CAD01 /* UTIButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEF14D418E6B054008CAD01 /* UTIButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,11 +159,19 @@
 		806B503418C788C600851038 /* UTIAcceptTermsAndConditionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIAcceptTermsAndConditionsViewController.m; sourceTree = "<group>"; };
 		806B503718C8882200851038 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		806B503818C8882200851038 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		806B503A18C9EE1100851038 /* UTIReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIReachability.h; sourceTree = "<group>"; };
-		806B503B18C9EE1100851038 /* UTIReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIReachability.m; sourceTree = "<group>"; };
 		806B503E18CDEF7800851038 /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
 		806B504018D1D75A00851038 /* UTIAboutMyDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIAboutMyDataViewController.h; sourceTree = "<group>"; };
 		806B504118D1D75A00851038 /* UTIAboutMyDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIAboutMyDataViewController.m; sourceTree = "<group>"; };
+		CD32105218E6ADFF009056EE /* DejalActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DejalActivityView.h; path = Externals/DejalActivityView/DejalActivityView.h; sourceTree = "<group>"; };
+		CD32105318E6ADFF009056EE /* DejalActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DejalActivityView.m; path = Externals/DejalActivityView/DejalActivityView.m; sourceTree = "<group>"; };
+		CD32105518E6AE47009056EE /* UTIDataStore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UTIDataStore; sourceTree = "<group>"; };
+		CD32105718E6AEDB009056EE /* UTIRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIRequest.h; sourceTree = "<group>"; };
+		CD32105818E6AEDB009056EE /* UTIRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIRequest.m; sourceTree = "<group>"; };
+		CD4E563518E9098800DEDD53 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		CDEF14D018E6B01B008CAD01 /* UTIUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIUser.h; sourceTree = "<group>"; };
+		CDEF14D118E6B01B008CAD01 /* UTIUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIUser.m; sourceTree = "<group>"; };
+		CDEF14D318E6B054008CAD01 /* UTIButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIButton.h; sourceTree = "<group>"; };
+		CDEF14D418E6B054008CAD01 /* UTIButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIButton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,16 +248,24 @@
 				5C7C7FA6186E159A00E13FC0 /* UTIViewController.h */,
 				5C7C7FA7186E159A00E13FC0 /* UTIViewController.m */,
 				5C7C7FA9186E159A00E13FC0 /* Images.xcassets */,
+				CD4E563518E9098800DEDD53 /* Constants.h */,
 				5C7C7F95186E159A00E13FC0 /* Supporting Files */,
+				CDEF14D318E6B054008CAD01 /* UTIButton.h */,
+				CDEF14D418E6B054008CAD01 /* UTIButton.m */,
+				CDEF14D018E6B01B008CAD01 /* UTIUser.h */,
+				CDEF14D118E6B01B008CAD01 /* UTIUser.m */,
+				CD32105718E6AEDB009056EE /* UTIRequest.h */,
+				CD32105818E6AEDB009056EE /* UTIRequest.m */,
 				80204108187EC8EE00C9A4F3 /* UTIPromptsTracker.h */,
 				80204109187EC8EE00C9A4F3 /* UTIPromptsTracker.m */,
 				8020410B187EC9B200C9A4F3 /* UTIPrompt.h */,
-				806B4FCD1897D01E00851038 /* UTIDataStore.h */,
-				806B4FCE1897D01E00851038 /* UTIDataStore.m */,
 				8020410C187EC9B200C9A4F3 /* UTIPrompt.m */,
-				806B4FCA188D441100851038 /* UTIWelcomeViewController.h */,
+				806B4FCD1897D01E00851038 /* UTIDataStore.h */,
+				CD32105518E6AE47009056EE /* UTIDataStore */,
+				806B4FCE1897D01E00851038 /* UTIDataStore.m */,
 				806B4FD0189BBE8200851038 /* UTINewProfileViewController.h */,
 				806B4FD1189BBE8200851038 /* UTINewProfileViewController.m */,
+				806B4FCA188D441100851038 /* UTIWelcomeViewController.h */,
 				806B4FCB188D441100851038 /* UTIWelcomeViewController.m */,
 				806B4FD3189FE95300851038 /* UTIMetaDataField.h */,
 				806B4FD4189FE95300851038 /* UTIMetaDataField.m */,
@@ -251,8 +275,6 @@
 				806B503118BCED5000851038 /* UTIIntroductionScreenViewController.m */,
 				806B503318C788C600851038 /* UTIAcceptTermsAndConditionsViewController.h */,
 				806B503418C788C600851038 /* UTIAcceptTermsAndConditionsViewController.m */,
-				806B503A18C9EE1100851038 /* UTIReachability.h */,
-				806B503B18C9EE1100851038 /* UTIReachability.m */,
 				806B504018D1D75A00851038 /* UTIAboutMyDataViewController.h */,
 				806B504118D1D75A00851038 /* UTIAboutMyDataViewController.m */,
 			);
@@ -336,8 +358,8 @@
 		806B503618C887B200851038 /* External Classes */ = {
 			isa = PBXGroup;
 			children = (
-				806B503718C8882200851038 /* Reachability.h */,
-				806B503818C8882200851038 /* Reachability.m */,
+				CD32105118E6ADF5009056EE /* DejalActivityView */,
+				CD32105018E6ADE4009056EE /* Reachability */,
 			);
 			name = "External Classes";
 			sourceTree = "<group>";
@@ -348,6 +370,24 @@
 				806B503E18CDEF7800851038 /* about.html */,
 			);
 			name = HTML;
+			sourceTree = "<group>";
+		};
+		CD32105018E6ADE4009056EE /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				806B503718C8882200851038 /* Reachability.h */,
+				806B503818C8882200851038 /* Reachability.m */,
+			);
+			name = Reachability;
+			sourceTree = "<group>";
+		};
+		CD32105118E6ADF5009056EE /* DejalActivityView */ = {
+			isa = PBXGroup;
+			children = (
+				CD32105218E6ADFF009056EE /* DejalActivityView.h */,
+				CD32105318E6ADFF009056EE /* DejalActivityView.m */,
+			);
+			name = DejalActivityView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -395,7 +435,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = UTI;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Uned Technolegau Iaith";
 				TargetAttributes = {
 					5C7C7F8A186E159A00E13FC0 = {
@@ -451,6 +491,7 @@
 				806B502B18B3A27900851038 /* 150px-S4C_logo.svg.png in Resources */,
 				806B503F18CDEF7800851038 /* about.html in Resources */,
 				8021ACA2187C4F7C0069B508 /* logoprifysgolbangor.gif in Resources */,
+				CD32105618E6AE48009056EE /* UTIDataStore in Resources */,
 				8021AC9C187C44770069B508 /* logos4c.jpeg in Resources */,
 				806B500D18AE41BC00851038 /* AppIcon29x29.png in Resources */,
 				806B501818AE41BC00851038 /* AppIcon72x72@2x.png in Resources */,
@@ -482,16 +523,23 @@
 				806B503918C8882200851038 /* Reachability.m in Sources */,
 				806B4FD5189FE95300851038 /* UTIMetaDataField.m in Sources */,
 				5C7C7F9B186E159A00E13FC0 /* main.m in Sources */,
+				CDC3152918E17FEA003A2440 /* (null) in Sources */,
 				8020410A187EC8EE00C9A4F3 /* UTIPromptsTracker.m in Sources */,
 				806B502F18B64EB900851038 /* UTIFurtherInformationViewController.m in Sources */,
-				806B503C18C9EE1100851038 /* UTIReachability.m in Sources */,
+				CDEF14D218E6B01B008CAD01 /* UTIUser.m in Sources */,
 				806B4FCC188D441100851038 /* UTIWelcomeViewController.m in Sources */,
+				CD1020DC18E08F2200610EB2 /* (null) in Sources */,
 				5C7C7F9F186E159A00E13FC0 /* UTIAppDelegate.m in Sources */,
+				CDC3152618E17E45003A2440 /* (null) in Sources */,
+				CD32104F18E5E2E8009056EE /* (null) in Sources */,
 				806B4FD2189BBE8200851038 /* UTINewProfileViewController.m in Sources */,
 				806B503518C788C600851038 /* UTIAcceptTermsAndConditionsViewController.m in Sources */,
+				CD32105418E6ADFF009056EE /* DejalActivityView.m in Sources */,
 				8020410D187EC9B200C9A4F3 /* UTIPrompt.m in Sources */,
+				CD32105918E6AEDB009056EE /* UTIRequest.m in Sources */,
 				806B503218BCED5000851038 /* UTIIntroductionScreenViewController.m in Sources */,
 				806B504218D1D75A00851038 /* UTIAboutMyDataViewController.m in Sources */,
+				CDEF14D518E6B054008CAD01 /* UTIButton.m in Sources */,
 				806B4FCF1897D01E00851038 /* UTIDataStore.m in Sources */,
 				5C7C7FA8186E159A00E13FC0 /* UTIViewController.m in Sources */,
 			);
@@ -555,7 +603,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -597,7 +644,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -642,7 +688,7 @@
 				INFOPLIST_FILE = "Paldaruo/Paldaruo-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/apiau/Developer/Paldaruo/Paldaruo,
+					$SRCROOT/Paldaruo,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "8784AF66-9817-4903-9F6D-DED6A11CA316";
@@ -663,7 +709,7 @@
 				INFOPLIST_FILE = "Paldaruo/Paldaruo-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/apiau/Developer/Paldaruo/Paldaruo,
+					$SRCROOT/Paldaruo,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7088A429-32E4-4BFC-87BE-A6A11AC7C1C5";
@@ -674,7 +720,6 @@
 		5C7C7FC4186E159A00E13FC0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Paldaruo.app/Paldaruo";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -697,7 +742,6 @@
 		5C7C7FC5186E159A00E13FC0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Paldaruo.app/Paldaruo";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",

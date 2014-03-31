@@ -16,25 +16,20 @@
 // implements a singleton as per : http://www.galloway.me.uk/tutorials/singleton-classes/
 //
 
-@protocol UTIErrorReporter <NSObject>
-
-- (void)showError:(NSError *)error;
-- (void)showErrorText:(NSString *)errorText;
-@end
-
 
 @interface UTIDataStore : NSObject {
+
+    NSArray *allProfilesArray;
     NSArray *metaDataFields;
     
 }
 
 @property UTIUser *activeUser;
-@property (nonatomic, retain) NSMutableArray *allProfilesArray;
+@property (nonatomic, retain) NSArray *allProfilesArray;
 @property (nonatomic, retain) NSArray *metaDataFields;
-@property __block NSUInteger numberOfUploadingFiles;
 
 - (UTIUser *)userAtIndex:(NSUInteger)idx;
-- (UTIUser *)userForName:(NSString *)name;
+
 
 /**
  *  Saves the current user profiles
@@ -50,20 +45,17 @@
  *  then user was not created successfully
  */
 - (UTIUser *)addNewUser:(NSString *)userName;
-- (UTIUser *)addNewUser:(NSString *)userName uid:(NSString *)uid;
-
-- (NSString *)http_createUser_completionBlock:(urlCompletionHandler)block;
+- (NSString *)http_createUser_delegate:(id <UTIRequestDelegate>)delegate;
 - (void)http_fetchOutstandingPrompts:(UTIPromptsTracker *)prompts useridentifier:(NSString *)ident;
-- (void)http_uploadAudio:(NSString *)uid identifier:(NSString*)ident sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender;
+- (void)http_uploadAudio:(NSString *)uid identifier:(NSString*)ident;
 - (void)http_uploadAudioFile:(NSString *)uid
                   identifier:(NSString *)ident
                     filename:(NSString *)filename
-                         URL:(NSURL *)audioFileURL
-                      sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender;
+                         URL:(NSURL *)audioFileURL;
 
-- (void)http_getMetadata:(NSString *)uid sender:(id <UTIErrorReporter>)sender;
-- (void)http_saveMetadata:(NSString *)uid sender:(id <NSURLConnectionDataDelegate, NSURLConnectionDelegate>)sender;
-- (void)http_uploadOutstandingAudio:(NSString*)uid;
+- (void)http_getMetadata:(NSString *)uid;
+- (BOOL)http_saveMetadata:(NSString *)uid;
+
 
 
 +(id) sharedDataStore;

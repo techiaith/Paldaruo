@@ -7,14 +7,11 @@
 //
 
 #import "UTIDataStore.h"
-#import "UTIReachability.h"
-
+#import "UTIRequest.h"
 
 @implementation UTIDataStore
 
-@synthesize allProfilesArray;
 @synthesize metaDataFields;
-@synthesize activeUserIndex;
 
 +(id) sharedDataStore {
     
@@ -35,21 +32,15 @@
     //[[NSUserDefaults standardUserDefaults] removePersistentDomainForName:domainName];
         
     if (self = [super init]){
-
-        NSUserDefaults *persistedStore=[NSUserDefaults standardUserDefaults];
-        NSString *allProfiles=[persistedStore stringForKey:@"AllProfilesJson"];
-        
         metaDataFields=[[NSArray alloc] init];
-        
+        _numberOfUploadingFiles = 0;
+        NSUserDefaults *persistedStore=[NSUserDefaults standardUserDefaults];
+        NSData *allProfiles = [persistedStore dataForKey:@"AllProfiles"];
         if (allProfiles!=nil) {
-            
-            NSData* data=[allProfiles dataUsingEncoding:NSUTF8StringEncoding];
-            allProfilesArray=(NSArray*)[NSJSONSerialization JSONObjectWithData:data
-                                                                       options:NSJSONReadingMutableContainers
-                                                                         error:nil];
+            _allProfilesArray = [[NSKeyedUnarchiver unarchiveObjectWithData:allProfiles] mutableCopy];
         } else {
             
-            allProfilesArray=[[NSArray alloc] init];
+            _allProfilesArray=[[NSMutableArray alloc] init];
             
         }
         
@@ -59,68 +50,52 @@
     
 }
 
-
--(NSString *) getJsonData {
-    
-        return @"[{\"name\":\"Alice\",\"uid\":\"1\"},{\"name\":\"Bob\",\"uid\":\"2\"},{\"name\":\"Charlie\",\"uid\":\"3\"}]";
-    
-    //store("profileInfo", @"[{\"name\":\"Alice\",\"uid\":\"1\"},{\"name\":\"Bob\",\"uid\":\"2\"},{\"name\":\"Charlie\",\"uid\":\"3\"}]");
-    //return retrieve("profileInfo");
+- (UTIUser *)addNewUser:(NSString *)userName {
+    return [self addNewUser:userName uid:nil];
 }
 
-
-
--(void) setJsonData: (NSString *) jsonData {
-        
-}
-
-
-
--(NSString *) getUid: (NSString *) userName {
-    return @"42";
-}
-
-
-
--(void) addNewUser: (NSString *)userName {
+- (UTIUser *)addNewUser:(NSString *)userName uid:(NSString *)uid {
+    if (!uid) {
+        uid = [self http_createUser];
+    }
     
-    NSString *uid=[self http_createUser];
-        
-    NSDictionary *newUserDictionary=[[NSDictionary alloc] initWithObjectsAndKeys:
-        userName, @"name",
-        uid, @"uid",
-        nil];
+    if (!uid) {
+        return nil;
+    }
+    
+    UTIUser *newUser = [UTIUser userWithName:userName uid:uid];
     
     //NSString *newUserJsonString=[NSString stringWithFormat:@"{\"name\":\"%@\",\"uid\":\"%@\"}",userName, uid];
     //
-    allProfilesArray = [allProfilesArray arrayByAddingObject:newUserDictionary];
-    
-    // persist...
-    //
-    NSData *jsonData=[NSJSONSerialization dataWithJSONObject:allProfilesArray options:0 error:nil];
-    NSString *jsonString=[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    
-    NSUserDefaults *persistedStore=[NSUserDefaults standardUserDefaults];
-    [persistedStore setObject:jsonString forKey:@"AllProfilesJson"];
-    
-    [persistedStore synchronize];
+    [self willChangeValueForKey:@"allProfilesArray"];
+    [self.allProfilesArray addObject:newUser];
+    [self didChangeValueForKey:@"allProfilesArray"];
     
     // make the new user the active user
-    [self setActiveUser:[allProfilesArray count]-1];
+    [self setActiveUser:newUser];
+    [self saveProfiles];
+    return newUser;
     
 }
 
-
-
--(void) setActiveUser:(NSInteger)userIndex {
-    activeUserIndex=userIndex;
-    
+- (UTIUser *)userAtIndex:(NSUInteger)idx {
+    if (idx >= [self.allProfilesArray count]) {
+        return nil;
+    }
+    return [self.allProfilesArray objectAtIndex:idx];
 }
 
-
+- (UTIUser *)userForName:(NSString *)name {
+    for (UTIUser *u in self.allProfilesArray) {
+        if ([u.name isEqualToString:name]) {
+            return u;
+        }
+    }
+    return nil;
+}
 
 -(void) http_uploadAudio: (NSString*) uid
-               identifier:(NSString*) ident {
+              identifier:(NSString*) ident sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender {
     
     NSString *filename = [NSString stringWithFormat:@"%@.wav", ident];
     NSString *uidTempDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:uid];
@@ -139,12 +114,12 @@
     NSURL *audioFileURL = [NSURL fileURLWithPath:audioFileTarget];
     //[NSTemporaryDirectory()stringByAppendingString:@"audioRecording.wav"]];
     
-    [self http_uploadAudioFile:uid identifier:ident filename:filename URL:audioFileURL];
+    [self http_uploadAudioFile:uid identifier:ident filename:filename URL:audioFileURL sender:sender];
     
 }
 
 
--(void) http_uploadOutstandingAudio:(NSString*) uid {
+- (void)http_uploadOutstandingAudio:(NSString*) uid {
     
     NSString *uidTempDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:uid];
     NSFileManager* fileManager = [NSFileManager defaultManager];
@@ -155,350 +130,225 @@
         NSURL *audioFileURL = [NSURL fileURLWithPath:audioFileTarget];
         
         NSString* ident = [fileName stringByReplacingOccurrencesOfString:@".wav"withString:@""];
-        
         [self http_uploadAudioFile:uid
                         identifier:ident
                           filename:fileName
-                               URL:audioFileURL];
+                               URL:audioFileURL
+                            sender:nil];
 
     }
 
 }
 
 
--(void) http_uploadAudioFile:(NSString*) uid
+- (void)http_uploadAudioFile:(NSString*) uid
                   identifier:(NSString*) ident
                     filename:(NSString*) filename
-                         URL:(NSURL*) audioFileURL {
-    
-    NSData *file1Data = [[NSData alloc] initWithContentsOfURL:audioFileURL];
-    
-    //NSString *urlString = @"http://techiaith.bangor.ac.uk/gallu/upload/upload.php";
-    NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/savePrompt";
-    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:urlString]];
-    [request setHTTPMethod:@"POST"];
-    
-    NSString *boundary = @"---------------------------14737809831466499882746641449";
-    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
-    [request addValue:contentType forHTTPHeaderField: @"Content-Type"];
-    
-    NSMutableData *body = [NSMutableData data];
-    
-    // add uid
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid]] dataUsingEncoding:NSUTF8StringEncoding]];
+                         URL:(NSURL*) audioFileURL
+                      sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender {
 
-    // add prompt id
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"promptId\"\r\n\r\n%@", ident]] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    UTIRequest *r = [UTIRequest new];
+    r.delegate = sender;
+    r.requestPath = @"savePrompt";
+    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid] withBoundary:YES];
+    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"promptId\"\r\n\r\n%@", ident] withBoundary:YES];
 
     // add wav file
     
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n", filename]] dataUsingEncoding:NSUTF8StringEncoding]];
+    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n", filename] withBoundary:NO];
+    [r addBodyString:@"Content-Type: audio/wav\r\n\r\n" withBoundary:NO];
+    [r addBodyData:[[[NSData alloc] initWithContentsOfURL:audioFileURL] base64EncodedDataWithOptions:0] withBoundary:NO];
     
-    //[body appendData:[@"Content-Type: application/octet-stream\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[@"Content-Type: audio/wav\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[NSData dataWithData:file1Data]];
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    //
-    [request setHTTPBody:body];
-    
-    // send asynchronous
-    [NSURLConnection sendAsynchronousRequest:request
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
-     {
-         [self handleResponseUploadAudio:response data:data error:error];
-     }
-     
-     ];
+    [r setCompletionHandler:^(NSData *data, NSError *error) {
+        self.numberOfUploadingFiles -= 1;
+        NSString *message = nil;
+        if ([data length]) {
+            NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+            NSString *error = responseDict[@"error"];
+            if (error && [error length]) {
+                message = @"Gwall gweinydd";
+            }
+        } else if ([data length] == 0 && error == nil) {
+            message = @"Ymateb gwag o'r gweinydd";
+        } else if (error.code == NSURLErrorTimedOut){
+            message = @"Dim ymateb o'r gweinydd";
+        } else if (error != nil) {
+            message = @"Gwall cyffredinol";
+        }
+        
+        if (message) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
+                                                            message: message
+                                                           delegate: nil
+                                                  cancelButtonTitle: @"Iawn"
+                                                  otherButtonTitles: nil];
+            [alert show];
+        }
+    }];
+    self.numberOfUploadingFiles += 1;
+    [r sendRequestAsync];
     
 }
 
 
+- (NSString *)http_createUser {
+    return [self http_createUser_completionBlock:nil];
+}
 
--(NSString *) http_createUser {
+
+- (NSString *)http_createUser_completionBlock:(urlCompletionHandler)block {
     
-    NSString *newUserId=nil;
     
-    NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/createUser";
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:urlString]];
-    [request setHTTPMethod:@"POST"];
+    NSString __block *newUserId=nil;
     
-    NSString *boundary = @"---------------------------14737809831466499882746641449";
-    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
-    [request addValue:contentType forHTTPHeaderField:@"Content-Type"];
     
-    NSMutableData *body = [NSMutableData data];
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [request setHTTPBody:body];
-    
-    NSError *error;
-    
-    NSData *result = [NSURLConnection sendSynchronousRequest:request
-                          returningResponse:nil
-                                      error:&error];
-    
-    if (error==nil) {
-        
-        //newUserId=[[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
-        NSString *jsonString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
-        
-        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
-        //                                                message: jsonString
-        //                                               delegate: nil
-        //                                      cancelButtonTitle: @"Iawn"
-        //                                      otherButtonTitles: nil];
-        
-        //[alert show];
-        
-        NSDictionary *json=[NSJSONSerialization JSONObjectWithData:result
-                                                           options:kNilOptions
-                                                             error:nil];
-        
-        NSDictionary *jsonResponse = json[@"response"];
-        newUserId = jsonResponse[@"uid"];
-        
+    UTIRequest *r = [UTIRequest new];
+    r.requestPath = @"createUser";
+    if (block) {
+        r.completionHandler = block;
+        [r sendRequestAsync];
+        return nil;
+    } else {
+        r.completionHandler = ^(NSData *data, NSError *error) {
+            if (error==nil) {
+                NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+                NSDictionary *jsonResponse = json[@"response"];
+                newUserId = jsonResponse[@"uid"];
+            }
+        };
+        [r sendRequestSync];
     }
-    
     return newUserId;
-    
 }
-
 
 
 -(void) http_fetchOutstandingPrompts:(UTIPromptsTracker*)prompts useridentifier:(NSString *)uid {
+    UTIRequest *r = [UTIRequest new];
+    r.requestPath = @"getOutstandingPrompts";
     
-    NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/getOutstandingPrompts";
+    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid] withBoundary:NO];
     
-    //NSString *urlString = [NSURL URLWithString:@"http://paldaruo.techiaith.bangor.ac.uk/getOutstandingPrompts"];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:urlString]];
-    [request setHTTPMethod:@"POST"];
-    
-    NSString *boundary = @"---------------------------14737809831466499882746641449";
-    
-    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
-    [request addValue:contentType forHTTPHeaderField:@"Content-Type"];
-
-    NSMutableData *body = [NSMutableData data];
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid]] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    //NSString *string = [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding];
-    
-    [request setHTTPBody:body];
-    
-    //[NSURLConnection sendAsynchronousRequest:request
-    //                                     queue:[NSOperationQueue mainQueue]
-    //                         completionHandler:^(NSURLResponse*r, NSData*d, NSError*e)
-    //   {
-    //       [caller handleResponseDownloadPrompts:d error:e];
-    //   }];
-    
-    NSError *error;
-    NSData *result = [NSURLConnection sendSynchronousRequest:request
-                                           returningResponse:nil
-                                                       error:&error];
-
-    if (error==nil) {
-        
-        NSDictionary *json=[NSJSONSerialization JSONObjectWithData:result
-                                                           options:kNilOptions
-                                                             error:nil];
-        NSArray *jsonArray = json[@"response"];
-        
-        // initialise the prompts tracker.
-        for (int x = 0; x < jsonArray.count; x++)
-        {
-            UTIPrompt* newPrompt=[[UTIPrompt alloc] init];
+    [r setCompletionHandler:^(NSData *data, NSError *error) {
+        if (!error) {
             
-            newPrompt->text = [[jsonArray objectAtIndex:x] objectForKey:@"text"];
-            newPrompt->identifier = [[jsonArray objectAtIndex:x] objectForKey:@"identifier"];
+            NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
+                                                               options:kNilOptions
+                                                                 error:nil];
+            NSArray *jsonArray = json[@"response"];
             
-            //[self.prompts addPromptForRecording:newPrompt];
-            [prompts addPromptForRecording:newPrompt];
-        }
-
-    } else {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i lawr"
-                                                        message: @"Gwall cyffredinol"
-                                                       delegate: nil
-                                              cancelButtonTitle: @"Iawn"
-                                              otherButtonTitles: nil];
-        [alert show];
-        
-    }
-
-}
-
-
-
--(void) http_getMetadata: (NSString*) uid {
-    
-    NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/getMetadata";
-    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:urlString]];
-    [request setHTTPMethod:@"POST"];
-    
-    NSString *boundary = @"---------------------------14737809831466499882746641449";
-    
-    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
-    [request addValue:contentType forHTTPHeaderField:@"Content-Type"];
-    
-    NSMutableData *body = [NSMutableData data];
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid]] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [request setHTTPBody:body];
-    
-    
-    NSError *error;
-    NSData *result = [NSURLConnection sendSynchronousRequest:request
-                                           returningResponse:nil
-                                                       error:&error];
-    
-    if (error==nil) {
-        
-        NSDictionary *json=[NSJSONSerialization JSONObjectWithData:result
-                                                           options:kNilOptions
-                                                             error:nil];
-        NSArray *jsonFieldsArray = json[@"response"];
-        
-        // initialise the prompts tracker.
-        for (int x = 0; x < jsonFieldsArray.count; x++)
-        {
-            UTIMetaDataField *newField=[[UTIMetaDataField alloc] init];
-            NSDictionary *jsonFieldAttributes=[jsonFieldsArray objectAtIndex:x];
-            
-            newField->fieldId=jsonFieldAttributes[@"id"];
-            newField->title=jsonFieldAttributes[@"title"];
-            newField->question=jsonFieldAttributes[@"question"];
-            newField->explanation=jsonFieldAttributes[@"explanation"];
-            
-            // options.
-            NSArray *jsonOptionsArray=jsonFieldAttributes[@"options"];
-            
-            if (jsonOptionsArray!=(id)[NSNull null]){
+            // initialise the prompts tracker.
+            for (int x = 0; x < jsonArray.count; x++)
+            {
+                UTIPrompt* newPrompt=[[UTIPrompt alloc] init];
                 
-                newField->isText=NO;
+                newPrompt.text = [[jsonArray objectAtIndex:x] objectForKey:@"text"];
+                newPrompt.identifier = [[jsonArray objectAtIndex:x] objectForKey:@"identifier"];
                 
-                for (int o=0; o<jsonOptionsArray.count; o++){
-                
-                    NSString *optionId=[[jsonOptionsArray objectAtIndex:o] objectForKey:@"id"];
-                    NSString *optionText=[[jsonOptionsArray objectAtIndex:o] objectForKey:@"text"];
-                
-                    [newField addOptionWithId:optionId text:optionText];
-                
-                }
-            } else {
-                newField->isText=YES;
+                //[self.prompts addPromptForRecording:newPrompt];
+                [prompts addPromptForRecording:newPrompt];
             }
             
-            metaDataFields = [metaDataFields arrayByAddingObject:newField];
+        } else {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i lawr"
+                                                            message: @"Gwall cyffredinol"
+                                                           delegate: nil
+                                                  cancelButtonTitle: @"Iawn"
+                                                  otherButtonTitles: nil];
+            [alert show];
             
         }
-        
-    } else {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i lawr"
-                                                        message: @"Gwall cyffredinol"
-                                                       delegate: nil
-                                              cancelButtonTitle: @"Iawn"
-                                              otherButtonTitles: nil];
-        [alert show];
-        
-    }
+    }];
+    [r sendRequestSync];
     
 }
 
 
--(BOOL) http_saveMetadata: (NSString*) uid {
-    
-    BOOL returnResult = YES;
-    
-    NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/saveMetadata";
 
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:urlString]];
-    [request setHTTPMethod:@"POST"];
+-(void) http_getMetadata: (NSString*) uid sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate, UTIErrorReporter>)sender{
     
-    NSString *boundary = @"---------------------------14737809831466499882746641449";
+    UTIRequest *r = [UTIRequest new];
+    r.requestPath = @"getMetadata";
+    r.delegate = sender;
+    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid] withBoundary:NO]
+    ;
     
-    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
-    [request addValue:contentType forHTTPHeaderField:@"Content-Type"];
+    [r setCompletionHandler:^(NSData *data, NSError *error) {
+        if (error) {
+            [sender showError:error];
+        }
+        if (error==nil) {
+            NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
+                                                               options:kNilOptions
+                                                                 error:nil];
+            id jsonResponse = json[@"response"];
+
+            if (![jsonResponse isKindOfClass:[NSArray class]]) {
+                
+                NSString *errMsg = nil;
+                if ([jsonResponse respondsToSelector:@selector(objectForKey:)]) {
+                    errMsg = [jsonResponse objectForKey:@"error"];
+                }
+                [sender showError:[NSError errorWithDomain:@"uk.ac.bangor.techiaith.paldaruo" code:-9999 userInfo:@{NSLocalizedDescriptionKey : errMsg ? errMsg : @"Gwall Cyffredinol"}]];
+                return;
+            }
+            // initialise the prompts tracker.
+            for (NSDictionary *jsonFieldAttributes in jsonResponse) {
+                UTIMetaDataField *newField=[[UTIMetaDataField alloc] init];
+                
+                newField.fieldId=jsonFieldAttributes[@"id"];
+                newField.title=jsonFieldAttributes[@"title"];
+                newField.question=jsonFieldAttributes[@"question"];
+                newField.explanation=jsonFieldAttributes[@"explanation"];
+                
+                // options.
+                NSArray *jsonOptionsArray=jsonFieldAttributes[@"options"];
+                
+                if (jsonOptionsArray!=(id)[NSNull null]){
+                    
+                    newField.isText=NO;
+                    
+                    for (NSDictionary *options in jsonOptionsArray) {
+                        NSString *optionId = [options objectForKey:@"id"];
+                        NSString *optionText = [options objectForKey:@"text"];
+                        [newField addOptionWithId:optionId text:optionText];
+                    }
+                } else {
+                    newField.isText=YES;
+                }
+                metaDataFields = [metaDataFields arrayByAddingObject:newField];
+            }
+            
+        }
+    }];
     
-    NSMutableData *body = [NSMutableData data];
+    [r sendRequestAsync];
+}
+
+
+- (void)http_saveMetadata: (NSString*) uid sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender{
     
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid]] dataUsingEncoding:NSUTF8StringEncoding]];
+    UTIRequest *r = [UTIRequest new];
+    r.requestPath = @"saveMetadata";
+    r.delegate = sender;
+    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid] withBoundary:YES];
+
     
     // get the metadata fields values as a key/value dictionary
     NSMutableDictionary *metaDataValues = [[NSMutableDictionary alloc] init];
-    for (int i=0; i < metaDataFields.count; i++){
-        
-        UTIMetaDataField *nextField = [metaDataFields objectAtIndex:i];
-        
-        NSString* v=[nextField getValue];
-        NSString* k=[nextField getKey];
-        
-        [metaDataValues setValue:v forKey:k];
-        
-    }
+    [metaDataFields enumerateObjectsUsingBlock:^(UTIMetaDataField *field, NSUInteger idx, BOOL *stop) {
+        [metaDataValues setValue:field.value forKey:field.fieldId];
+    }];
     
     NSData *jsonData=[NSJSONSerialization dataWithJSONObject:metaDataValues
                                                      options:0
                                                        error:nil];
     NSString *jsonString=[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"metadata\"\r\n\r\n%@", jsonString]] dataUsingEncoding:NSUTF8StringEncoding]];
+    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"metadata\"\r\n\r\n%@", jsonString] withBoundary:NO];
 
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [request setHTTPBody:body];
-
-    NSError *error;
-    NSURLResponse *returningResponse;
-    
-    NSData *result = [NSURLConnection sendSynchronousRequest:request
-                                           returningResponse:&returningResponse
-                                                       error:&error];
-    
-    NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)returningResponse;
-    int code = [httpResponse statusCode];
-
-    
-    if ((error!=nil) || (code!=200)) {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho Meta Data"
-                                                        message: @"Gwall cyffredinol wrth lwytho eich metadata i fyny"
-                                                       delegate: nil
-                                              cancelButtonTitle: @"Iawn"
-                                              otherButtonTitles: nil];
-        [alert show];
-        
-        returnResult=NO;
-
-    }
-    
-    return returnResult;
+    [r sendRequestAsync];
     
 }
 
@@ -506,31 +356,8 @@
 
 -(void) handleResponseUploadAudio:(NSURLResponse *)response data:(NSData *)data error:(NSError *)error {
     
-    NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-    int code = [httpResponse statusCode];
-    
-    if ((error!=nil) || (code!=200)) {
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"PaldaruoServerApplicationError" object:nil];
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho Recordiad"
-                                                        message: @"Roedd gwall ar y gweinydd wrth geisio llwytho'r recordiad i fyny. Ewch yn ôl i'r dechrau a dewisiwch 'Cychwyn arni' eto."
-                                                       delegate: nil
-                                              cancelButtonTitle: @"Iawn"
-                                              otherButtonTitles: nil];
-        [alert show];
-        
-        
-    }
-    
-
     if ([data length] >0 && error == nil) {
     
-        //NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
-        //                                                   options:kNilOptions
-        //                                                     error:nil];
-        
-        NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
                                                            options:kNilOptions
                                                              error:nil];
@@ -551,10 +378,8 @@
     }
     else{
         
-        //[[UTIReachability instance] isPaldaruoReachable];
-        
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Problem Cysylltu"
-                                                        message: @"Gwiriwch ac ail-gysylltwch eich ddyfais i'r rhwydwaith ddi-wifr cyn barhau"
+                                                        message: @"Gwiriwch ac ailgysylltu'ch dyfais i'r rhwydwaith ddiwifr cyn parhau"
                                                        delegate: nil
                                               cancelButtonTitle: @"Iawn"
                                               otherButtonTitles: nil];
@@ -564,5 +389,10 @@
     
 }
 
+
+- (void)saveProfiles {
+    NSUserDefaults *persistedStore=[NSUserDefaults standardUserDefaults];
+    [persistedStore setObject:[NSKeyedArchiver archivedDataWithRootObject:self.allProfilesArray] forKey:@"AllProfiles"];
+}
 
 @end

@@ -28,8 +28,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    NSInteger userIndex=[[UTIDataStore sharedDataStore] activeUserIndex];
-    NSString *uid=[[[[UTIDataStore sharedDataStore] allProfilesArray] objectAtIndex:userIndex] objectForKey:@"uid"];
+    NSString *uid = [[UTIDataStore sharedDataStore] activeUser].uid;
     
     [self.labelOutletMyUID setText:uid];
     

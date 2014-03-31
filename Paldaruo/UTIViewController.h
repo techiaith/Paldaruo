@@ -13,10 +13,11 @@
 #import "UTIPromptsTracker.h"
 #import "UTIDataStore.h"
 
-@interface UTIViewController : UIViewController
+@interface UTIViewController : UIViewController <AVAudioPlayerDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 
 @property (strong, nonatomic) AVAudioRecorder *audioRecorder;
 @property (strong, nonatomic) AVAudioPlayer *audioPlayer;
+@property (strong, nonatomic) NSMutableArray *currentUploadConnections;
 
 -(void) recordAudio;
 -(void) stopRecording;
@@ -24,12 +25,11 @@
 
 -(void) updateSessionProgress;
 
--(void) gotoNextPrompt;
+-(BOOL) gotoNextPrompt;
 
 -(void) setRecordStatusText : (NSString *) text;
 -(void) setMoveToNextRecordStateTitle : (NSString *) text;
 
-//-(void) handleResponseUploadAudio : (NSData *) data error:(NSError *) errorData;
 //-(void) handleResponseDownloadPrompts : (NSData *) data error:(NSError *) errorData;
 
 @end
@@ -44,7 +44,7 @@ typedef enum TypeDefRecordStatus {
     RECORDING_WAIT_TO_GOTO_NEXT,
     RECORDING_WAIT_TO_REDO_RECORDING,
     RECORDING_SESSION_END
-};
+} RecordStatus;
 
 enum TypeDefRecordStatus currentRecordingStatus;
 
