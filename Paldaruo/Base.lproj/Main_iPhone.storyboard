@@ -1158,20 +1158,23 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                     <action selector="unwindToHome:" destination="08T-CN-MIq" eventType="touchUpInside" id="VMu-V8-j0j"/>
                                 </connections>
                             </button>
-                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vpm-9D-ItG">
-                                <rect key="frame" x="79" y="485" width="186" height="21"/>
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Llwytho i fyny ffeil 1 o 1..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vpm-9D-ItG">
+                                <rect key="frame" x="79" y="485" width="169" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="186" id="vrI-YU-zVd"/>
+                                    <constraint firstAttribute="width" constant="169" id="vrI-YU-zVd"/>
                                     <constraint firstAttribute="height" constant="21" id="w7N-mJ-aTG"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="EIG-AL-s63">
-                                <rect key="frame" x="79" y="509" width="186" height="2"/>
+                            <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="EIG-AL-s63">
+                                <rect key="frame" x="79" y="509" width="169" height="2"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="169" id="Sia-tr-3PG"/>
+                                </constraints>
                             </progressView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -1187,6 +1190,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                             <constraint firstItem="dqS-Z2-IHa" firstAttribute="top" secondItem="lq1-hY-lx9" secondAttribute="bottom" constant="83" id="LPQ-1q-H9X"/>
                             <constraint firstItem="MuD-WZ-cDF" firstAttribute="leading" secondItem="y8e-aT-cDe" secondAttribute="leading" id="Nck-0D-tGh"/>
                             <constraint firstItem="yR2-d2-YWV" firstAttribute="top" secondItem="y8e-aT-cDe" secondAttribute="bottom" constant="8" id="OHN-h0-3qe"/>
+                            <constraint firstItem="EIG-AL-s63" firstAttribute="leading" secondItem="tBH-0M-tTw" secondAttribute="leading" constant="79" id="P7V-rg-qM0"/>
                             <constraint firstItem="OKH-t1-Z5r" firstAttribute="leading" secondItem="lq1-hY-lx9" secondAttribute="leading" id="PkX-HJ-rZJ"/>
                             <constraint firstAttribute="trailing" secondItem="Zpn-uW-WS8" secondAttribute="trailing" constant="18" id="Rjf-SW-v5O"/>
                             <constraint firstItem="5QE-nq-10e" firstAttribute="leading" secondItem="pI5-IK-wAA" secondAttribute="leading" id="RoF-g3-dCq"/>
@@ -1195,6 +1199,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                             <constraint firstItem="dqS-Z2-IHa" firstAttribute="top" secondItem="puB-Qc-chg" secondAttribute="bottom" id="VFC-Ug-0KB"/>
                             <constraint firstItem="TO9-k8-YtV" firstAttribute="top" secondItem="utb-Ww-ghn" secondAttribute="bottom" constant="21" id="WsA-rZ-LWl"/>
                             <constraint firstItem="lq1-hY-lx9" firstAttribute="top" secondItem="FvC-tC-v3z" secondAttribute="bottom" constant="8" id="Xnl-Qw-Wso"/>
+                            <constraint firstItem="pI5-IK-wAA" firstAttribute="top" secondItem="EIG-AL-s63" secondAttribute="bottom" constant="3" id="YcY-rh-QQD"/>
                             <constraint firstItem="MsB-Xr-PFU" firstAttribute="top" secondItem="utb-Ww-ghn" secondAttribute="bottom" constant="1" id="Yth-Aw-YOf"/>
                             <constraint firstItem="dqS-Z2-IHa" firstAttribute="top" secondItem="5QE-nq-10e" secondAttribute="bottom" constant="7" id="aFe-8s-yM8"/>
                             <constraint firstItem="MsB-Xr-PFU" firstAttribute="top" secondItem="utb-Ww-ghn" secondAttribute="bottom" constant="1" id="axA-dd-2Me"/>
@@ -1206,6 +1211,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                             <constraint firstItem="MuD-WZ-cDF" firstAttribute="centerX" secondItem="tBH-0M-tTw" secondAttribute="centerX" constant="-1" id="lHV-NZ-tdy"/>
                             <constraint firstItem="TO9-k8-YtV" firstAttribute="leading" secondItem="MsB-Xr-PFU" secondAttribute="trailing" constant="8" id="mgD-0k-MkW"/>
                             <constraint firstItem="MuD-WZ-cDF" firstAttribute="leading" secondItem="FvC-tC-v3z" secondAttribute="leading" constant="1" id="oVf-qt-oxt"/>
+                            <constraint firstItem="EIG-AL-s63" firstAttribute="top" secondItem="vpm-9D-ItG" secondAttribute="bottom" constant="3" id="poR-oH-9t6"/>
                             <constraint firstItem="2Cs-cX-KdJ" firstAttribute="top" secondItem="yR2-d2-YWV" secondAttribute="bottom" constant="8" id="tdF-92-WPW"/>
                             <constraint firstItem="Zpn-uW-WS8" firstAttribute="top" secondItem="vpm-9D-ItG" secondAttribute="bottom" constant="4" id="vRB-2e-ZnL"/>
                             <constraint firstAttribute="trailing" secondItem="yR2-d2-YWV" secondAttribute="trailing" constant="16" id="vWt-sJ-2ue"/>
@@ -1224,6 +1230,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                         <outlet property="lblOutletRecordingStatus" destination="2Cs-cX-KdJ" id="5qd-z8-WMR"/>
                         <outlet property="lblOutletSessionProgress" destination="y8e-aT-cDe" id="W7B-40-T0O"/>
                         <outlet property="lblUploadingFilesInfo" destination="vpm-9D-ItG" id="XRE-1w-22v"/>
+                        <outlet property="uploadProgressBar" destination="EIG-AL-s63" id="6rk-hf-ySr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mxr-gp-99b" userLabel="First Responder" sceneMemberID="firstResponder"/>

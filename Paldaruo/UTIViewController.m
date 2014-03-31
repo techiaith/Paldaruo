@@ -44,6 +44,9 @@
     currentRecordingStatus=DOWNLOADING_PROMPTS;
     [self btnMoveToNextRecordingState:self];
     
+    _currentUploadConnections = [NSMutableArray new];
+    self.uploadProgressBar.progress = 0;
+    
     prompts = [[UTIPromptsTracker alloc] init];
     
     //[[UTIDataStore sharedDataStore] fetchOutstandingPrompts:self identifier:uid];
@@ -233,16 +236,13 @@
 
 
 -(void) recordAudio {
-    [self startRecordingStatusTimer];
+    [self startRecordingStatusTimerWithString:@"Yn recordio…"];
     [self.audioRecorder record];
 }
 
 
 -(void) stopRecording {
-    
-    [self.lblOutletRecordingStatusTimer invalidate];
-    self.lblOutletRecordingStatusTimer = nil;
-    [self.lblOutletRecordingStatus setHidden:YES];
+    [self removeRecordingStatus];
     [self.audioRecorder stop];
     [self.audioPlayer stop];
     
@@ -258,6 +258,7 @@
 -(void) playAudio {
     
     [self.audioPlayer play];
+    [self startRecordingStatusTimerWithString:@"Chwarae yn ôl…"];
     
 }
 
@@ -289,6 +290,7 @@
                         successfully: (BOOL) flag {
     
     currentRecordingStatus=RECORDING_LISTENING_END;
+    [self removeRecordingStatus];
     [self btnMoveToNextRecordingState:self];
     
 }
@@ -297,11 +299,11 @@
 #pragma mark Recording label animations
 
 #define kStatusFlashTime 0.6
--(void) startRecordingStatusTimer {
+-(void) startRecordingStatusTimerWithString:(NSString *)string {
     if (!self.lblOutletRecordingStatusTimer) {
         self.lblOutletRecordingStatus.hidden = NO;
         self.lblOutletRecordingStatus.alpha = 1;
-        [self setRecordStatusText:@"Yn recordio...."];
+        [self setRecordStatusText:string];
         self.lblOutletRecordingStatusTimer=[NSTimer scheduledTimerWithTimeInterval:kStatusFlashTime
                                                                             target:self
                                                                           selector:@selector(toggleLabelRecordingStatus)
@@ -318,6 +320,13 @@
     }];
 }
 
+
+- (void)removeRecordingStatus {
+    [self.lblOutletRecordingStatusTimer invalidate];
+    self.lblOutletRecordingStatusTimer = nil;
+    [self.lblOutletRecordingStatus setHidden:YES];
+}
+
 #pragma mark NSURLConnectionDelegate methods
 // Used to keep track of the progress bar
 
@@ -329,7 +338,9 @@
     self.lblUploadingFilesInfo.text = [NSString stringWithFormat:@"Llwytho i fyny ffeil 1 o %lu…", (unsigned long)[self.currentUploadConnections count]];
     self.lblUploadingFilesInfo.hidden = NO;
     if (connection == [self.currentUploadConnections firstObject]) {
-        self.uploadProgressBar.progress = (float)totalBytesWritten/totalBytesExpectedToWrite;
+        self.uploadProgressBar.hidden = NO;
+        CGFloat t = (CGFloat)totalBytesExpectedToWrite;
+        self.uploadProgressBar.progress += bytesWritten/t;
     }
 }
 

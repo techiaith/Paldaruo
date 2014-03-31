@@ -149,7 +149,7 @@
     
     [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n", filename] withBoundary:NO];
     [r addBodyString:@"Content-Type: audio/wav\r\n\r\n" withBoundary:NO];
-    [r addBodyData:[[NSData alloc] initWithContentsOfURL:audioFileURL] withBoundary:NO];
+    [r addBodyData:[[[NSData alloc] initWithContentsOfURL:audioFileURL] base64EncodedDataWithOptions:0] withBoundary:NO];
     
     [r setCompletionHandler:^(NSData *data, NSError *error) {
         self.numberOfUploadingFiles -= 1;

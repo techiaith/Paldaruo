@@ -134,34 +134,45 @@
     self.lblOutletError.hidden = YES;
     NSString *newUserName=[_txtBoxNewProfileName text];
     
-    NSString *errorText = nil;
+    NSString __block *errorText = nil;
+    void (^errorBlock)(NSString *) = ^(NSString *errorText){
+        self.lblOutletError.text = errorText;
+        self.lblOutletError.hidden = NO;
+        [self.txtBoxNewProfileName becomeFirstResponder];
+    };
     if ([newUserName length] > 0){
         // The new user (if created) is automatically made the active user
         [self.txtBoxNewProfileName resignFirstResponder];
         [[UTIDataStore sharedDataStore] http_createUser_completionBlock:^(NSData *data, NSError *error) {
             [DejalBezelActivityView removeView];
-            if (!data) {
-                [self.txtBoxNewProfileName becomeFirstResponder];
-                NSString *errmsg = nil;
-                switch (error.code) {
-                    case -1001: {
-                        errmsg = @"Terfyn Amser Gweinydd";
-                        break;
-                    }
-                default: {
-                    errmsg = error.localizedDescription;
-                    break;
-                }
-                }
-                self.lblOutletError.text =  errmsg;
-                self.lblOutletError.hidden = NO;
-                return;
+            NSDictionary *json = nil;
+            if (data) {
+                json = [NSJSONSerialization JSONObjectWithData:data
+                                                       options:kNilOptions
+                                                         error:nil];
             }
             
-            NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
-                                                               options:kNilOptions
-                                                                 error:nil];
+            if (!json) {
+                errorText = @"Problem gyda'r gweinydd";
+            } else if (error) {
+                switch (error.code) {
+                    case -1001: {
+                        errorText = @"Terfyn Amser Gweinydd";
+                        break;
+                    }
+                    default: {
+                        errorText = error.localizedDescription;
+                        break;
+                    }
+                }
+            } else if (!data) {
+                errorText = @"Problem gyda'r gweinydd";
+            }
             
+            if (errorText) {
+                errorBlock(errorText);
+                return;
+            }
             NSDictionary *jsonResponse = json[@"response"];
             NSString *uid = jsonResponse[@"uid"];
             
@@ -174,13 +185,7 @@
                 } else {
                     [self.navigationController popToRootViewControllerAnimated:YES];
                 }
-                
-            } else {
-                // display some kind of error
-                self.lblOutletError.text =  error.localizedDescription;
-                self.lblOutletError.hidden = NO;
             }
-            
         }];
         [DejalBezelActivityView activityViewForView:self.view withLabel:@"Llwytho…"];
         
@@ -189,8 +194,7 @@
     }
     
     if (errorText) {
-        self.lblOutletError.text = errorText;
-        self.lblOutletError.hidden = NO;
+        errorBlock(errorText);
     }
 }
 

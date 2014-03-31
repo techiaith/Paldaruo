@@ -32,6 +32,7 @@
     
     if (!self.requestPath) {
         NSLog(@"ERROR: You must set a request path before submitting a request");
+        return nil;
     }
     
     NSURL *url = [NSURL URLWithString:(self.serverURLString ? self.serverURLString : kServerHost)];
@@ -71,7 +72,8 @@
 - (void)sendRequestAsynchronously:(BOOL)async {
     
     NSMutableURLRequest *request = self.request;
-    
+    _request500ed = NO;
+
     if (!request) {
         NSLog(@"Aborting request...");
         return;
@@ -130,9 +132,20 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    if (self.completionHandler) {
-        self.completionHandler(self.responseData, nil);
+    NSError *err = nil;
+    if (self.request500ed) {
+        err = [NSError errorWithDomain:@"uk.ac.bangor.techiaith.paldaruo" code:-9999 userInfo:@{NSLocalizedDescriptionKey : @"Gwall gyda'r gweinydd"}];
     }
+    if (self.completionHandler) {
+
+        self.completionHandler(err ? nil : self.responseData, err);
+    }
+    if (err) {
+        // The server gave a 500 error, so we fake that this is a connection failure (for our own error handling)
+        [self connection:connection didFailWithError:err];
+        return;
+    }
+    
     if ([self.delegate respondsToSelector:@selector(connectionDidFinishLoading:)]) {
         [self.delegate connectionDidFinishLoading:connection];
     }
@@ -149,6 +162,12 @@
 - (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
     if ([self.delegate respondsToSelector:@selector(connection:didSendBodyData:totalBytesWritten:totalBytesExpectedToWrite:)]) {
         [self.delegate connection:connection didSendBodyData:bytesWritten totalBytesWritten:totalBytesExpectedToWrite totalBytesExpectedToWrite:totalBytesExpectedToWrite];
+    }
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSHTTPURLResponse *)response {
+    if (response.statusCode == 500) {
+        self.request500ed = YES;
     }
 }
 @end
