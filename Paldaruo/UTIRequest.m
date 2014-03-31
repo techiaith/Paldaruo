@@ -16,10 +16,10 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        _bodyDataArray = [NSMutableArray new];
         _completionHandler = nil;
-        _boundaryData = [[NSString stringWithFormat:@"\r\n--%@\r\n", kRequestBoundary]dataUsingEncoding:NSUTF8StringEncoding];
+        _boundaryData = [[NSString stringWithFormat:@"\r\n--%@\r\n", kRequestBoundary] dataUsingEncoding:NSUTF8StringEncoding];
         _responseData = [NSMutableData new];
+        _bodyData = [[NSMutableData alloc] initWithData:_boundaryData];
     }
     return self;
 }
@@ -48,15 +48,11 @@
     
     [request addValue:contentType forHTTPHeaderField: @"Content-Type"];
     
-    NSMutableData *body = [NSMutableData new];
     
     // The very first boundary data is slightly different from the rest (there is no trailing -- after the boundary
-    [body appendData:_boundaryData];
-    for (NSData *data in self.bodyDataArray) {
-        [body appendData:data];
-    }
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", kRequestBoundary]dataUsingEncoding:NSUTF8StringEncoding]];
-    [request setHTTPBody:body];
+
+    [self.bodyData appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", kRequestBoundary]dataUsingEncoding:NSUTF8StringEncoding]];
+    [request setHTTPBody:self.bodyData];
     
     _request = request;
     return request;
@@ -96,9 +92,9 @@
         NSLog(@"ERROR: You must set an NSData object for the request body data. Aborting");
         return;
     }
-    [self.bodyDataArray addObject:data];
+    [self.bodyData appendData:data];
     if (withBoundary) {
-        [self.bodyDataArray addObject:_boundaryData];
+        [self.bodyData appendData:_boundaryData];
     }
 }
 

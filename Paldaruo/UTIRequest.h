@@ -30,7 +30,7 @@ typedef void (^urlCompletionHandler)(NSData *data, NSError *error);
 /**
  *  An array of strings which are added to the body of the http request. Separated by the boundary string
  */
-@property NSMutableArray *bodyDataArray;
+@property NSMutableData *bodyData;
 
 - (void)sendRequestAsync;
 - (void)sendRequestSync;
