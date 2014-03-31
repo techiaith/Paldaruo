@@ -19,6 +19,7 @@
         _bodyDataArray = [NSMutableArray new];
         _completionHandler = nil;
         _boundaryData = [[NSString stringWithFormat:@"\r\n--%@\r\n", kRequestBoundary]dataUsingEncoding:NSUTF8StringEncoding];
+        _responseData = [NSMutableData new];
     }
     return self;
 }
@@ -79,23 +80,15 @@
         NSLog(@"Aborting request...");
         return;
     }
-    
     if (async) {
-        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-            if (self.completionHandler) {
-                self.completionHandler(response, data, connectionError);
-            }
-            // Clear the old request. A new one will be generated if need be
-            _request = nil;
-        }];
+        [NSURLConnection connectionWithRequest:request delegate:self];
     } else {
         NSURLResponse *response = nil;
         NSError *error = nil;
         NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-        self.completionHandler(response, data, error);
-        self.responseError = error;
+        self.completionHandler(data, error);
+        _request = nil;
     }
-
 }
 
 - (void)addBodyData:(NSData *)data withBoundary:(BOOL)withBoundary{
@@ -126,5 +119,40 @@
 
 - (urlCompletionHandler)completionHandler {
     return _completionHandler;
+}
+
+#pragma mark Delegate methods
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    if (self.completionHandler) {
+        self.completionHandler(self.responseData, nil);
+    }
+    if ([self.delegate respondsToSelector:@selector(connection:didFailWithError:)]) {
+        [self.delegate connection:connection didFailWithError:error];
+    }
+    _request = nil;
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    if (self.completionHandler) {
+        self.completionHandler(self.responseData, nil);
+    }
+    if ([self.delegate respondsToSelector:@selector(connectionDidFinishLoading:)]) {
+        [self.delegate connectionDidFinishLoading:connection];
+    }
+    _request = nil;
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    [self.responseData appendData:data];
+    if ([self.delegate respondsToSelector:@selector(connection:didReceiveData:)]) {
+        [self.delegate connection:connection didReceiveData:data];
+    }
+}
+
+- (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
+    if ([self.delegate respondsToSelector:@selector(connection:didSendBodyData:totalBytesWritten:totalBytesExpectedToWrite:)]) {
+        [self.delegate connection:connection didSendBodyData:bytesWritten totalBytesWritten:totalBytesExpectedToWrite totalBytesExpectedToWrite:totalBytesExpectedToWrite];
+    }
 }
 @end

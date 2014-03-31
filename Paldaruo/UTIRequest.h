@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 typedef void (^voidBlock)(void);
-typedef void (^urlCompletionHandler)(NSURLResponse *response, NSData *data, NSError *error);
+typedef void (^urlCompletionHandler)(NSData *data, NSError *error);
 
 /**
  *  Handles request objects to/from the server
@@ -24,7 +24,8 @@ typedef void (^urlCompletionHandler)(NSURLResponse *response, NSData *data, NSEr
 @property NSString * requestPath;
 @property (readonly, strong, nonatomic) NSMutableURLRequest *request;
 @property NSString *contentType;
-@property NSError __block *responseError;
+@property (strong) id <NSURLConnectionDelegate, NSURLConnectionDataDelegate> delegate;
+@property (strong) NSMutableData *responseData;
 
 /**
  *  An array of strings which are added to the body of the http request. Separated by the boundary string

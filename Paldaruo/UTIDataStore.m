@@ -86,7 +86,7 @@
 }
 
 -(void) http_uploadAudio: (NSString*) uid
-              identifier:(NSString*) ident {
+              identifier:(NSString*) ident sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender {
     
     NSString *filename = [NSString stringWithFormat:@"%@.wav", ident];
     NSString *uidTempDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:uid];
@@ -105,7 +105,7 @@
     NSURL *audioFileURL = [NSURL fileURLWithPath:audioFileTarget];
     //[NSTemporaryDirectory()stringByAppendingString:@"audioRecording.wav"]];
     
-    [self http_uploadAudioFile:uid identifier:ident filename:filename URL:audioFileURL];
+    [self http_uploadAudioFile:uid identifier:ident filename:filename URL:audioFileURL sender:sender];
     
 }
 
@@ -124,7 +124,8 @@
         [self http_uploadAudioFile:uid
                         identifier:ident
                           filename:fileName
-                               URL:audioFileURL];
+                               URL:audioFileURL
+                            sender:nil];
 
     }
 
@@ -134,10 +135,12 @@
 - (void)http_uploadAudioFile:(NSString*) uid
                   identifier:(NSString*) ident
                     filename:(NSString*) filename
-                         URL:(NSURL*) audioFileURL {
+                         URL:(NSURL*) audioFileURL
+                      sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender {
 
     
     UTIRequest *r = [UTIRequest new];
+    r.delegate = sender;
     r.requestPath = @"savePrompt";
     [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid] withBoundary:YES];
     [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"promptId\"\r\n\r\n%@", ident] withBoundary:YES];
@@ -149,10 +152,8 @@
     
     [r addBodyData:[[NSData alloc] initWithContentsOfURL:audioFileURL] withBoundary:NO];
     
-    [r setCompletionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        [self willChangeValueForKey:@"numberOfUploadingFiles"];
+    [r setCompletionHandler:^(NSData *data, NSError *error) {
         self.numberOfUploadingFiles -= 1;
-        [self didChangeValueForKey:@"numberOfUploadingFiles"];
         NSString *message = nil;
         if ([data length]) {
             NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
@@ -160,14 +161,11 @@
             if (error && [error length]) {
                 message = @"Gwall gyda'r gweinydd";
             }
-        }
-        if ([data length] == 0 && error == nil) {
+        } else if ([data length] == 0 && error == nil) {
             message = @"Ymateb gwag";
-        }
-        else if (error.code == NSURLErrorTimedOut){
+        } else if (error.code == NSURLErrorTimedOut){
             message = @"Timeout";
-        }
-        else if (error != nil) {
+        } else if (error != nil) {
             message = @"Gwall cyffredinol";
         }
         
@@ -180,9 +178,7 @@
             [alert show];
         }
     }];
-    [self willChangeValueForKey:@"numberOfUploadingFiles"];
     self.numberOfUploadingFiles += 1;
-    [self didChangeValueForKey:@"numberOfUploadingFiles"];
     [r sendRequestAsync];
     
 }
@@ -206,7 +202,7 @@
         [r sendRequestAsync];
         return nil;
     } else {
-        r.completionHandler = ^(NSURLResponse *response, NSData *data, NSError *error) {
+        r.completionHandler = ^(NSData *data, NSError *error) {
             if (error==nil) {
                 NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
                 NSDictionary *jsonResponse = json[@"response"];
@@ -225,7 +221,7 @@
     
     [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid] withBoundary:NO];
     
-    [r setCompletionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+    [r setCompletionHandler:^(NSData *data, NSError *error) {
         if (!error) {
             
             NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
@@ -271,7 +267,7 @@
     ;
     
     
-    [r setCompletionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+    [r setCompletionHandler:^(NSData *data, NSError *error) {
         if (error==nil) {
             NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
                                                                options:kNilOptions
@@ -361,7 +357,7 @@
     NSError *error;
     NSURLResponse *returningResponse;
     
-    NSData *result = [NSURLConnection sendSynchronousRequest:request
+    [NSURLConnection sendSynchronousRequest:request
                                            returningResponse:&returningResponse
                                                        error:&error];
     
@@ -389,7 +385,6 @@
 
 
 -(void) handleResponseUploadAudio:(NSData *)data error:(NSError *)error {
-    
     
     if ([data length] >0 && error == nil) {
     

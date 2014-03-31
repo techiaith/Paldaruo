@@ -13,10 +13,11 @@
 #import "UTIPromptsTracker.h"
 #import "UTIDataStore.h"
 
-@interface UTIViewController : UIViewController <AVAudioPlayerDelegate>
+@interface UTIViewController : UIViewController <AVAudioPlayerDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 
 @property (strong, nonatomic) AVAudioRecorder *audioRecorder;
 @property (strong, nonatomic) AVAudioPlayer *audioPlayer;
+@property (strong, nonatomic) NSMutableArray *currentUploadConnections;
 
 -(void) recordAudio;
 -(void) stopRecording;

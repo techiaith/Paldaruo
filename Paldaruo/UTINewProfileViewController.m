@@ -138,7 +138,7 @@
     if ([newUserName length] > 0){
         // The new user (if created) is automatically made the active user
         [self.txtBoxNewProfileName resignFirstResponder];
-        [[UTIDataStore sharedDataStore] http_createUser_completionBlock:^(NSURLResponse *response, NSData *data, NSError *error) {
+        [[UTIDataStore sharedDataStore] http_createUser_completionBlock:^(NSData *data, NSError *error) {
             [DejalBezelActivityView removeView];
             if (!data) {
                 [self.txtBoxNewProfileName becomeFirstResponder];

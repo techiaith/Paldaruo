@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletBackToHome;
 @property (strong, nonatomic) NSTimer *lblOutletRecordingStatusTimer;
 @property (weak, nonatomic) IBOutlet UILabel *lblUploadingFilesInfo;
+@property (weak, nonatomic) IBOutlet UIProgressView *uploadProgressBar;
 @end
 
 
@@ -70,25 +71,9 @@
     
     currentRecordingStatus=RECORDING_SESSION_START;
     [self btnMoveToNextRecordingState:self];
-    [[UTIDataStore sharedDataStore] addObserver:self forKeyPath:@"numberOfUploadingFiles" options:0 context:nil];
     [super viewDidLoad];
     
 }
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"numberOfUploadingFiles"]) {
-        NSUInteger numberOfUploadingFiles = [[UTIDataStore sharedDataStore] numberOfUploadingFiles];
-        if (numberOfUploadingFiles == 0) {
-            self.lblUploadingFilesInfo.hidden = YES;
-        } else {
-            self.lblUploadingFilesInfo.text = [NSString stringWithFormat:@"Llwytho i fyny %lu ffeil…", (unsigned long)numberOfUploadingFiles];
-            self.lblUploadingFilesInfo.hidden = NO;
-        }
-        return;
-    }
-    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-}
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -176,7 +161,8 @@
             break;
         } case RECORDING_WAIT_TO_GOTO_NEXT: {
             [[UTIDataStore sharedDataStore] http_uploadAudio:uid
-                                                  identifier:self.currentPrompt.identifier];
+                                                  identifier:self.currentPrompt.identifier
+                                                      sender:self];
             
             [self gotoNextPrompt];
             
@@ -256,6 +242,7 @@
     
     [self.lblOutletRecordingStatusTimer invalidate];
     self.lblOutletRecordingStatusTimer = nil;
+    [self.lblOutletRecordingStatus setHidden:YES];
     [self.audioRecorder stop];
     [self.audioPlayer stop];
     
@@ -329,6 +316,38 @@
     [UIView animateWithDuration:kStatusFlashTime animations:^{
         self.lblOutletRecordingStatus.alpha = !self.lblOutletRecordingStatus.alpha;
     }];
+}
+
+#pragma mark NSURLConnectionDelegate methods
+// Used to keep track of the progress bar
+
+- (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
+    if (![self.currentUploadConnections containsObject:connection]) {
+        [self.currentUploadConnections addObject:connection];
+    }
+    self.uploadProgressBar.hidden = NO;
+    self.lblUploadingFilesInfo.text = [NSString stringWithFormat:@"Llwytho i fyny ffeil 1 o %lu…", (unsigned long)[self.currentUploadConnections count]];
+    self.lblUploadingFilesInfo.hidden = NO;
+    if (connection == [self.currentUploadConnections firstObject]) {
+        self.uploadProgressBar.progress = (float)totalBytesWritten/totalBytesExpectedToWrite;
+    }
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    [self removeConnection:connection];
+}
+
+- (void)removeConnection:(NSURLConnection *)connection {
+    [self.currentUploadConnections removeObject:connection];
+    if ([self.currentUploadConnections count] == 0) {
+        self.lblUploadingFilesInfo.hidden = YES;
+        self.uploadProgressBar.hidden = YES;
+        self.uploadProgressBar.progress = 0;
+    }
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    [self removeConnection:connection];
 }
 
 
