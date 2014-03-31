@@ -2,8 +2,8 @@
 
 #ifdef DEBUG
     // Debug Build Config
-    #define kServerHost @"http://127.0.0.1:8082"
-//    #define kServerHost @"http://paldaruo.techiaith.bangor.ac.uk"
+//    #define kServerHost @"http://127.0.0.1:8082"
+#define kServerHost @"http://paldaruo.techiaith.bangor.ac.uk"
 #else
     // Release Build
     #define kServerHost @"http://paldaruo.techiaith.bangor.ac.uk"
