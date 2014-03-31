@@ -29,9 +29,9 @@ typedef void (^urlCompletionHandler)(NSData *data, NSError *error);
 @property BOOL request500ed;
 
 /**
- *  An array of strings which are added to the body of the http request. Separated by the boundary string
+ *  An array of data objects which are added to the body of the http request. Separated by the boundary string
  */
-@property NSMutableData *bodyData;
+@property NSMutableArray *bodyDataArray;
 
 - (void)sendRequestAsync;
 - (void)sendRequestSync;

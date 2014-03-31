@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "UTIRequest.h"
+#import "UTIDataStore.h"
 
-@interface UTINewProfileViewController : UIViewController <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource> {
+@interface UTINewProfileViewController : UIViewController <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UTIErrorReporter, NSURLConnectionDelegate, NSURLConnectionDataDelegate> {
     int currentMetaDataFieldIndex;
 }
 

@@ -135,11 +135,6 @@
     NSString *newUserName=[_txtBoxNewProfileName text];
     
     NSString __block *errorText = nil;
-    void (^errorBlock)(NSString *) = ^(NSString *errorText){
-        self.lblOutletError.text = errorText;
-        self.lblOutletError.hidden = NO;
-        [self.txtBoxNewProfileName becomeFirstResponder];
-    };
     if ([newUserName length] > 0){
         // The new user (if created) is automatically made the active user
         [self.txtBoxNewProfileName resignFirstResponder];
@@ -170,7 +165,7 @@
             }
             
             if (errorText) {
-                errorBlock(errorText);
+                [self showErrorText:errorText];
                 return;
             }
             NSDictionary *jsonResponse = json[@"response"];
@@ -178,13 +173,7 @@
             
             if (uid) {
                 [[UTIDataStore sharedDataStore] addNewUser:newUserName uid:uid];
-                [[UTIDataStore sharedDataStore] http_getMetadata:uid];
-                NSArray *prevViewControllers = [self.navigationController viewControllers];
-                if ([prevViewControllers count] > 2) {
-                    [self.navigationController popToViewController:[prevViewControllers objectAtIndex:1] animated:YES];
-                } else {
-                    [self.navigationController popToRootViewControllerAnimated:YES];
-                }
+                [[UTIDataStore sharedDataStore] http_getMetadata:uid sender:self];
             }
         }];
         [DejalBezelActivityView activityViewForView:self.view withLabel:@"Llwytho…"];
@@ -194,7 +183,7 @@
     }
     
     if (errorText) {
-        errorBlock(errorText);
+        [self showErrorText:errorText];
     }
 }
 
@@ -331,5 +320,31 @@
     
 }
 
+#pragma mark NSURLConnectionDelegate methods
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+//    NSArray *prevViewControllers = [self.navigationController viewControllers];
+//    if ([prevViewControllers count] > 2) {
+//        [self.navigationController popToViewController:[prevViewControllers objectAtIndex:1] animated:YES];
+//    } else {
+//        [self.navigationController popToRootViewControllerAnimated:YES];
+//    }
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    [self showError:error];
+}
+
+#pragma mark UTIErrorReporter protocol
+
+- (void)showError:(NSError *)error {
+    [self showErrorText:error.localizedDescription];
+}
+
+- (void)showErrorText:(NSString *)errorText {
+    self.lblOutletError.text = errorText;
+    self.lblOutletError.hidden = NO;
+    [self.txtBoxNewProfileName becomeFirstResponder];
+}
 
 @end

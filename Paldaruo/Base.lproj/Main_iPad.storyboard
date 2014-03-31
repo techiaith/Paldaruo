@@ -407,7 +407,6 @@
         <!--New Profile View Controller-->
         <scene sceneID="LaU-FT-UBA">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="sSr-uV-deD" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="Mxt-vI-ziU" customClass="UTINewProfileViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="lGx-mp-nTF"/>
@@ -563,6 +562,7 @@
                         <outlet property="txtBoxNewProfileName" destination="jFv-t6-67O" id="UQy-ym-Qpy"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sSr-uV-deD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1814" y="1519"/>
         </scene>

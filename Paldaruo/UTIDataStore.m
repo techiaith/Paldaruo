@@ -257,24 +257,35 @@
 
 
 
--(void) http_getMetadata: (NSString*) uid {
+-(void) http_getMetadata: (NSString*) uid sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate, UTIErrorReporter>)sender{
     
     UTIRequest *r = [UTIRequest new];
     r.requestPath = @"getMetadata";
-    
+    r.delegate = sender;
     [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid] withBoundary:NO]
     ;
     
-    
     [r setCompletionHandler:^(NSData *data, NSError *error) {
+        if (error) {
+            [sender showError:error];
+        }
         if (error==nil) {
             NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
                                                                options:kNilOptions
                                                                  error:nil];
-            NSArray *jsonFieldsArray = json[@"response"];
-            
+            id jsonResponse = json[@"response"];
+
+            if (![jsonResponse isKindOfClass:[NSArray class]]) {
+                
+                NSString *errMsg = nil;
+                if ([jsonResponse respondsToSelector:@selector(objectForKey:)]) {
+                    errMsg = [jsonResponse objectForKey:@"error"];
+                }
+                [sender showError:[NSError errorWithDomain:@"uk.ac.bangor.techiaith.paldaruo" code:-9999 userInfo:@{NSLocalizedDescriptionKey : errMsg ? errMsg : @"Gwall Cyffredinol"}]];
+                return;
+            }
             // initialise the prompts tracker.
-            for (NSDictionary *jsonFieldAttributes in jsonFieldsArray) {
+            for (NSDictionary *jsonFieldAttributes in jsonResponse) {
                 UTIMetaDataField *newField=[[UTIMetaDataField alloc] init];
                 
                 newField.fieldId=jsonFieldAttributes[@"id"];
@@ -300,17 +311,7 @@
                 metaDataFields = [metaDataFields arrayByAddingObject:newField];
             }
             
-        } else {
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i lawr"
-                                                            message: @"Gwall cyffredinol"
-                                                           delegate: nil
-                                                  cancelButtonTitle: @"Iawn"
-                                                  otherButtonTitles: nil];
-            [alert show];
-            
         }
-
     }];
     
     [r sendRequestAsync];

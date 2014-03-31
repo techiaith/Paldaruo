@@ -16,6 +16,12 @@
 // implements a singleton as per : http://www.galloway.me.uk/tutorials/singleton-classes/
 //
 
+@protocol UTIErrorReporter <NSObject>
+
+- (void)showError:(NSError *)error;
+- (void)showErrorText:(NSString *)errorText;
+@end
+
 
 @interface UTIDataStore : NSObject {
     NSArray *metaDataFields;
@@ -55,7 +61,7 @@
                          URL:(NSURL *)audioFileURL
                       sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender;
 
-- (void)http_getMetadata:(NSString *)uid;
+- (void)http_getMetadata:(NSString *)uid sender:(id <UTIErrorReporter>)sender;
 - (BOOL)http_saveMetadata:(NSString *)uid;
 - (void)http_uploadOutstandingAudio:(NSString*)uid;
 
