@@ -535,7 +535,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N9L-9p-f6r">
-                                <rect key="frame" x="345" y="198" width="354" height="40"/>
+                                <rect key="frame" x="345" y="198" width="504" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -560,6 +560,7 @@
                         <outlet property="pickerViewOutletMetaDataOption" destination="Qo4-JZ-CMj" id="VOB-Nr-PkT"/>
                         <outlet property="textFieldOutletMetaDataFreeText" destination="BR1-U4-D6N" id="5zQ-Nr-krM"/>
                         <outlet property="txtBoxNewProfileName" destination="jFv-t6-67O" id="UQy-ym-Qpy"/>
+                        <segue destination="nmt-Gv-nbk" kind="push" identifier="id_start" id="KYH-TC-bBo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sSr-uV-deD" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -811,4 +812,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="KYH-TC-bBo"/>
+    </inferredMetricsTieBreakers>
 </document>

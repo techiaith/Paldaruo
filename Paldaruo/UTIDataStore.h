@@ -34,7 +34,7 @@
 @property __block NSUInteger numberOfUploadingFiles;
 
 - (UTIUser *)userAtIndex:(NSUInteger)idx;
-
+- (UTIUser *)userForName:(NSString *)name;
 
 /**
  *  Saves the current user profiles
@@ -62,7 +62,7 @@
                       sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender;
 
 - (void)http_getMetadata:(NSString *)uid sender:(id <UTIErrorReporter>)sender;
-- (BOOL)http_saveMetadata:(NSString *)uid;
+- (void)http_saveMetadata:(NSString *)uid sender:(id <NSURLConnectionDataDelegate, NSURLConnectionDelegate>)sender;
 - (void)http_uploadOutstandingAudio:(NSString*)uid;
 
 

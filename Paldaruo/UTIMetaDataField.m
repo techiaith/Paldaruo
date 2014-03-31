@@ -45,7 +45,7 @@
 - (NSString *)value {
     
     if (self.isText==YES){
-        return self.value;
+        return _value;
     } else {
         return (NSString *)[self.optionKey objectAtIndex:self.selectedOptionIndex];
     }

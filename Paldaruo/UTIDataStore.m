@@ -85,6 +85,15 @@
     return [self.allProfilesArray objectAtIndex:idx];
 }
 
+- (UTIUser *)userForName:(NSString *)name {
+    for (UTIUser *u in self.allProfilesArray) {
+        if ([u.name isEqualToString:name]) {
+            return u;
+        }
+    }
+    return nil;
+}
+
 -(void) http_uploadAudio: (NSString*) uid
               identifier:(NSString*) ident sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender {
     
@@ -318,25 +327,13 @@
 }
 
 
-- (BOOL)http_saveMetadata: (NSString*) uid {
+- (void)http_saveMetadata: (NSString*) uid sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender{
     
-    BOOL returnResult = YES;
-    
-    NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/saveMetadata";
+    UTIRequest *r = [UTIRequest new];
+    r.requestPath = @"saveMetadata";
+    r.delegate = sender;
+    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid] withBoundary:YES];
 
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:urlString]];
-    [request setHTTPMethod:@"POST"];
-    
-    
-    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",kRequestBoundary];
-    [request addValue:contentType forHTTPHeaderField:@"Content-Type"];
-    
-    NSMutableData *body = [NSMutableData data];
-    
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",kRequestBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid]] dataUsingEncoding:NSUTF8StringEncoding]];
     
     // get the metadata fields values as a key/value dictionary
     NSMutableDictionary *metaDataValues = [[NSMutableDictionary alloc] init];
@@ -349,36 +346,9 @@
                                                        error:nil];
     NSString *jsonString=[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
-    
-    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"metadata\"\r\n\r\n%@", jsonString] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [request setHTTPBody:body];
+    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"metadata\"\r\n\r\n%@", jsonString] withBoundary:NO];
 
-    NSError *error;
-    NSURLResponse *returningResponse;
-    
-    [NSURLConnection sendSynchronousRequest:request
-                                           returningResponse:&returningResponse
-                                                       error:&error];
-    
-    NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)returningResponse;
-    int code = [httpResponse statusCode];
-
-    
-    if ((error!=nil) || (code!=200)) {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho Meta Data"
-                                                        message: @"Gwall cyffredinol wrth lwytho eich metadata i fyny"
-                                                       delegate: nil
-                                              cancelButtonTitle: @"Iawn"
-                                              otherButtonTitles: nil];
-        [alert show];
-        
-        returnResult=NO;
-
-    }
-    
-    return returnResult;
+    [r sendRequestAsync];
     
 }
 

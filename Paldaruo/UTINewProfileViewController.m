@@ -14,7 +14,6 @@
 @interface UTINewProfileViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletCreateUser;
-@property (weak, nonatomic) IBOutlet UIButton *btnOutletStartSession;
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletNextQuestion;
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletPreviousQuestion;
 
@@ -31,7 +30,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *txtBoxNewProfileName;
 
 - (IBAction)btnActionNextQuestion:(id)sender;
-- (IBAction)btnActionCreateUser:(id)sender;
 - (IBAction)btnActionStartSession:(id)sender;
 - (IBAction)btnActionPreviousQuestion:(id)sender;
 
@@ -42,7 +40,6 @@
 
 - (void)viewDidLoad
 {
-    [self.btnOutletStartSession setHidden:YES];
     
     currentMetaDataFieldIndex=0;
     
@@ -129,13 +126,21 @@
     [self goToNextMetaDataField:YES];
 }
 
+- (IBAction)btnActionStartSession:(id)sender {
+    [self performSegueWithIdentifier:@"id_start" sender:self];
+}
 
 - (IBAction)btnActionCreateUser:(id)sender {
     self.lblOutletError.hidden = YES;
     NSString *newUserName=[_txtBoxNewProfileName text];
     
     NSString __block *errorText = nil;
-    if ([newUserName length] > 0){
+    
+    if ([[newUserName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] == 0) {
+        errorText = @"Rhaid rhoi enw i'r proffil";
+    } else if ([[UTIDataStore sharedDataStore] userForName:newUserName]) {
+        errorText = @"Mae proffil gyda'r enw yma'n bodoli eisioes";
+    } else {
         // The new user (if created) is automatically made the active user
         [self.txtBoxNewProfileName resignFirstResponder];
         [[UTIDataStore sharedDataStore] http_createUser_completionBlock:^(NSData *data, NSError *error) {
@@ -178,8 +183,6 @@
         }];
         [DejalBezelActivityView activityViewForView:self.view withLabel:@"Llwytho…"];
         
-    } else {
-        errorText = @"Rhaid rhoi enw i'r proffil";
     }
     
     if (errorText) {
@@ -294,7 +297,6 @@
         else
             [self.btnOutletPreviousQuestion setHidden:NO];
         
-        [self.btnOutletStartSession setHidden:YES];
         [self.btnOutletNextQuestion setHidden:NO];
         
     } else {
@@ -309,12 +311,7 @@
         
         NSString *uid = [[UTIDataStore sharedDataStore] activeUser].uid;
         
-        BOOL success = [[UTIDataStore sharedDataStore] http_saveMetadata:uid];
-        
-        if (success){
-            [self.btnOutletStartSession setHidden:NO];
-            [self.btnOutletPreviousQuestion setHidden:YES];
-        }
+        [[UTIDataStore sharedDataStore] http_saveMetadata:uid sender:self];
         
     }
     
@@ -323,6 +320,23 @@
 #pragma mark NSURLConnectionDelegate methods
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    if ([connection.originalRequest.URL.lastPathComponent isEqualToString:@"saveMetadata"]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self performSegueWithIdentifier:@"id_start" sender:self];
+        });
+        return;
+    }
+    [self.lblOutletMetaDataField_Title setHidden:NO];
+    [self.lblOutletMetaDataField_Question setHidden:NO];
+    [self.lblOutletMetaDataField_Explanation setHidden:NO];
+    [self.pickerViewOutletMetaDataOption setHidden:NO];
+    [self.btnOutletNextQuestion setHidden:NO];
+    [self.btnOutletCreateUser setHidden:YES];
+    [self.lblOutletNewProfileNameFieldDescription setHidden:YES];
+    [self.txtBoxNewProfileName setHidden:YES];
+    //[self.btnOutletPreviousQuestion setHidden:NO];
+    
+    [self goToNextMetaDataField:NO];
 //    NSArray *prevViewControllers = [self.navigationController viewControllers];
 //    if ([prevViewControllers count] > 2) {
 //        [self.navigationController popToViewController:[prevViewControllers objectAtIndex:1] animated:YES];
