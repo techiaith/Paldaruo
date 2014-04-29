@@ -1001,7 +1001,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Peidiwch llefaru'r testunau yn rhy gyflym nag yn rhy uchel" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="282" translatesAutoresizingMaskIntoConstraints="NO" id="tIq-fe-RDU">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Peidiwch llefaru'r testunau yn rhy gyflym nac yn rhy uchel" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="282" translatesAutoresizingMaskIntoConstraints="NO" id="tIq-fe-RDU">
                                 <rect key="frame" x="19" y="223" width="282" height="136"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
@@ -1017,7 +1017,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                     <constraint firstAttribute="width" constant="280" id="rHf-aN-rpv"/>
                                     <constraint firstAttribute="height" constant="80" id="tRT-H6-Fdu"/>
                                 </constraints>
-                                <string key="text">Os hoffwch chi gysylltu â ni ynghylch eich data a'ch recordiadau yna e-bostiwch ni ar techiaith@bangor.ac.uk gan ddyfynnu eich rhif unigryw canlynol :</string>
+                                <string key="text">Os hoffech chi gysylltu â ni ynghylch eich data a'ch recordiadau yna e-bostiwch ni ar techiaith@bangor.ac.uk gan ddyfynnu eich rhif unigryw canlynol :</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -1139,11 +1139,10 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Torfoli Adnabod Lleferydd" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TO9-k8-YtV">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Torfoli Adnabod Lleferydd" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="TO9-k8-YtV">
                                 <rect key="frame" x="79" y="41" width="320" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Torfoli Adnadbod Lleferydd" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="TO9-k8-YtV">
                                     <constraint firstAttribute="width" constant="320" id="kYQ-75-le2"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1367,9 +1366,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="1Ct-8Q-A1y"/>
-        <segue reference="MTr-r7-OSV"/>
-    </inferredMetricsTieBreakers>
-</document>
         <segue reference="dK9-YE-406"/>
         <segue reference="Fms-mC-hRW"/>
+    </inferredMetricsTieBreakers>
+</document>
