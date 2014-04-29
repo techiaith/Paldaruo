@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@interface UTIWelcomeViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate>
 
+@property (weak, nonatomic) IBOutlet UILabel *noProfilesLabel;
+@property (weak, nonatomic) IBOutlet UIPickerView *picklistOutletExistingUsers;
+@property (weak, nonatomic) IBOutlet UIButton *btnOutletStartSession;
+@property (weak, nonatomic) IBOutlet UIButton *btnOutletAddProfile;
 
-@interface UTIWelcomeViewController : UIViewController{
-    
-}
-
+- (IBAction)btnStartSession:(id)sender;
 
 @end

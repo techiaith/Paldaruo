@@ -2,8 +2,12 @@
 #encoding: utf-8
 import os, re, traceback, BaseHTTPServer, SocketServer, json, sys, cgi, uuid, sqlite3
 
-def getParam(query, name):
-    return query.get(name)[0].decode('UTF-8')
+def getParam(query, name, decodeUtf8=True):
+    val = query.get(name)[0]
+    if decodeUtf8: 
+        return val.decode('UTF-8')
+    else:
+        return val
 
 class AuthError(Exception):
     pass
@@ -59,7 +63,7 @@ class TorfRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         elif path == '/getOutstandingPrompts':
             return self.getOutstandingPrompts(uid)
         elif path == '/savePrompt':
-            return self.savePrompt(uid, getParam(query, 'promptId'), getParam(query, 'file'))
+            return self.savePrompt(uid, getParam(query, 'promptId'), getParam(query, 'file', decodeUtf8=False))
         else:
             raise ValueError("Bad path: " + path)
 

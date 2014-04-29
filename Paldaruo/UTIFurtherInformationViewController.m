@@ -27,6 +27,8 @@
 @property (strong, nonatomic) MPMoviePlayerViewController *moviePlayerController;
 
 
+- (IBAction)unwindToHome:(id)sender;
+
 @end
 
 
@@ -66,62 +68,11 @@
     
 }
 
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    // Do any additional setup after loading the view.
-    //NSString *urlAdress=@"http://techiaith.bangor.ac.uk/gallu";
-    
-    
-    /*
-    CGRect paldaruoIcon = self.imageOutletPaldaruoIcon.frame;
-    CGRect newPaldaruoIconFrame = CGRectMake(paldaruoIcon.origin.x,paldaruoIcon.origin.y,50,50);
-    self.imageOutletPaldaruoIcon.frame=newPaldaruoIconFrame;
-    
-    if (IS_IPHONE_5==YES){
-        
-        // 4 inch
-        
-        CGRect newBangorLogoFrame = CGRectMake(250, 495, 65, 50);
-        self.imageOutletBangorLogo.frame = newBangorLogoFrame;
-        
-        CGRect newTechiaithLogoFrame = CGRectMake(15, 490, 50, 65);
-        self.imageOutletTechiaithLogo.frame = newTechiaithLogoFrame;
-        
-        CGRect newTechIaithLabelFrame = CGRectMake(65, 505, 135, 20);
-        self.labelOutletUnedTechnolegauIaith.frame=newTechIaithLabelFrame;
-        
-        CGRect newCanolfanBedwyrLabelFrame = CGRectMake(65, 520, 110, 20);
-        self.labelOutletCanolfanBedwyr.frame = newCanolfanBedwyrLabelFrame;
-        
-    } else if (IS_IPHONE==YES){
-        
-        // 3.5 inch
-        
-        CGRect newBangorLogoFrame = CGRectMake(250, 420, 65, 50);
-        self.imageOutletBangorLogo.frame = newBangorLogoFrame;
-        
-        //CGRect newTechiaithLogoFrame = CGRectMake(15, 415, 50, 65);
-        CGRect newTechiaithLogoFrame = CGRectMake(15,15, 50,65);
-        self.imageOutletTechiaithLogo.frame = newTechiaithLogoFrame;
-        
-        CGRect newTechIaithLabelFrame = CGRectMake(65, 430, 135, 20);
-        self.labelOutletUnedTechnolegauIaith.frame=newTechIaithLabelFrame;
-        
-        CGRect newCanolfanBedwyrLableFrame = CGRectMake(65, 445, 110, 20);
-        self.labelOutletCanolfanBedwyr.frame = newCanolfanBedwyrLableFrame;
-        
-    }
-     */
-    
+- (IBAction)unwindToHome:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 - (IBAction)btnVideoPlay:(id)sender {
     

@@ -8,13 +8,12 @@
 
 #import "UTINewProfileViewController.h"
 #import "UTIDataStore.h"
-#import "UTIReachability.h"
+#import "DejalActivityView.h"
+#import "Reachability.h"
 
-
-@interface UTINewProfileViewController () 
+@interface UTINewProfileViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletCreateUser;
-@property (weak, nonatomic) IBOutlet UIButton *btnOutletStartSession;
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletNextQuestion;
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletPreviousQuestion;
 
@@ -26,44 +25,21 @@
 
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerViewOutletMetaDataOption;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldOutletMetaDataFreeText;
+@property (weak, nonatomic) IBOutlet UILabel *lblOutletError;
+
+@property (weak, nonatomic) IBOutlet UITextField *txtBoxNewProfileName;
 
 - (IBAction)btnActionNextQuestion:(id)sender;
-- (IBAction)btnActionCreateUser:(id)sender;
 - (IBAction)btnActionStartSession:(id)sender;
 - (IBAction)btnActionPreviousQuestion:(id)sender;
 
-@property (weak, nonatomic) IBOutlet UITextField *txtBoxNewProfileName;
 
 @end
 
 @implementation UTINewProfileViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-
-- (void) dealloc {
-    
-    // view did load
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:@"InternetReachable"
-                                                  object:nil];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:@"InternetUnreachable"
-                                                  object:nil];
-}
-
-
 - (void)viewDidLoad
 {
-    [self.btnOutletStartSession setHidden:YES];
     
     currentMetaDataFieldIndex=0;
     
@@ -78,7 +54,7 @@
     self.pickerViewOutletMetaDataOption.delegate = self;
     self.pickerViewOutletMetaDataOption.dataSource = self;
     self.pickerViewOutletMetaDataOption.showsSelectionIndicator=YES;
-
+    
     // first form presentation is the text box for the profilename
     // select the text box and show the keyboard.
     
@@ -88,21 +64,6 @@
     [self.btnOutletPreviousQuestion setHidden:YES];
     
     //[self.lblOutletMetaDataField_Explanation sizeToFit];
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleInternetReachable:)
-                                                 name:@"InternetReachable"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleInternetUnreachable:)
-                                                 name:@"InternetUnreachable"
-                                               object:nil];
-    
-    [UTIReachability instance];
-    
-
     
     [super viewDidLoad];
     
@@ -130,7 +91,7 @@
     
     if (localCopyMetaDataFields.count>0) {
         UTIMetaDataField *localCopyMetaDataField=[localCopyMetaDataFields objectAtIndex:currentMetaDataFieldIndex];
-        return localCopyMetaDataField->optionKey.count;
+        return localCopyMetaDataField.optionKey.count;
     } else {
         return 0;
     }
@@ -144,8 +105,8 @@
     
     if (localCopyMetaDataFields.count>0) {
         UTIMetaDataField *localCopyMetaDataField=[localCopyMetaDataFields objectAtIndex:currentMetaDataFieldIndex];
-
-        return [localCopyMetaDataField->optionValue objectAtIndex:row];
+        
+        return [localCopyMetaDataField.optionValue objectAtIndex:row];
     }
     else {
         return Nil;
@@ -165,46 +126,68 @@
     [self goToNextMetaDataField:YES];
 }
 
-
-- (IBAction)btnActionCreateUser:(id)sender {
-    
-    NSString *newUserName=[_txtBoxNewProfileName text];
-    
-    if ([newUserName length]>0){
-        
-        [[UTIDataStore sharedDataStore] addNewUser:newUserName];
-        
-        [[self btnOutletCreateUser] setUserInteractionEnabled:NO];
-        [[self btnOutletCreateUser]setHidden:YES];
-        
-        [[self txtBoxNewProfileName] setHidden:YES];
-        [[self lblOutletNewProfileNameFieldDescription] setHidden:YES];
-        
-        // new user made automatically the active user.
-        NSInteger userIndex=[[UTIDataStore sharedDataStore] activeUserIndex];
-        NSString *uid=[[[[UTIDataStore sharedDataStore] allProfilesArray] objectAtIndex:userIndex] objectForKey:@"uid"];
-        
-        [[UTIDataStore sharedDataStore] http_getMetadata:uid];
-        
-        [self.lblOutletMetaDataField_Title setHidden:NO];
-        [self.lblOutletMetaDataField_Question setHidden:NO];
-        [self.lblOutletMetaDataField_Explanation setHidden:NO];
-        [self.pickerViewOutletMetaDataOption setHidden:NO];
-        [self.btnOutletNextQuestion setHidden:NO];
-        
-        //[self.btnOutletPreviousQuestion setHidden:NO];
-        
-        [self goToNextMetaDataField:NO];
-
-    }
-    
+- (IBAction)btnActionStartSession:(id)sender {
+    [self performSegueWithIdentifier:@"id_start" sender:self];
 }
 
-
-- (IBAction)btnActionStartSession:(id)sender {
+- (IBAction)btnActionCreateUser:(id)sender {
+    self.lblOutletError.hidden = YES;
+    NSString *newUserName=[_txtBoxNewProfileName text];
     
-   
+    NSString __block *errorText = nil;
     
+    if ([[newUserName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] == 0) {
+        errorText = @"Rhaid rhoi enw i'r proffil";
+    } else if ([[UTIDataStore sharedDataStore] userForName:newUserName]) {
+        errorText = @"Mae proffil gyda'r enw yma'n bodoli eisioes";
+    } else {
+        // The new user (if created) is automatically made the active user
+        [self.txtBoxNewProfileName resignFirstResponder];
+        [[UTIDataStore sharedDataStore] http_createUser_completionBlock:^(NSData *data, NSError *error) {
+            [DejalBezelActivityView removeView];
+            NSDictionary *json = nil;
+            if (data) {
+                json = [NSJSONSerialization JSONObjectWithData:data
+                                                       options:kNilOptions
+                                                         error:nil];
+            }
+            
+            if (!json) {
+                errorText = @"Problem gyda'r gweinydd";
+            } else if (error) {
+                switch (error.code) {
+                    case -1001: {
+                        errorText = @"Terfyn Amser Gweinydd";
+                        break;
+                    }
+                    default: {
+                        errorText = error.localizedDescription;
+                        break;
+                    }
+                }
+            } else if (!data) {
+                errorText = @"Problem gyda'r gweinydd";
+            }
+            
+            if (errorText) {
+                [self showErrorText:errorText];
+                return;
+            }
+            NSDictionary *jsonResponse = json[@"response"];
+            NSString *uid = jsonResponse[@"uid"];
+            
+            if (uid) {
+                [[UTIDataStore sharedDataStore] addNewUser:newUserName uid:uid];
+                [[UTIDataStore sharedDataStore] http_getMetadata:uid sender:self];
+            }
+        }];
+        [DejalBezelActivityView activityViewForView:self.view withLabel:@"Llwytho…"];
+        
+    }
+    
+    if (errorText) {
+        [self showErrorText:errorText];
+    }
 }
 
 
@@ -214,7 +197,7 @@
 
 
 -(void) goToPreviousMetaDataField {
-
+    
     if (currentMetaDataFieldIndex>0)
         currentMetaDataFieldIndex=currentMetaDataFieldIndex-1;
     else
@@ -223,13 +206,13 @@
     NSArray *localCopyMetaDataFields=[[UTIDataStore sharedDataStore] metaDataFields];
     UTIMetaDataField *localCopyCurrentMetaDataField=[localCopyMetaDataFields objectAtIndex:currentMetaDataFieldIndex];
     
-    if (localCopyCurrentMetaDataField->isText==YES){
+    if (localCopyCurrentMetaDataField.isText==YES){
         
-        [self.textFieldOutletMetaDataFreeText setText:[localCopyCurrentMetaDataField getTextValue]];
+        self.textFieldOutletMetaDataFreeText.text = localCopyCurrentMetaDataField.value;
         
     } else {
         
-        NSInteger selected=[localCopyCurrentMetaDataField getSelectedOptionIndex];
+        NSInteger selected = localCopyCurrentMetaDataField.selectedOptionIndex;
         [self.pickerViewOutletMetaDataOption selectRow:selected inComponent:0 animated:NO];
         
     }
@@ -237,12 +220,12 @@
     
     [self showFormForCurrentMetaDataField];
     
-
+    
 }
 
 
 -(void) goToNextMetaDataField:(BOOL) increment {
-
+    
     //
     NSArray *localCopyMetaDataFields=[[UTIDataStore sharedDataStore] metaDataFields];
     
@@ -251,12 +234,12 @@
         
         UTIMetaDataField *localCopyCurrentMetaDataField=[localCopyMetaDataFields objectAtIndex:currentMetaDataFieldIndex];
         
-        if (localCopyCurrentMetaDataField->isText==YES){
-            [localCopyCurrentMetaDataField setTextValue:[self.textFieldOutletMetaDataFreeText text]];
+        if (localCopyCurrentMetaDataField.isText==YES){
+            localCopyCurrentMetaDataField.value = [self.textFieldOutletMetaDataFreeText text];
             [self.textFieldOutletMetaDataFreeText setText:@""];
         } else {
             NSInteger row = [self.pickerViewOutletMetaDataOption selectedRowInComponent:0];
-            [localCopyCurrentMetaDataField setSelectedOptionWithIndex:row];
+            localCopyCurrentMetaDataField.selectedOptionIndex = row;
         }
         currentMetaDataFieldIndex++;
         
@@ -274,23 +257,23 @@
 {
     //
     NSArray *localCopyMetaDataFields=[[UTIDataStore sharedDataStore] metaDataFields];
-
+    
     //
     if (currentMetaDataFieldIndex < localCopyMetaDataFields.count) {
         
         //
         UTIMetaDataField *localCopyNextMetaDataField=[localCopyMetaDataFields objectAtIndex:currentMetaDataFieldIndex];
         
-        [self.lblOutletMetaDataField_Title setText:localCopyNextMetaDataField->title];
-        [self.lblOutletMetaDataField_Question setText:localCopyNextMetaDataField->question];
-        [self.lblOutletMetaDataField_Explanation setText:localCopyNextMetaDataField->explanation];
+        [self.lblOutletMetaDataField_Title setText:localCopyNextMetaDataField.title];
+        [self.lblOutletMetaDataField_Question setText:localCopyNextMetaDataField.question];
+        [self.lblOutletMetaDataField_Explanation setText:localCopyNextMetaDataField.explanation];
         
         [self.lblOutletMetaDataField_Title setHidden:NO];
         [self.lblOutletMetaDataField_Question setHidden:NO];
         [self.lblOutletMetaDataField_Explanation setHidden:NO];
         
         //
-        if (localCopyNextMetaDataField->isText==YES){
+        if (localCopyNextMetaDataField.isText==YES){
             
             [self.pickerViewOutletMetaDataOption setHidden:YES];
             
@@ -314,7 +297,6 @@
         else
             [self.btnOutletPreviousQuestion setHidden:NO];
         
-        [self.btnOutletStartSession setHidden:YES];
         [self.btnOutletNextQuestion setHidden:NO];
         
     } else {
@@ -326,56 +308,57 @@
         [self.lblOutletMetaDataField_Explanation setHidden:YES];
         [self.textFieldOutletMetaDataFreeText setHidden:YES];
         [self.pickerViewOutletMetaDataOption setHidden:YES];
-
-        NSInteger userIndex=[[UTIDataStore sharedDataStore] activeUserIndex];
-        NSString *uid=[[[[UTIDataStore sharedDataStore] allProfilesArray] objectAtIndex:userIndex] objectForKey:@"uid"];
         
-        BOOL success = [[UTIDataStore sharedDataStore] http_saveMetadata:uid];
+        NSString *uid = [[UTIDataStore sharedDataStore] activeUser].uid;
         
-        if (success){
-            [self.btnOutletStartSession setHidden:NO];
-            [self.btnOutletPreviousQuestion setHidden:YES];
-        }
+        [[UTIDataStore sharedDataStore] http_saveMetadata:uid sender:self];
         
     }
-
+    
 }
 
+#pragma mark NSURLConnectionDelegate methods
 
--(void)handleInternetReachable:(NSNotification *)notification {
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    if ([connection.originalRequest.URL.lastPathComponent isEqualToString:@"saveMetadata"]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self performSegueWithIdentifier:@"id_start" sender:self];
+        });
+        return;
+    }
+    [self.lblOutletMetaDataField_Title setHidden:NO];
+    [self.lblOutletMetaDataField_Question setHidden:NO];
+    [self.lblOutletMetaDataField_Explanation setHidden:NO];
+    [self.pickerViewOutletMetaDataOption setHidden:NO];
+    [self.btnOutletNextQuestion setHidden:NO];
+    [self.btnOutletCreateUser setHidden:YES];
+    [self.lblOutletNewProfileNameFieldDescription setHidden:YES];
+    [self.txtBoxNewProfileName setHidden:YES];
+    //[self.btnOutletPreviousQuestion setHidden:NO];
     
-    [self.btnOutletCreateUser setEnabled:YES];
-    [self.btnOutletStartSession setEnabled:YES];
-    [self.btnOutletNextQuestion setEnabled:YES];
-    [self.btnOutletPreviousQuestion setEnabled:YES];
-    
-    [self.lblOutletNewProfileNameFieldDescription setEnabled:YES];
-    
-    [self.lblOutletMetaDataField_Title setEnabled:YES];
-    [self.lblOutletMetaDataField_Question setEnabled:YES];
-    [self.lblOutletMetaDataField_Explanation setEnabled:YES];
-    
-    [self.textFieldOutletMetaDataFreeText setEnabled:YES];
-
+    [self goToNextMetaDataField:NO];
+//    NSArray *prevViewControllers = [self.navigationController viewControllers];
+//    if ([prevViewControllers count] > 2) {
+//        [self.navigationController popToViewController:[prevViewControllers objectAtIndex:1] animated:YES];
+//    } else {
+//        [self.navigationController popToRootViewControllerAnimated:YES];
+//    }
 }
 
-
--(void)handleInternetUnreachable:(NSNotification *)notification {
-    
-    [self.btnOutletCreateUser setEnabled:NO];
-    [self.btnOutletStartSession setEnabled:NO];
-    [self.btnOutletNextQuestion setEnabled:NO];
-    [self.btnOutletPreviousQuestion setEnabled:NO];
-    
-    [self.lblOutletNewProfileNameFieldDescription setEnabled:NO];
-    
-    [self.lblOutletMetaDataField_Title setEnabled:NO];
-    [self.lblOutletMetaDataField_Question setEnabled:NO];
-    [self.lblOutletMetaDataField_Explanation setEnabled:NO];
-    
-    [self.textFieldOutletMetaDataFreeText setEnabled:NO];
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    [self showError:error];
 }
 
+#pragma mark UTIErrorReporter protocol
 
+- (void)showError:(NSError *)error {
+    [self showErrorText:error.localizedDescription];
+}
+
+- (void)showErrorText:(NSString *)errorText {
+    self.lblOutletError.text = errorText;
+    self.lblOutletError.hidden = NO;
+    [self.txtBoxNewProfileName becomeFirstResponder];
+}
 
 @end

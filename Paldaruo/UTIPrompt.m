@@ -12,11 +12,11 @@
 
 -(id) init{
     
-    if ((self = [super init]) != nil) {
-        text=nil;
-        identifier=nil;
-        index=0;
-        isRecorded=NO;
+    if (self = [super init]) {
+        _text=nil;
+        _identifier=nil;
+        _index=0;
+        _recorded=NO;
     }
     
     return self;

@@ -7,9 +7,6 @@
 //
 
 #import "UTIViewController.h"
-#import "UTIReachability.h"
-
-
 
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
@@ -19,6 +16,7 @@
 
 - (IBAction)btnMoveToNextRecordingState:(id)sender;
 - (IBAction)btnRedoRecording:(id)sender;
+- (IBAction)unwindToHome:(id)sender;
 
 @property (weak) UTIPrompt *currentPrompt;
 
@@ -28,9 +26,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletRedoRecording;
 @property (weak, nonatomic) IBOutlet UILabel *lblOutletProfileName;
 @property (weak, nonatomic) IBOutlet UILabel *lblOutletSessionProgress;
-
+@property (weak, nonatomic) IBOutlet UIButton *btnOutletBackToHome;
 @property (strong, nonatomic) NSTimer *lblOutletRecordingStatusTimer;
-
+@property (weak, nonatomic) IBOutlet UILabel *lblUploadingFilesInfo;
+@property (weak, nonatomic) IBOutlet UIProgressView *uploadProgressBar;
 @end
 
 
@@ -38,14 +37,15 @@
 @implementation UTIViewController
 
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     
-    NSInteger userIndex=[[UTIDataStore sharedDataStore] activeUserIndex];
-    uid=[[[[UTIDataStore sharedDataStore] allProfilesArray] objectAtIndex:userIndex] objectForKey:@"uid"];
+    uid = [[UTIDataStore sharedDataStore] activeUser].uid;
     
     currentRecordingStatus=DOWNLOADING_PROMPTS;
     [self btnMoveToNextRecordingState:self];
+    
+    _currentUploadConnections = [NSMutableArray new];
+    self.uploadProgressBar.progress = 0;
     
     prompts = [[UTIPromptsTracker alloc] init];
     
@@ -73,47 +73,10 @@
                           error:nil];
     
     currentRecordingStatus=RECORDING_SESSION_START;
-    [self btnMoveToNextRecordingState:(self)];
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleInternetReachable:)
-                                                 name:@"InternetReachable"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleInternetUnreachable:)
-                                                 name:@"InternetUnreachable"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleInternetUnreachable:)
-                                                 name:@"PaldaruoServerApplicationError"
-                                               object:nil];
-    
-    [UTIReachability instance];
-    
-
+    [self btnMoveToNextRecordingState:self];
     [super viewDidLoad];
     
 }
-
-- (void) dealloc {
-    
-    // view did load
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:@"InternetReachable"
-                                                  object:nil];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:@"InternetUnreachable"
-                                                  object:nil];
-}
-
--(void) toggleLabelRecordingStatus{
-    [self.lblOutletRecordingStatus setHidden:(!self.lblOutletRecordingStatus.hidden)];
-}
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -247,6 +210,9 @@
     
 }
 
+- (IBAction)unwindToHome:(id)sender {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 - (IBAction)btnRedoRecording:(id)sender {
     currentRecordingStatus=RECORDING_WAIT_TO_REDO_RECORDING;
@@ -262,7 +228,7 @@
                                 ];
     
     [self.lblOutletSessionProgress setText:progressString];
-     
+    
 }
 
 
@@ -282,12 +248,13 @@
 
 
 -(void) recordAudio {
+    [self startRecordingStatusTimerWithString:@"Yn recordio…"];
     [self.audioRecorder record];
 }
 
 
 -(void) stopRecording {
-    
+    [self removeRecordingStatus];
     [self.audioRecorder stop];
     [self.audioPlayer stop];
     
@@ -296,35 +263,37 @@
     // copy the file to a new location
     self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:audioFileURL error:nil];
     [self.audioPlayer setDelegate:self];
-
+    
 }
 
 
 -(void) playAudio {
     
     [self.audioPlayer play];
+    [self startRecordingStatusTimerWithString:@"Chwarae yn ôl…"];
     
 }
 
 
--(void) gotoNextPrompt {
- 
+-(BOOL) gotoNextPrompt {
+    
     [prompts promptHasBeenRecorded:self.currentPrompt];
     self.currentPrompt = [prompts getNextPromptToRecord];
- 
+    
     if (self.currentPrompt==nil) {
         
-        self.lblOutletNextPrompt.text=@"Diolch yn fawr.";
-        currentRecordingStatus=RECORDING_SESSION_END;
+        self.lblOutletNextPrompt.text=@"Dim byd ar ôl";
+        currentRecordingStatus = RECORDING_SESSION_END;
         [self btnMoveToNextRecordingState:self];
+        return NO;
         
     } else {
-        NSString* displayedPrompt=[self.currentPrompt->text stringByReplacingOccurrencesOfString:@" "
-                                                                                      withString:@"  "];
+        NSString* displayedPrompt=[self.currentPrompt.text stringByReplacingOccurrencesOfString:@" " withString:@"  "];
         
-        self.lblOutletNextPrompt.text=displayedPrompt;//self.currentPrompt->text;
+        self.lblOutletNextPrompt.text=displayedPrompt;
     }
- 
+    
+    return YES;
 }
 
 
@@ -333,63 +302,75 @@
                         successfully: (BOOL) flag {
     
     currentRecordingStatus=RECORDING_LISTENING_END;
+    [self removeRecordingStatus];
     [self btnMoveToNextRecordingState:self];
     
 }
 
 
+#pragma mark Recording label animations
 
--(void) startRecordingStatusTimer {
-    
-    if (self.lblOutletRecordingStatusTimer==nil){
-        
-        self.lblOutletRecordingStatusTimer=[NSTimer scheduledTimerWithTimeInterval:0.6
+#define kStatusFlashTime 0.6
+-(void) startRecordingStatusTimerWithString:(NSString *)string {
+    if (!self.lblOutletRecordingStatusTimer) {
+        self.lblOutletRecordingStatus.hidden = NO;
+        self.lblOutletRecordingStatus.alpha = 1;
+        [self setRecordStatusText:string];
+        self.lblOutletRecordingStatusTimer=[NSTimer scheduledTimerWithTimeInterval:kStatusFlashTime
                                                                             target:self
                                                                           selector:@selector(toggleLabelRecordingStatus)
                                                                           userInfo:nil
                                                                            repeats:YES];
     }
 
+    
+}
+
+- (void)toggleLabelRecordingStatus {
+    [UIView animateWithDuration:kStatusFlashTime animations:^{
+        self.lblOutletRecordingStatus.alpha = !self.lblOutletRecordingStatus.alpha;
+    }];
 }
 
 
--(void) stopRecordingStatusTimer {
-    
-    if (self.lblOutletRecordingStatusTimer!=nil){
-        [self.lblOutletRecordingStatusTimer invalidate];
-        self.lblOutletRecordingStatusTimer=nil;
+- (void)removeRecordingStatus {
+    [self.lblOutletRecordingStatusTimer invalidate];
+    self.lblOutletRecordingStatusTimer = nil;
+    [self.lblOutletRecordingStatus setHidden:YES];
+}
+
+#pragma mark NSURLConnectionDelegate methods
+// Used to keep track of the progress bar
+
+- (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
+    if (![self.currentUploadConnections containsObject:connection]) {
+        [self.currentUploadConnections addObject:connection];
     }
-    
+    self.uploadProgressBar.hidden = NO;
+    self.lblUploadingFilesInfo.text = [NSString stringWithFormat:@"Llwytho i fyny ffeil 1 o %lu…", (unsigned long)[self.currentUploadConnections count]];
+    self.lblUploadingFilesInfo.hidden = NO;
+    if (connection == [self.currentUploadConnections firstObject]) {
+        self.uploadProgressBar.hidden = NO;
+        CGFloat t = (CGFloat)totalBytesExpectedToWrite;
+        self.uploadProgressBar.progress += bytesWritten/t;
+    }
 }
 
-
--(void)handleInternetReachable:(NSNotification *)notification {
-    
-    // try to upload any outstanding wav files.
-    [[UTIDataStore sharedDataStore] http_uploadOutstandingAudio:uid];
-    
-    [self.lblOutletNextPrompt setEnabled:YES];
-    [self.lblOutletRecordingStatus setEnabled:YES];
-    [self.btnOutletMoveToNextRecordingState setEnabled:YES];
-    [self.btnOutletRedoRecording setEnabled:YES];
-    [self.lblOutletProfileName setEnabled:YES];
-    [self.lblOutletSessionProgress setEnabled:YES];
-    
-    
-
-    
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    [self removeConnection:connection];
 }
 
+- (void)removeConnection:(NSURLConnection *)connection {
+    [self.currentUploadConnections removeObject:connection];
+    if ([self.currentUploadConnections count] == 0) {
+        self.lblUploadingFilesInfo.hidden = YES;
+        self.uploadProgressBar.hidden = YES;
+        self.uploadProgressBar.progress = 0;
+    }
+}
 
--(void)handleInternetUnreachable:(NSNotification *)notification {
-    
-    [self.lblOutletNextPrompt setEnabled:NO];
-    [self.lblOutletRecordingStatus setEnabled:NO];
-    [self.btnOutletMoveToNextRecordingState setEnabled:NO];
-    [self.btnOutletRedoRecording setEnabled:NO];
-    [self.lblOutletProfileName setEnabled:NO];
-    [self.lblOutletSessionProgress setEnabled:NO];
-    
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    [self removeConnection:connection];
 }
 
 -(void)handlePaldaruoServerApplicationError:(NSNotification *)notification {

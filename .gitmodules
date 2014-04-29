@@ -1,0 +1,3 @@
+[submodule "Paldaruo/Externals/DejalActivityView"]
+	path = Paldaruo/Externals/DejalActivityView
+	url = https://github.com/Dejal/DejalActivityView.git
