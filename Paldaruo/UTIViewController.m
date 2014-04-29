@@ -133,7 +133,7 @@
         
         [[self lblOutletProfileName] setText:userGreeting];
         
-        [self.lblOutletNextPrompt setText:@"Estyn testunau i'w recordio...."];
+        [self.lblOutletNextPrompt setText:@"Estyn promtiau i'w recordio...."];
         [self.btnOutletMoveToNextRecordingState setHidden:YES];
         [self.lblOutletRecordingStatus setHidden:YES];
         [self.lblOutletSessionProgress setHidden:YES];
@@ -256,7 +256,7 @@
 - (void) updateSessionProgress {
     
     
-    NSString* progressString = [NSString stringWithFormat:@"%ld / %ld testun ar \xc3\xb4l",
+    NSString* progressString = [NSString stringWithFormat:@"%ld / %ld promt ar \xc3\xb4l",
                                 (long)[prompts getRemainingCount],
                                 (long)[prompts getInitialCount]
                                 ];
