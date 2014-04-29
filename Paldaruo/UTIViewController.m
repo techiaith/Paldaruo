@@ -87,125 +87,113 @@
 
 - (IBAction)btnMoveToNextRecordingState:(id)sender {
     
-    if (currentRecordingStatus==DOWNLOADING_PROMPTS){
-        
-        NSInteger userIndex=[[UTIDataStore sharedDataStore] activeUserIndex];
-        
-        NSString* userName=[[[[UTIDataStore sharedDataStore] allProfilesArray] objectAtIndex:userIndex] objectForKey:@"name"];
-        NSString* userGreeting=[NSString stringWithFormat:@"Helo %@!", userName];
-        
-        [[self lblOutletProfileName] setText:userGreeting];
-        
-        [self.lblOutletNextPrompt setText:@"Estyn promtiau i'w recordio...."];
-        [self.btnOutletMoveToNextRecordingState setHidden:YES];
-        [self.lblOutletRecordingStatus setHidden:YES];
-        [self.lblOutletSessionProgress setHidden:YES];
-        [self.btnOutletRedoRecording setHidden:YES];
-        
-    }
-    else if (currentRecordingStatus==RECORDING_SESSION_START){
-        
-        [self gotoNextPrompt];
-        
-        [self setMoveToNextRecordStateTitle:@"Cychwyn Recordio"];
-        
-        [self.lblOutletSessionProgress setHidden:NO];
-        [self.btnOutletMoveToNextRecordingState setHidden:NO];
-        [self.btnOutletRedoRecording setHidden:YES];
-        
-        [self updateSessionProgress];
-        
-        currentRecordingStatus=RECORDING_WAIT_TO_START;
-        
-    }
-    else if (currentRecordingStatus==RECORDING_WAIT_TO_START) {
-        
-        [self setMoveToNextRecordStateTitle:@"Gorffen Recordio"];
-        
-        //[self.lblOutletRecordingStatus setHidden:NO];
-        [self.btnOutletRedoRecording setHidden:YES];
-        [self startRecordingStatusTimer];
-        [self setRecordStatusText:@"Yn recordio...."];
-        
-        [self recordAudio];
-        
-        currentRecordingStatus=RECORDING;
-        
-    } else if (currentRecordingStatus==RECORDING) {
-        
-        [self stopRecording];
-        
-        [self stopRecordingStatusTimer];
-        [self.lblOutletRecordingStatus setHidden:YES];
-        [self.btnOutletRedoRecording setHidden:YES];
-        
-        if (IS_IPHONE)
-            [self setMoveToNextRecordStateTitle:@"Gwrando"];
-        else
-            [self setMoveToNextRecordStateTitle:@"Cliciwch i wrando ar eich recordiad"];
-        
-        [self setRedoRecordingText:@"Recordio eto"];
-        [self.btnOutletRedoRecording setHidden:NO];
-        
-        currentRecordingStatus=RECORDING_FINISHED;
+    switch (currentRecordingStatus) {
+        case DOWNLOADING_PROMPTS: {
+            NSString* userName = [[UTIDataStore sharedDataStore] activeUser].name;
+            NSString* userGreeting=[NSString stringWithFormat:@"Helo %@!", userName];
+            
+            [[self lblOutletProfileName] setText:userGreeting];
+            
+            [self.lblOutletNextPrompt setText:@"Estyn testunau i'w recordio...."];
+            [self.btnOutletMoveToNextRecordingState setHidden:YES];
+            [self.lblOutletRecordingStatus setHidden:YES];
+            [self.lblOutletSessionProgress setHidden:YES];
+            [self.btnOutletRedoRecording setHidden:YES];
+            break;
+        } case RECORDING_SESSION_START: {
+            ;
+            if (![self gotoNextPrompt]) {
+                break;
+            }
+            [self setMoveToNextRecordStateTitle:@"Cychwyn Recordio"];
+            
+            [self.lblOutletSessionProgress setHidden:NO];
+            [self.btnOutletMoveToNextRecordingState setHidden:NO];
+            [self.btnOutletRedoRecording setHidden:YES];
+            
+            [self updateSessionProgress];
+            
+            currentRecordingStatus=RECORDING_WAIT_TO_START;
+            break;
+        } case RECORDING_WAIT_TO_START: {
+            [self setMoveToNextRecordStateTitle:@"Gorffen Recordio"];
+            
+            //[self.lblOutletRecordingStatus setHidden:NO];
+            [self.btnOutletRedoRecording setHidden:YES];
+            
+            [self recordAudio];
+            
+            currentRecordingStatus=RECORDING;
+            break;
+        } case RECORDING: {
+            [self stopRecording];
 
-    } else if (currentRecordingStatus==RECORDING_FINISHED){
-        
-        [self setMoveToNextRecordStateTitle:@""];
-        [self.btnOutletMoveToNextRecordingState setHidden:YES];
-        [self.btnOutletRedoRecording setHidden:YES];
-        [self playAudio];
-        
-        // status will change to RECORDING_LISTENING_END when audio will finish playing.
-    
-    } else if (currentRecordingStatus==RECORDING_LISTENING_END) {
-    
-        [self setMoveToNextRecordStateTitle:@"Nesaf"];
-        [self.btnOutletMoveToNextRecordingState setHidden:NO];
-        
-        [self setRedoRecordingText:@"Recordio eto"];
-        [self.btnOutletRedoRecording setHidden:NO];
-        
-        currentRecordingStatus=RECORDING_WAIT_TO_GOTO_NEXT;
-        
-    } else if (currentRecordingStatus==RECORDING_WAIT_TO_REDO_RECORDING){
-        
-        [self setMoveToNextRecordStateTitle:@"Cychwyn Recordio"];
-        [self.lblOutletRecordingStatus setHidden:YES];
-        [self.btnOutletRedoRecording setHidden:YES];
-        
-        currentRecordingStatus=RECORDING_WAIT_TO_START;
-        
-    } else if (currentRecordingStatus==RECORDING_WAIT_TO_GOTO_NEXT) {
-        
-        //[self uploadAudio];
-        [[UTIDataStore sharedDataStore] http_uploadAudio:uid
-                                              identifier:self.currentPrompt->identifier];
-        
-        [self gotoNextPrompt];
-        
-        [self updateSessionProgress];
-        
-        [self setMoveToNextRecordStateTitle:@"Cychwyn Recordio"];
-        [self.lblOutletRecordingStatus setHidden:YES];
-        [self.btnOutletRedoRecording setHidden:YES];
-        
-        currentRecordingStatus=RECORDING_WAIT_TO_START;
-        
-    } else if (currentRecordingStatus==RECORDING_SESSION_END) {
-        
-        [self.btnOutletMoveToNextRecordingState setHidden:YES];
-        [self.btnOutletRedoRecording setHidden:YES];
-        
-        [self.lblOutletSessionProgress setHidden:YES];
-        
-        NSInteger userIndex=[[UTIDataStore sharedDataStore] activeUserIndex];
-        NSString* userName=[[[[UTIDataStore sharedDataStore] allProfilesArray] objectAtIndex:userIndex] objectForKey:@"name"];
-        
-        NSString* userGreeting=[NSString stringWithFormat:@"Diolch yn fawr iawn am gyfrannu dy lais %@!", userName];
-        
-        [[self lblOutletProfileName] setText:userGreeting];
-
+            [self.btnOutletRedoRecording setHidden:YES];
+            
+            if (IS_IPHONE)
+                [self setMoveToNextRecordStateTitle:@"Gwrando"];
+            else
+                [self setMoveToNextRecordStateTitle:@"Cliciwch i wrando ar eich recordiad"];
+            
+            [self setRedoRecordingText:@"Recordio eto"];
+            [self.btnOutletRedoRecording setHidden:NO];
+            
+            currentRecordingStatus=RECORDING_FINISHED;
+            break;
+        } case RECORDING_FINISHED: {
+            [self setMoveToNextRecordStateTitle:@""];
+            [self.btnOutletMoveToNextRecordingState setHidden:YES];
+            [self.btnOutletRedoRecording setHidden:YES];
+            [self playAudio];
+            break;
+        } case RECORDING_LISTENING_END: {
+            [self setMoveToNextRecordStateTitle:@"Nesaf"];
+            [self.btnOutletMoveToNextRecordingState setHidden:NO];
+            
+            [self setRedoRecordingText:@"Recordio eto"];
+            [self.btnOutletRedoRecording setHidden:NO];
+            
+            currentRecordingStatus=RECORDING_WAIT_TO_GOTO_NEXT;
+            break;
+        } case RECORDING_WAIT_TO_REDO_RECORDING: {
+            [self setMoveToNextRecordStateTitle:@"Cychwyn Recordio"];
+            [self.lblOutletRecordingStatus setHidden:YES];
+            [self.btnOutletRedoRecording setHidden:YES];
+            
+            currentRecordingStatus=RECORDING_WAIT_TO_START;
+            break;
+        } case RECORDING_WAIT_TO_GOTO_NEXT: {
+            [[UTIDataStore sharedDataStore] http_uploadAudio:uid
+                                                  identifier:self.currentPrompt.identifier
+                                                      sender:self];
+            
+            [self gotoNextPrompt];
+            
+            [self updateSessionProgress];
+            
+            [self setMoveToNextRecordStateTitle:@"Cychwyn Recordio"];
+            [self.lblOutletRecordingStatus setHidden:YES];
+            [self.btnOutletRedoRecording setHidden:YES];
+            
+            currentRecordingStatus=RECORDING_WAIT_TO_START;
+            break;
+        } case RECORDING_SESSION_END: {
+            [self.btnOutletMoveToNextRecordingState setHidden:YES];
+            [self.btnOutletRedoRecording setHidden:YES];
+            
+            [self.lblOutletSessionProgress setHidden:YES];
+            
+            NSString* userName=[[UTIDataStore sharedDataStore] activeUser].name;
+            
+            NSString* userGreeting = [NSString stringWithFormat:@"Diolch yn fawr iawn am gyfrannu dy lais %@!", userName];
+            
+            [[self lblOutletProfileName] setText:userGreeting];
+            [self.btnOutletBackToHome setHidden:NO];
+            break;
+        }
+            
+        default:
+            break;
     }
     
 }
@@ -222,7 +210,7 @@
 - (void) updateSessionProgress {
     
     
-    NSString* progressString = [NSString stringWithFormat:@"%ld / %ld promt ar \xc3\xb4l",
+    NSString* progressString = [NSString stringWithFormat:@"%ld / %ld testun ar ôl",
                                 (long)[prompts getRemainingCount],
                                 (long)[prompts getInitialCount]
                                 ];
