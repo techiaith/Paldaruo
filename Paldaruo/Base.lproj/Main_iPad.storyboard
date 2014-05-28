@@ -80,7 +80,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="BYZ-38-t0r" kind="modal" id="1mZ-od-28A"/>
+                                    <segue destination="BYZ-38-t0r" kind="push" id="1mZ-od-28A"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Uned Technolegau Iaith, Canolfan Bedwyr, Prifysgol Bangor" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nD0-eG-9ls">
@@ -218,6 +218,9 @@
                                 <state key="normal" title="Nôl i'r Cychwyn">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="unwindToHome:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Jkd-7x-bRK"/>
+                                </connections>
                             </button>
                             <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UJz-OV-UV1">
                                 <rect key="frame" x="148" y="652" width="389" height="21"/>
@@ -263,7 +266,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iug-Zb-k17">
-                                <rect key="frame" x="20" y="156" width="984" height="456"/>
+                                <rect key="frame" x="20" y="156" width="984" height="385"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </webView>
@@ -335,7 +338,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pVu-aL-WEt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1941" y="489"/>
+            <point key="canvasLocation" x="-877" y="989"/>
         </scene>
         <!--Accept Terms And Conditions View Controller-->
         <scene sceneID="aWl-O0-9vW">
@@ -426,7 +429,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kqb-JX-vAS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="358" y="1519"/>
+            <point key="canvasLocation" x="522" y="815"/>
         </scene>
         <!--New Profile View Controller-->
         <scene sceneID="LaU-FT-UBA">
@@ -440,17 +443,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ybu-EC-uoS">
-                                <rect key="frame" x="839" y="203" width="150" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <state key="normal" title="Cychwyn >">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="btnActionStartSession:" destination="Mxt-vI-ziU" eventType="touchUpInside" id="Opd-Ds-CHr"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enw'r Proffil Newydd :" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3mt-YJ-2oB">
                                 <rect key="frame" x="20" y="182" width="278" height="71"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -494,7 +486,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wqD-Qf-Yow">
-                                <rect key="frame" x="857" y="203" width="150" height="30"/>
+                                <rect key="frame" x="854" y="203" width="150" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Nesaf >">
@@ -575,7 +567,6 @@
                         <outlet property="btnOutletCreateUser" destination="pw0-gn-scJ" id="TRA-S6-ErB"/>
                         <outlet property="btnOutletNextQuestion" destination="wqD-Qf-Yow" id="2Yg-ew-Ima"/>
                         <outlet property="btnOutletPreviousQuestion" destination="o62-wW-d50" id="Od4-Fe-weK"/>
-                        <outlet property="btnOutletStartSession" destination="Ybu-EC-uoS" id="ugg-ic-MEM"/>
                         <outlet property="lblOutletError" destination="N9L-9p-f6r" id="ERV-kV-84t"/>
                         <outlet property="lblOutletMetaDataField_Explanation" destination="6It-4V-E7t" id="hQl-Rk-1g8"/>
                         <outlet property="lblOutletMetaDataField_Question" destination="UF7-JK-Neb" id="8IW-2q-9Ba"/>
@@ -589,7 +580,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sSr-uV-deD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1814" y="1519"/>
+            <point key="canvasLocation" x="1798" y="781"/>
         </scene>
         <!--Welcome View Controller - Paldaruo - Corpws Torfoli Lleferydd-->
         <scene sceneID="p2y-aJ-p8s">
@@ -793,9 +784,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="M2J-90-OeR" kind="popover" popoverAnchorView="0oP-KQ-b9D" id="qaU-KM-IxY">
-                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                    </segue>
+                                    <segue destination="M2J-90-OeR" kind="push" id="qaU-KM-IxY"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="WelshGovtlogo.png" translatesAutoresizingMaskIntoConstraints="NO" id="8SG-7y-MB7">
@@ -837,6 +826,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Xfm-KJ-yxh"/>
+        <segue reference="KYH-TC-bBo"/>
     </inferredMetricsTieBreakers>
 </document>

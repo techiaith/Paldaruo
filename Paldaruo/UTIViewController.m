@@ -88,6 +88,7 @@
 - (IBAction)btnMoveToNextRecordingState:(id)sender {
     
     switch (currentRecordingStatus) {
+            
         case DOWNLOADING_PROMPTS: {
             NSString* userName = [[UTIDataStore sharedDataStore] activeUser].name;
             NSString* userGreeting=[NSString stringWithFormat:@"Helo %@!", userName];
@@ -100,6 +101,8 @@
             [self.lblOutletSessionProgress setHidden:YES];
             [self.btnOutletRedoRecording setHidden:YES];
             break;
+            
+            
         } case RECORDING_SESSION_START: {
             ;
             if (![self gotoNextPrompt]) {
@@ -115,6 +118,8 @@
             
             currentRecordingStatus=RECORDING_WAIT_TO_START;
             break;
+            
+            
         } case RECORDING_WAIT_TO_START: {
             [self setMoveToNextRecordStateTitle:@"Gorffen Recordio"];
             
@@ -125,6 +130,8 @@
             
             currentRecordingStatus=RECORDING;
             break;
+            
+            
         } case RECORDING: {
             [self stopRecording];
 
@@ -140,12 +147,16 @@
             
             currentRecordingStatus=RECORDING_FINISHED;
             break;
+            
+            
         } case RECORDING_FINISHED: {
             [self setMoveToNextRecordStateTitle:@""];
             [self.btnOutletMoveToNextRecordingState setHidden:YES];
             [self.btnOutletRedoRecording setHidden:YES];
             [self playAudio];
             break;
+            
+            
         } case RECORDING_LISTENING_END: {
             [self setMoveToNextRecordStateTitle:@"Nesaf"];
             [self.btnOutletMoveToNextRecordingState setHidden:NO];
@@ -155,6 +166,8 @@
             
             currentRecordingStatus=RECORDING_WAIT_TO_GOTO_NEXT;
             break;
+            
+            
         } case RECORDING_WAIT_TO_REDO_RECORDING: {
             [self setMoveToNextRecordStateTitle:@"Cychwyn Recordio"];
             [self.lblOutletRecordingStatus setHidden:YES];
@@ -162,6 +175,8 @@
             
             currentRecordingStatus=RECORDING_WAIT_TO_START;
             break;
+            
+            
         } case RECORDING_WAIT_TO_GOTO_NEXT: {
             [[UTIDataStore sharedDataStore] http_uploadAudio:uid
                                                   identifier:self.currentPrompt.identifier
@@ -177,6 +192,8 @@
             
             currentRecordingStatus=RECORDING_WAIT_TO_START;
             break;
+            
+            
         } case RECORDING_SESSION_END: {
             [self.btnOutletMoveToNextRecordingState setHidden:YES];
             [self.btnOutletRedoRecording setHidden:YES];
@@ -191,6 +208,7 @@
             [self.btnOutletBackToHome setHidden:NO];
             break;
         }
+            
             
         default:
             break;
@@ -331,6 +349,7 @@
 // Used to keep track of the progress bar
 
 - (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
+    
     if (![self.currentUploadConnections containsObject:connection]) {
         [self.currentUploadConnections addObject:connection];
     }
