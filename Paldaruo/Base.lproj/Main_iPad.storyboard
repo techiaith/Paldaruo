@@ -620,6 +620,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
+                                    <action selector="btnStartSession:" destination="sMx-fZ-6x9" eventType="touchUpInside" id="c3t-sE-XFT"/>
                                     <segue destination="nmt-Gv-nbk" kind="push" id="Xfm-KJ-yxh"/>
                                 </connections>
                             </button>
@@ -826,6 +827,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="KYH-TC-bBo"/>
+        <segue reference="Xfm-KJ-yxh"/>
     </inferredMetricsTieBreakers>
 </document>

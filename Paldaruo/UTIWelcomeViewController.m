@@ -11,6 +11,8 @@
 
 @interface UTIWelcomeViewController ()
 
+- (IBAction)btnStartSession:(id)sender;
+
 @end
 
 @implementation UTIWelcomeViewController
@@ -39,6 +41,7 @@
     
 }
 
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([keyPath isEqualToString:@"allProfilesArray"]) {
         NSUInteger count = [((UTIDataStore *)object).allProfilesArray count];
@@ -47,6 +50,7 @@
     }
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
+
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
     return 1;
@@ -63,14 +67,13 @@
     return user.name;
 }
 
+
 - (IBAction)btnStartSession:(id)sender {
-    
     NSInteger row = [self.picklistOutletExistingUsers selectedRowInComponent:0];
     UTIUser *user = [[UTIDataStore sharedDataStore] userAtIndex:row];
     [[UTIDataStore sharedDataStore] setActiveUser:user];
-    [self performSegueWithIdentifier:@"id_start" sender:self];
     
+    //[self performSegueWithIdentifier:@"id_start" sender:self];
 }
-
 
 @end
