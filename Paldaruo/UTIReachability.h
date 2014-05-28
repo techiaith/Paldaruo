@@ -12,10 +12,17 @@
 @class Reachability;
 
 @interface UTIReachability : NSObject {
+    
+    Reachability* internetReachable;
     Reachability* hostReachable;
     Reachability* wifiReachable;
+    
 }
 
 +(id) instance;
+
+- (void) startNotifiers;
+- (void) stopNotifiers;
+
 
 @end

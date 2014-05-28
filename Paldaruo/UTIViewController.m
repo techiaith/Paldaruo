@@ -87,9 +87,6 @@
                                              selector:@selector(handleInternetUnreachable:)
                                                  name:@"InternetUnreachable"
                                                object:nil];
-
-    [UTIReachability instance];
-    
     
     [super viewDidLoad];
     

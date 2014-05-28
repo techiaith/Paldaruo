@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Reachability.h"
+#import "UTIReachability.h"
 
 @interface UTIAppDelegate : UIResponder <UIApplicationDelegate> {
     BOOL __block _isShowingAlert;
 }
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) Reachability *appReachability;
+//@property (strong, nonatomic) Reachability *appReachability;
 
 @end

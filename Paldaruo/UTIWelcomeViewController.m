@@ -30,8 +30,6 @@
                                                  name:@"InternetUnreachable"
                                                object:nil];
     
-    [UTIReachability instance];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated

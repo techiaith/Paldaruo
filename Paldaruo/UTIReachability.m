@@ -10,6 +10,8 @@
 
 @implementation UTIReachability
 
+BOOL internetActive;
+
 +(id) instance {
     
     static UTIReachability *sharedReachibilitySingleton=nil;
@@ -33,32 +35,50 @@
                                                      name:kReachabilityChangedNotification
                                                    object:nil];
         
+        internetReachable = [Reachability reachabilityForInternetConnection];
         hostReachable = [Reachability reachabilityWithHostname:kServerHostName];
-        [hostReachable startNotifier];
-        
         wifiReachable = [Reachability reachabilityForLocalWiFi];
-        [wifiReachable startNotifier];
 
+        [self startNotifiers];
+        
     }
     
     return self;
 
 }
 
+-(void)startNotifiers{
+    
+    [internetReachable startNotifier];
+    [hostReachable startNotifier];
+    [wifiReachable startNotifier];
+    
+}
+
+-(void)stopNotifiers {
+    
+    [internetReachable stopNotifier];
+    [hostReachable stopNotifier];
+    [wifiReachable stopNotifier];
+    
+}
+
 -(void)networkStatusChanged:(NSNotification *)notice {
     
+    NetworkStatus internetStatus = [internetReachable currentReachabilityStatus];
     NetworkStatus hostStatus = [hostReachable currentReachabilityStatus];
     NetworkStatus wifiStatus = [wifiReachable currentReachabilityStatus];
     
     //
-    BOOL internetActive = ((hostStatus == ReachableViaWiFi) && (wifiStatus == ReachableViaWiFi));
+    internetActive = ((internetStatus == ReachableViaWiFi) &&
+                      (hostStatus == ReachableViaWiFi) &&
+                      (wifiStatus == ReachableViaWiFi));
     
-    //
     if (internetActive==NO){
         
-        // notify all observing viewcontrollers that the internet via wifi is down
-        // (so that they can take action when in the middle of their interaction with the user
-        //
+            // notify all observing viewcontrollers that the internet via wifi is down
+            // (so that they can take action when in the middle of their interaction with the user
+            //
         [[NSNotificationCenter defaultCenter] postNotificationName:@"InternetUnreachable"
                                                             object:nil];
         
