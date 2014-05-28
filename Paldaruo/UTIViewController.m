@@ -19,7 +19,6 @@
 - (IBAction)unwindToHome:(id)sender;
 
 @property (weak) UTIPrompt *currentPrompt;
-@property (strong, nonatomic) NSTimer *timerRecordingMetering;
 
 @property (weak, nonatomic) IBOutlet UILabel *lblOutletNextPrompt;
 @property (weak, nonatomic) IBOutlet UILabel *lblOutletRecordingStatus;
@@ -28,9 +27,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *lblOutletProfileName;
 @property (weak, nonatomic) IBOutlet UILabel *lblOutletSessionProgress;
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletBackToHome;
-@property (strong, nonatomic) NSTimer *lblOutletRecordingStatusTimer;
 @property (weak, nonatomic) IBOutlet UILabel *lblUploadingFilesInfo;
 @property (weak, nonatomic) IBOutlet UIProgressView *uploadProgressBar;
+
+@property (strong, nonatomic) NSTimer *lblOutletRecordingStatusTimer;
+@property (strong, nonatomic) NSTimer *timerRecordingMetering;
 
 @end
 
