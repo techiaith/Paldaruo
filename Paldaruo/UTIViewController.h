@@ -50,5 +50,7 @@ enum TypeDefRecordStatus currentRecordingStatus;
 
 UTIPromptsTracker *prompts;
 NSString *uid;
+float maximumDbLevel;
+float lastAverageDbLevel;
 
 

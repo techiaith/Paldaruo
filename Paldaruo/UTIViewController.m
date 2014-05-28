@@ -19,6 +19,7 @@
 - (IBAction)unwindToHome:(id)sender;
 
 @property (weak) UTIPrompt *currentPrompt;
+@property (strong, nonatomic) NSTimer *timerRecordingMetering;
 
 @property (weak, nonatomic) IBOutlet UILabel *lblOutletNextPrompt;
 @property (weak, nonatomic) IBOutlet UILabel *lblOutletRecordingStatus;
@@ -30,9 +31,8 @@
 @property (strong, nonatomic) NSTimer *lblOutletRecordingStatusTimer;
 @property (weak, nonatomic) IBOutlet UILabel *lblUploadingFilesInfo;
 @property (weak, nonatomic) IBOutlet UIProgressView *uploadProgressBar;
+
 @end
-
-
 
 @implementation UTIViewController
 
@@ -74,6 +74,7 @@
     
     currentRecordingStatus=RECORDING_SESSION_START;
     [self btnMoveToNextRecordingState:self];
+    
     [super viewDidLoad];
     
 }
@@ -104,7 +105,6 @@
             
             
         } case RECORDING_SESSION_START: {
-            ;
             if (![self gotoNextPrompt]) {
                 break;
             }
@@ -254,15 +254,38 @@
 
 
 -(void) recordAudio {
+    
     [self startRecordingStatusTimerWithString:@"Yn recordio…"];
+    
+    [self.audioRecorder prepareToRecord];
+    self.audioRecorder.meteringEnabled = YES;
+    
     [self.audioRecorder record];
+    [self.audioRecorder updateMeters];
+    
+    maximumDbLevel=-160.0;
+    lastAverageDbLevel=0.0;
+    
+    _timerRecordingMetering = [[NSTimer alloc] initWithFireDate:[NSDate dateWithTimeIntervalSinceNow:0.0]
+                               interval:0.03
+                               target:self
+                               selector:@selector(levelTimerCallback:)
+                               userInfo:nil
+                               repeats:YES];
+    
+    [[NSRunLoop currentRunLoop] addTimer:_timerRecordingMetering forMode:NSDefaultRunLoopMode];
+
 }
 
 
 -(void) stopRecording {
+    
     [self removeRecordingStatus];
     [self.audioRecorder stop];
     [self.audioPlayer stop];
+    
+    [_timerRecordingMetering invalidate];
+    _timerRecordingMetering=nil;
     
     NSURL *audioFileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:@"audioRecording.wav"]];
     
@@ -272,11 +295,29 @@
     
 }
 
+- (void)levelTimerCallback:(NSTimer *)timer {
+    
+    [self.audioRecorder updateMeters];
+
+    float average = [self.audioRecorder averagePowerForChannel:0];
+    float peak = [self.audioRecorder peakPowerForChannel:0];
+
+    lastAverageDbLevel=average;
+    if (peak>maximumDbLevel)
+        maximumDbLevel=peak;
+    
+}
 
 -(void) playAudio {
     
     [self.audioPlayer play];
-    [self startRecordingStatusTimerWithString:@"Chwarae yn ôl…"];
+    
+    float peakDecibelPowerLevel = powf(10.f,maximumDbLevel/ 20.f);
+    float averageDecibelPowerLevel = powf(10.f,lastAverageDbLevel/ 20.f);
+    
+    NSString *message = [NSString stringWithFormat:@"Chwarae yn ôl (average: %f, peak: %f)", averageDecibelPowerLevel, peakDecibelPowerLevel];
+    
+    [self startRecordingStatusTimerWithString:message];//@"Chwarae yn ôl…"];
     
 }
 
@@ -329,7 +370,6 @@
                                                                            repeats:YES];
     }
 
-    
 }
 
 - (void)toggleLabelRecordingStatus {
