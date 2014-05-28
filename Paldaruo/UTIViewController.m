@@ -7,6 +7,7 @@
 //
 
 #import "UTIViewController.h"
+#import "UTIReachability.h"
 
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
@@ -76,8 +77,33 @@
     currentRecordingStatus=RECORDING_SESSION_START;
     [self btnMoveToNextRecordingState:self];
     
+    // register to be informed of the status of the internet connection to the paldaruo app server.
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetReachable:)
+                                                 name:@"InternetReachable"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetUnreachable:)
+                                                 name:@"InternetUnreachable"
+                                               object:nil];
+
+    [UTIReachability instance];
+    
+    
     [super viewDidLoad];
     
+}
+
+- (void) dealloc {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetReachable"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetUnreachable"
+                                                  object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -421,6 +447,35 @@
     [self removeConnection:connection];
 }
 
+
+-(void)handleInternetReachable:(NSNotification *)notification {
+    
+    // try to upload any outstanding wav files.
+    [[UTIDataStore sharedDataStore] http_uploadOutstandingAudio:uid];
+    
+    [self.lblOutletNextPrompt setEnabled:YES];
+    [self.lblOutletRecordingStatus setEnabled:YES];
+    [self.btnOutletMoveToNextRecordingState setEnabled:YES];
+    [self.btnOutletRedoRecording setEnabled:YES];
+    [self.lblOutletProfileName setEnabled:YES];
+    [self.lblOutletSessionProgress setEnabled:YES];
+    
+}
+
+
+-(void)handleInternetUnreachable:(NSNotification *)notification {
+    
+    [self.lblOutletNextPrompt setEnabled:NO];
+    [self.lblOutletRecordingStatus setEnabled:NO];
+    [self.btnOutletMoveToNextRecordingState setEnabled:NO];
+    [self.btnOutletRedoRecording setEnabled:NO];
+    [self.lblOutletProfileName setEnabled:NO];
+    [self.lblOutletSessionProgress setEnabled:NO];
+    
+}
+
+
+/*
 -(void)handlePaldaruoServerApplicationError:(NSNotification *)notification {
     [self.lblOutletNextPrompt setEnabled:NO];
     [self.lblOutletRecordingStatus setEnabled:NO];
@@ -429,6 +484,7 @@
     [self.lblOutletProfileName setEnabled:NO];
     [self.lblOutletSessionProgress setEnabled:NO];
 }
+*/
 
 @end
 

@@ -8,6 +8,7 @@
 
 #import "UTIWelcomeViewController.h"
 #import "UTIDataStore.h"
+#import "UTIReachability.h"
 
 @interface UTIWelcomeViewController ()
 
@@ -17,6 +18,21 @@
 
 @implementation UTIWelcomeViewController
 
+-(void) viewDidLoad
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetReachable:)
+                                                 name:@"InternetReachable"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetUnreachable:)
+                                                 name:@"InternetUnreachable"
+                                               object:nil];
+    
+    [UTIReachability instance];
+    
+}
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -41,6 +57,17 @@
     
 }
 
+- (void) dealloc {
+    
+    // view did load
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetReachable"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetUnreachable"
+                                                  object:nil];
+}
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([keyPath isEqualToString:@"allProfilesArray"]) {
@@ -74,6 +101,16 @@
     [[UTIDataStore sharedDataStore] setActiveUser:user];
     
     //[self performSegueWithIdentifier:@"id_start" sender:self];
+}
+
+-(void)handleInternetReachable:(NSNotification *)notification {
+    [self.btnOutletStartSession setEnabled:YES];
+    [self.btnOutletAddProfile setEnabled:YES];
+}
+
+-(void)handleInternetUnreachable:(NSNotification *)notification {
+    [self.btnOutletStartSession setEnabled:NO];
+    [self.btnOutletAddProfile setEnabled:NO];
 }
 
 @end

@@ -9,7 +9,7 @@
 #import "UTINewProfileViewController.h"
 #import "UTIDataStore.h"
 #import "DejalActivityView.h"
-#import "Reachability.h"
+#import "UTIReachability.h"
 
 @interface UTINewProfileViewController ()
 
@@ -65,12 +65,38 @@
     
     //[self.lblOutletMetaDataField_Explanation sizeToFit];
     
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetReachable:)
+                                                 name:@"InternetReachable"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetUnreachable:)
+                                                 name:@"InternetUnreachable"
+                                               object:nil];
+    
+    [UTIReachability instance];
+    
+
+    
     [super viewDidLoad];
     
 	// Do any additional setup after loading the view.
     
 }
 
+- (void) dealloc {
+    
+    // view did load
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetReachable"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetUnreachable"
+                                                  object:nil];
+}
 
 -(BOOL) textFieldShouldReturn:(UITextField *)theTextField {
     if (theTextField == self.textFieldOutletMetaDataFreeText) {
@@ -320,12 +346,14 @@
 #pragma mark NSURLConnectionDelegate methods
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    
     if ([connection.originalRequest.URL.lastPathComponent isEqualToString:@"saveMetadata"]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self performSegueWithIdentifier:@"id_start" sender:self];
         });
         return;
     }
+    
     [self.lblOutletMetaDataField_Title setHidden:NO];
     [self.lblOutletMetaDataField_Question setHidden:NO];
     [self.lblOutletMetaDataField_Explanation setHidden:NO];
@@ -337,12 +365,14 @@
     //[self.btnOutletPreviousQuestion setHidden:NO];
     
     [self goToNextMetaDataField:NO];
+    
 //    NSArray *prevViewControllers = [self.navigationController viewControllers];
 //    if ([prevViewControllers count] > 2) {
 //        [self.navigationController popToViewController:[prevViewControllers objectAtIndex:1] animated:YES];
 //    } else {
 //        [self.navigationController popToRootViewControllerAnimated:YES];
 //    }
+    
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
@@ -359,6 +389,41 @@
     self.lblOutletError.text = errorText;
     self.lblOutletError.hidden = NO;
     [self.txtBoxNewProfileName becomeFirstResponder];
+}
+
+
+-(void)handleInternetReachable:(NSNotification *)notification {
+    
+    [self.btnOutletCreateUser setEnabled:YES];
+    //[self.btnOutletStartSession setEnabled:YES];
+    [self.btnOutletNextQuestion setEnabled:YES];
+    [self.btnOutletPreviousQuestion setEnabled:YES];
+    
+    [self.lblOutletNewProfileNameFieldDescription setEnabled:YES];
+    
+    [self.lblOutletMetaDataField_Title setEnabled:YES];
+    [self.lblOutletMetaDataField_Question setEnabled:YES];
+    [self.lblOutletMetaDataField_Explanation setEnabled:YES];
+    
+    [self.textFieldOutletMetaDataFreeText setEnabled:YES];
+    
+}
+
+
+-(void)handleInternetUnreachable:(NSNotification *)notification {
+    
+    [self.btnOutletCreateUser setEnabled:NO];
+    //[self.btnOutletStartSession setEnabled:NO];
+    [self.btnOutletNextQuestion setEnabled:NO];
+    [self.btnOutletPreviousQuestion setEnabled:NO];
+    
+    [self.lblOutletNewProfileNameFieldDescription setEnabled:NO];
+    
+    [self.lblOutletMetaDataField_Title setEnabled:NO];
+    [self.lblOutletMetaDataField_Question setEnabled:NO];
+    [self.lblOutletMetaDataField_Explanation setEnabled:NO];
+    
+    [self.textFieldOutletMetaDataFreeText setEnabled:NO];
 }
 
 @end

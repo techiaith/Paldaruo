@@ -7,7 +7,7 @@
 //
 
 #import "UTIAcceptTermsAndConditionsViewController.h"
-#import "Reachability.h"
+#import "UTIReachability.h"
 #import "DejalActivityView.h"
 
 @interface UTIAcceptTermsAndConditionsViewController ()
@@ -22,7 +22,24 @@
 
 @implementation UTIAcceptTermsAndConditionsViewController
 
+-(void)viewDidLoad{
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetReachable:)
+                                                 name:@"InternetReachable"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetUnreachable:)
+                                                 name:@"InternetUnreachable"
+                                               object:nil];
+    
+    [UTIReachability instance];
+    
+}
+
 -(void)viewWillAppear:(BOOL)animated {
+    
     [self.btnOutletAccept setHidden:NO];
     [self.btnOutletReject setHidden:NO];
     
@@ -39,6 +56,18 @@
     [DejalActivityView activityViewForView:self.webViewOutletTermsAndConditionsText withLabel:nil];
     [self.webViewOutletTermsAndConditionsText loadRequest:requestObj];
     
+}
+
+- (void) dealloc {
+    
+    // view did load
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetReachable"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetUnreachable"
+                                                  object:nil];
 }
 
 #pragma mark WebView Delegate methods
@@ -62,16 +91,35 @@
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
+    
     [DejalActivityView removeView];
+    
     [self.btnOutletAccept setEnabled:YES];
     [self.btnOutletReject setEnabled:YES];
+    
 }
 
 - (IBAction)unwindToSegue:(id)sender {
+    
     if (sender == self.backButton) {
         [self.navigationController popToRootViewControllerAnimated:YES];
         return;
     }
+    
     [self.navigationController popViewControllerAnimated:YES];
+    
 }
+
+-(void)handleInternetReachable:(NSNotification *)notification {
+    [self.btnOutletAccept setEnabled:YES];
+    [self.btnOutletReject setEnabled:YES];
+}
+
+
+-(void)handleInternetUnreachable:(NSNotification *)notification {
+    [self.btnOutletAccept setEnabled:NO];
+    [self.btnOutletReject setEnabled:NO];
+}
+
+
 @end
