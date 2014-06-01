@@ -28,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *lblOutletProfileName;
 @property (weak, nonatomic) IBOutlet UILabel *lblOutletSessionProgress;
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletBackToHome;
+
 @property (weak, nonatomic) IBOutlet UILabel *lblUploadingFilesInfo;
 @property (weak, nonatomic) IBOutlet UIProgressView *uploadProgressBar;
 
@@ -57,6 +58,7 @@
     
     //
     NSURL *audioFileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:@"audioRecording.wav"]];
+    
     NSDictionary *audioSettings = [NSDictionary dictionaryWithObjectsAndKeys:
                                    [NSNumber numberWithFloat:48000], AVSampleRateKey,
                                    [NSNumber numberWithInt:1], AVNumberOfChannelsKey,
@@ -202,6 +204,7 @@
             
             
         } case RECORDING_WAIT_TO_GOTO_NEXT: {
+            
             [[UTIDataStore sharedDataStore] http_uploadAudio:uid
                                                   identifier:self.currentPrompt.identifier
                                                       sender:self];

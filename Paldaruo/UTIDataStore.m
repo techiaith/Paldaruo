@@ -95,7 +95,8 @@
 }
 
 -(void) http_uploadAudio: (NSString*) uid
-              identifier:(NSString*) ident sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender {
+              identifier:(NSString*) ident
+                  sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender {
     
     NSString *filename = [NSString stringWithFormat:@"%@.wav", ident];
     NSString *uidTempDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:uid];
@@ -161,8 +162,13 @@
     [r addBodyData:[[[NSData alloc] initWithContentsOfURL:audioFileURL] base64EncodedDataWithOptions:0] withBoundary:NO];
     
     [r setCompletionHandler:^(NSData *data, NSError *error) {
+        
+        [self handleResponseUploadAudio:data error:error];
+        
+        /*
         self.numberOfUploadingFiles -= 1;
         NSString *message = nil;
+        
         if ([data length]) {
             NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
             NSString *error = responseDict[@"error"];
@@ -178,6 +184,7 @@
         }
         
         if (message) {
+            
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
                                                             message: message
                                                            delegate: nil
@@ -185,9 +192,48 @@
                                                   otherButtonTitles: nil];
             [alert show];
         }
+        */
     }];
+    
     self.numberOfUploadingFiles += 1;
     [r sendRequestAsync];
+    
+}
+
+
+-(void) handleResponseUploadAudio:(NSData *)data error:(NSError *)error {
+    
+    if ([data length] >0 && error == nil) {
+        
+        NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
+                                                           options:kNilOptions
+                                                             error:nil];
+        
+        NSDictionary *jsonResponse = json[@"response"];
+        NSString *filename = jsonResponse[@"fileId"];
+        NSString *uid = jsonResponse[@"uid"];
+        
+        NSString *uidTempDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:uid];
+        NSString *deleteFileTarget = [uidTempDirectory stringByAppendingFormat:@"/%@",filename];
+        
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        BOOL fileExists = [fileManager fileExistsAtPath:deleteFileTarget];
+        if (fileExists){
+            [fileManager removeItemAtPath:deleteFileTarget error:Nil];
+        }
+        
+    }
+    else {
+        
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Problem Cysylltu"
+                                                        message: @"Gwiriwch ac ailgysylltu'ch dyfais i'r rhwydwaith ddiwifr cyn parhau"
+                                                       delegate: nil
+                                              cancelButtonTitle: @"Iawn"
+                                              otherButtonTitles: nil];
+        [alert show];
+        
+    }
     
 }
 
@@ -352,42 +398,6 @@
     
 }
 
-
-
--(void) handleResponseUploadAudio:(NSURLResponse *)response data:(NSData *)data error:(NSError *)error {
-    
-    if ([data length] >0 && error == nil) {
-    
-        NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
-                                                           options:kNilOptions
-                                                             error:nil];
-        
-        NSDictionary *jsonResponse = json[@"response"];
-        NSString *filename = jsonResponse[@"fileId"];
-        NSString *uid = jsonResponse[@"uid"];
-        
-        NSString *uidTempDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:uid];
-        NSString *deleteFileTarget = [uidTempDirectory stringByAppendingFormat:@"/%@",filename];
-        
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        BOOL fileExists = [fileManager fileExistsAtPath:deleteFileTarget];
-        if (fileExists){
-            [fileManager removeItemAtPath:deleteFileTarget error:Nil];
-        }
-        
-    }
-    else{
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Problem Cysylltu"
-                                                        message: @"Gwiriwch ac ailgysylltu'ch dyfais i'r rhwydwaith ddiwifr cyn parhau"
-                                                       delegate: nil
-                                              cancelButtonTitle: @"Iawn"
-                                              otherButtonTitles: nil];
-        [alert show];
-        
-    }
-    
-}
 
 
 - (void)saveProfiles {
