@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="R25-Ff-ue8">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="12F37" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="R25-Ff-ue8">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -518,7 +518,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Htu-Lg-gzM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="528" y="-47"/>
+            <point key="canvasLocation" x="669" y="688"/>
         </scene>
         <!--New Profile View Controller-->
         <scene sceneID="G11-Eg-Zgx">
@@ -664,6 +664,21 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                     <action selector="btnActionNextQuestion:" destination="wEw-hX-8Vk" eventType="touchUpInside" id="usc-25-Udv"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JgA-Dv-Fop" customClass="UTIButton">
+                                <rect key="frame" x="171" y="453" width="140" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="140" id="Goe-rs-RAO"/>
+                                    <constraint firstAttribute="height" constant="42" id="qJ1-ii-69D"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <state key="normal" title="Cychwyn >">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnActionStartSession:" destination="wEw-hX-8Vk" eventType="touchUpInside" id="EfH-7C-Ahd"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vKH-uE-eQt" customClass="UTIButton">
                                 <rect key="frame" x="20" y="453" width="126" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -745,6 +760,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                         <outlet property="btnOutletCreateUser" destination="xap-Ds-xco" id="KgN-cW-Pvn"/>
                         <outlet property="btnOutletNextQuestion" destination="ufZ-2M-oBh" id="BhM-P3-oRQ"/>
                         <outlet property="btnOutletPreviousQuestion" destination="vKH-uE-eQt" id="iuH-KC-hOW"/>
+                        <outlet property="btnOutletStartSession" destination="JgA-Dv-Fop" id="jVB-LC-Wxh"/>
                         <outlet property="lblOutletError" destination="8hA-az-iKj" id="KXd-VJ-AF7"/>
                         <outlet property="lblOutletMetaDataField_Explanation" destination="l9B-gE-zRV" id="ejf-aI-Xvx"/>
                         <outlet property="lblOutletMetaDataField_Question" destination="frm-Xb-2W2" id="ejL-FN-oIz"/>
@@ -759,7 +775,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tjw-dl-kUq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1663" y="638"/>
+            <point key="canvasLocation" x="1707" y="673"/>
         </scene>
         <!--Accept Terms And Conditions View Controller-->
         <scene sceneID="PMd-p2-4Bc">
@@ -1366,7 +1382,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="yw4-yg-aS5"/>
+        <segue reference="Fms-mC-hRW"/>
         <segue reference="dK9-YE-406"/>
     </inferredMetricsTieBreakers>
 </document>

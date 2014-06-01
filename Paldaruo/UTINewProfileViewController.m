@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletCreateUser;
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletNextQuestion;
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletPreviousQuestion;
+@property (weak, nonatomic) IBOutlet UIButton *btnOutletStartSession;
 
 @property (weak, nonatomic) IBOutlet UILabel *lblOutletNewProfileNameFieldDescription;
 
@@ -62,6 +63,7 @@
     
     [self.btnOutletNextQuestion setHidden:YES];
     [self.btnOutletPreviousQuestion setHidden:YES];
+    [self.btnOutletStartSession setHidden:YES];
     
     //[self.lblOutletMetaDataField_Explanation sizeToFit];
     
@@ -148,11 +150,18 @@
     [self goToNextMetaDataField:YES];
 }
 
+
 - (IBAction)btnActionStartSession:(id)sender {
-    [self performSegueWithIdentifier:@"id_start" sender:self];
+    
+    //[self performSegueWithIdentifier:@"id_start" sender:self];
+    NSString *uid = [[UTIDataStore sharedDataStore] activeUser].uid;
+    [[UTIDataStore sharedDataStore] http_saveMetadata:uid sender:self];
+    
 }
 
+
 - (IBAction)btnActionCreateUser:(id)sender {
+    
     self.lblOutletError.hidden = YES;
     NSString *newUserName=[_txtBoxNewProfileName text];
     
@@ -165,6 +174,7 @@
     } else {
         // The new user (if created) is automatically made the active user
         [self.txtBoxNewProfileName resignFirstResponder];
+        
         [[UTIDataStore sharedDataStore] http_createUser_completionBlock:^(NSData *data, NSError *error) {
             [DejalBezelActivityView removeView];
             NSDictionary *json = nil;
@@ -239,9 +249,7 @@
         
     }
     
-    
     [self showFormForCurrentMetaDataField];
-    
     
 }
 
@@ -275,6 +283,7 @@
     
 }
 
+
 -(void) showFormForCurrentMetaDataField
 {
     //
@@ -294,6 +303,8 @@
         [self.lblOutletMetaDataField_Question setHidden:NO];
         [self.lblOutletMetaDataField_Explanation setHidden:NO];
         
+        [self.btnOutletStartSession setHidden:YES];
+        
         //
         if (localCopyNextMetaDataField.isText==YES){
             
@@ -301,7 +312,6 @@
             
             [self.textFieldOutletMetaDataFreeText setHidden:NO];
             [self.textFieldOutletMetaDataFreeText becomeFirstResponder];
-            
             
         } else {
             
@@ -324,16 +334,18 @@
     } else {
         
         [self.btnOutletNextQuestion setHidden:YES];
+        [self.btnOutletStartSession setHidden:NO];
         
-        [self.lblOutletMetaDataField_Title setHidden:YES];
-        [self.lblOutletMetaDataField_Question setHidden:YES];
-        [self.lblOutletMetaDataField_Explanation setHidden:YES];
+        [self.lblOutletMetaDataField_Title setText:@"Cwblhau Creu Proffil"];
+        [self.lblOutletMetaDataField_Question setText:@"Cliciwch ar Cychwyn i ddechrau recordio."];
+        [self.lblOutletMetaDataField_Explanation setText:@"Neu gciciwch i fynd yn ol i newid ateb unrhyw cwestiwn."];
+        
+        //[self.lblOutletMetaDataField_Title setHidden:YES];
+        //[self.lblOutletMetaDataField_Question setHidden:YES];
+        //[self.lblOutletMetaDataField_Explanation setHidden:YES];
+        
         [self.textFieldOutletMetaDataFreeText setHidden:YES];
         [self.pickerViewOutletMetaDataOption setHidden:YES];
-        
-        NSString *uid = [[UTIDataStore sharedDataStore] activeUser].uid;
-        
-        [[UTIDataStore sharedDataStore] http_saveMetadata:uid sender:self];
         
     }
     
