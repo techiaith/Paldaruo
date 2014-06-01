@@ -355,7 +355,8 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     
-    if ([connection.originalRequest.URL.lastPathComponent isEqualToString:@"saveMetadata"]) {
+    if ([connection.originalRequest.URL.lastPathComponent isEqualToString:@"saveMetadata"])
+    {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self performSegueWithIdentifier:@"id_start" sender:self];
         });
