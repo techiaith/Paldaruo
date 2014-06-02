@@ -29,6 +29,8 @@ BOOL internetActive;
     
     if ((self = [super init]) != nil){
         
+        internetActive=YES;
+        
         //observe the internet connection to the paldaruo app server
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(networkStatusChanged:)
