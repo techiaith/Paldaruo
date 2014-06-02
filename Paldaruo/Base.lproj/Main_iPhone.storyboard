@@ -1119,6 +1119,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                     <navigationItem key="navigationItem" id="063-6n-wWw"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
+                        <outlet property="btnOutletStartSession" destination="nbH-a1-Hum" id="eKK-hK-7JH"/>
                         <outlet property="labelOutletMyUID" destination="kdu-fk-53d" id="sk0-NL-fRs"/>
                     </connections>
                 </viewController>

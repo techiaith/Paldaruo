@@ -9,7 +9,9 @@
 #import "UTIAboutMyDataViewController.h"
 
 @interface UTIAboutMyDataViewController ()
+
 @property (weak, nonatomic) IBOutlet UILabel *labelOutletMyUID;
+@property (weak, nonatomic) IBOutlet UIButton *btnOutletStartSession;
 
 @end
 
@@ -30,14 +32,44 @@
 	// Do any additional setup after loading the view.
     NSString *uid = [[UTIDataStore sharedDataStore] activeUser].uid;
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetReachable:)
+                                                 name:@"InternetReachable"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetUnreachable:)
+                                                 name:@"InternetUnreachable"
+                                               object:nil];
+
     [self.labelOutletMyUID setText:uid];
     
+}
+
+- (void) dealloc {
+    
+    // view did load
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetReachable"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetUnreachable"
+                                                  object:nil];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)handleInternetReachable:(NSNotification *)notification {
+    [self.btnOutletStartSession setEnabled:YES];
+}
+
+-(void)handleInternetUnreachable:(NSNotification *)notification {
+    [self.btnOutletStartSession setEnabled:NO];
 }
 
 @end

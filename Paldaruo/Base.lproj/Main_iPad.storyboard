@@ -105,6 +105,7 @@
                     <navigationItem key="navigationItem" id="tON-Vd-QGj"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
+                        <outlet property="btnOutletStartSession" destination="cpd-Fz-7kk" id="Gj3-PP-DVi"/>
                         <outlet property="labelOutletMyUID" destination="yHz-cz-BH6" id="J0L-x0-icb"/>
                     </connections>
                 </viewController>
