@@ -777,7 +777,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tjw-dl-kUq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1707" y="673"/>
+            <point key="canvasLocation" x="1639" y="797"/>
         </scene>
         <!--Accept Terms And Conditions View Controller-->
         <scene sceneID="PMd-p2-4Bc">
@@ -1385,7 +1385,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="wuK-sq-Jbq"/>
-        <segue reference="yw4-yg-aS5"/>
+        <segue reference="dK9-YE-406"/>
+        <segue reference="Fms-mC-hRW"/>
     </inferredMetricsTieBreakers>
 </document>

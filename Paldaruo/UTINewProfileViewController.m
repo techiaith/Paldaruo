@@ -67,34 +67,12 @@
     
     //[self.lblOutletMetaDataField_Explanation sizeToFit];
     
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleInternetReachable:)
-                                                 name:@"InternetReachable"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleInternetUnreachable:)
-                                                 name:@"InternetUnreachable"
-                                               object:nil];
-        
     [super viewDidLoad];
     
 	// Do any additional setup after loading the view.
     
 }
 
-- (void) dealloc {
-    
-    // view did load
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:@"InternetReachable"
-                                                  object:nil];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:@"InternetUnreachable"
-                                                  object:nil];
-}
 
 -(BOOL) textFieldShouldReturn:(UITextField *)theTextField {
     if (theTextField == self.textFieldOutletMetaDataFreeText) {
@@ -147,84 +125,103 @@
 
 
 - (IBAction)btnActionNextQuestion:(id)sender {
-    [self goToNextMetaDataField:YES];
+    
+    if ([[UTIReachability instance] isPaldaruoServerReachable]){
+        [self goToNextMetaDataField:YES];
+    } else {
+        [[UTIReachability instance] showAppServerUnreachableAlert];
+    }
+    
 }
 
 
 - (IBAction)btnActionStartSession:(id)sender {
     
-    //[self performSegueWithIdentifier:@"id_start" sender:self];
-    NSString *uid = [[UTIDataStore sharedDataStore] activeUser].uid;
-    [[UTIDataStore sharedDataStore] http_saveMetadata:uid sender:self];
+    if ([[UTIReachability instance] isPaldaruoServerReachable]){
+        NSString *uid = [[UTIDataStore sharedDataStore] activeUser].uid;
+        [[UTIDataStore sharedDataStore] http_saveMetadata:uid sender:self];
+    } else {
+        [[UTIReachability instance] showAppServerUnreachableAlert];
+    }
     
 }
 
 
 - (IBAction)btnActionCreateUser:(id)sender {
     
-    self.lblOutletError.hidden = YES;
-    NSString *newUserName=[_txtBoxNewProfileName text];
-    
-    NSString __block *errorText = nil;
-    
-    if ([[newUserName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] == 0) {
-        errorText = @"Rhaid rhoi enw i'r proffil";
-    } else if ([[UTIDataStore sharedDataStore] userForName:newUserName]) {
-        errorText = @"Mae proffil gyda'r enw yma'n bodoli eisioes";
-    } else {
-        // The new user (if created) is automatically made the active user
-        [self.txtBoxNewProfileName resignFirstResponder];
+    if ([[UTIReachability instance] isPaldaruoServerReachable]){
         
-        [[UTIDataStore sharedDataStore] http_createUser_completionBlock:^(NSData *data, NSError *error) {
-            [DejalBezelActivityView removeView];
-            NSDictionary *json = nil;
-            if (data) {
-                json = [NSJSONSerialization JSONObjectWithData:data
-                                                       options:kNilOptions
-                                                         error:nil];
-            }
+        self.lblOutletError.hidden = YES;
+        NSString *newUserName=[_txtBoxNewProfileName text];
+        
+        NSString __block *errorText = nil;
+        
+        if ([[newUserName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] == 0) {
+            errorText = @"Rhaid rhoi enw i'r proffil";
+        } else if ([[UTIDataStore sharedDataStore] userForName:newUserName]) {
+            errorText = @"Mae proffil gyda'r enw yma'n bodoli eisioes";
+        } else {
+            // The new user (if created) is automatically made the active user
+            [self.txtBoxNewProfileName resignFirstResponder];
             
-            if (!json) {
-                errorText = @"Problem gyda'r gweinydd";
-            } else if (error) {
-                switch (error.code) {
-                    case -1001: {
-                        errorText = @"Terfyn Amser Gweinydd";
-                        break;
-                    }
-                    default: {
-                        errorText = error.localizedDescription;
-                        break;
-                    }
+            [[UTIDataStore sharedDataStore] http_createUser_completionBlock:^(NSData *data, NSError *error) {
+                [DejalBezelActivityView removeView];
+                NSDictionary *json = nil;
+                if (data) {
+                    json = [NSJSONSerialization JSONObjectWithData:data
+                                                           options:kNilOptions
+                                                             error:nil];
                 }
-            } else if (!data) {
-                errorText = @"Problem gyda'r gweinydd";
-            }
+                
+                if (!json) {
+                    errorText = @"Problem gyda'r gweinydd";
+                } else if (error) {
+                    switch (error.code) {
+                        case -1001: {
+                            errorText = @"Terfyn Amser Gweinydd";
+                            break;
+                        }
+                        default: {
+                            errorText = error.localizedDescription;
+                            break;
+                        }
+                    }
+                } else if (!data) {
+                    errorText = @"Problem gyda'r gweinydd";
+                }
+                
+                if (errorText) {
+                    [self showErrorText:errorText];
+                    return;
+                }
+                
+                NSDictionary *jsonResponse = json[@"response"];
+                NSString *uid = jsonResponse[@"uid"];
+                
+                if (uid) {
+                    [[UTIDataStore sharedDataStore] addNewUser:newUserName uid:uid];
+                    [[UTIDataStore sharedDataStore] http_getMetadata:uid sender:self];
+                }
+            }];
+            [DejalBezelActivityView activityViewForView:self.view withLabel:@"Llwytho…"];
             
-            if (errorText) {
-                [self showErrorText:errorText];
-                return;
-            }
-            NSDictionary *jsonResponse = json[@"response"];
-            NSString *uid = jsonResponse[@"uid"];
-            
-            if (uid) {
-                [[UTIDataStore sharedDataStore] addNewUser:newUserName uid:uid];
-                [[UTIDataStore sharedDataStore] http_getMetadata:uid sender:self];
-            }
-        }];
-        [DejalBezelActivityView activityViewForView:self.view withLabel:@"Llwytho…"];
+        }
         
-    }
-    
-    if (errorText) {
-        [self showErrorText:errorText];
+        if (errorText) {
+            [self showErrorText:errorText];
+        }
+    } else {
+        [[UTIReachability instance] showAppServerUnreachableAlert];
     }
 }
 
 
 - (IBAction)btnActionPreviousQuestion:(id)sender {
-    [self goToPreviousMetaDataField];
+    if ([[UTIReachability instance] isPaldaruoServerReachable]){
+        [self goToPreviousMetaDataField];
+    } else {
+         [[UTIReachability instance] showAppServerUnreachableAlert];
+    }
 }
 
 
@@ -407,42 +404,6 @@
     self.lblOutletError.text = errorText;
     self.lblOutletError.hidden = NO;
     [self.txtBoxNewProfileName becomeFirstResponder];
-    
-}
-
-
--(void)handleInternetReachable:(NSNotification *)notification {
-    
-    [self.btnOutletCreateUser setEnabled:YES];
-    [self.btnOutletStartSession setEnabled:YES];
-    [self.btnOutletNextQuestion setEnabled:YES];
-    [self.btnOutletPreviousQuestion setEnabled:YES];
-    
-    [self.lblOutletNewProfileNameFieldDescription setEnabled:YES];
-    
-    [self.lblOutletMetaDataField_Title setEnabled:YES];
-    [self.lblOutletMetaDataField_Question setEnabled:YES];
-    [self.lblOutletMetaDataField_Explanation setEnabled:YES];
-    
-    [self.textFieldOutletMetaDataFreeText setEnabled:YES];
-    
-}
-
-
--(void)handleInternetUnreachable:(NSNotification *)notification {
-    
-    [self.btnOutletCreateUser setEnabled:NO];
-    [self.btnOutletStartSession setEnabled:NO];
-    [self.btnOutletNextQuestion setEnabled:NO];
-    [self.btnOutletPreviousQuestion setEnabled:NO];
-    
-    [self.lblOutletNewProfileNameFieldDescription setEnabled:NO];
-    
-    [self.lblOutletMetaDataField_Title setEnabled:NO];
-    [self.lblOutletMetaDataField_Question setEnabled:NO];
-    [self.lblOutletMetaDataField_Explanation setEnabled:NO];
-    
-    [self.textFieldOutletMetaDataFreeText setEnabled:NO];
     
 }
 
