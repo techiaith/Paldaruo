@@ -70,23 +70,30 @@ BOOL internetActive;
     NetworkStatus wifiStatus = [wifiReachable currentReachabilityStatus];
     
     //
+    bool existingInternetActive = internetActive;
+    
     internetActive = ((internetStatus == ReachableViaWiFi) &&
                       (hostStatus == ReachableViaWiFi) &&
                       (wifiStatus == ReachableViaWiFi));
     
-    if (internetActive==NO){
+    // don't do anything if the internetactive status has not changed. 
+    if (existingInternetActive!=internetActive){
+        
+        if (internetActive==NO){
         
             // notify all observing viewcontrollers that the internet via wifi is down
             // (so that they can take action when in the middle of their interaction with the user
             //
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"InternetUnreachable"
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"InternetUnreachable"
                                                             object:nil];
         
-        [self showAppServerUnreachableAlert];
+            [self showAppServerUnreachableAlert];
         
-    } else {
+        } else {
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"InternetReachable" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"InternetReachable" object:nil];
+        
+        }
         
     }
     
