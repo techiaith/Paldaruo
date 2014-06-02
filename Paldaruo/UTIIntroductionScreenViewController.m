@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageOutletTechiaithLogo;
 @property (weak, nonatomic) IBOutlet UIImageView *imageOutletPaldaruoIcon;
 
+@property (weak, nonatomic) IBOutlet UIButton *btnOutletStart;
+
 @end
 
 @implementation UTIIntroductionScreenViewController
@@ -35,7 +37,18 @@
 
 - (void)viewDidLoad
 {
-        [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetReachable:)
+                                                 name:@"InternetReachable"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleInternetUnreachable:)
+                                                 name:@"InternetUnreachable"
+                                               object:nil];
+    
+    [super viewDidLoad];
+    
 	// Do any additional setup after loading the view.
     
     
@@ -93,10 +106,31 @@
     
 }
 
+- (void) dealloc {
+    
+    // view did load
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetReachable"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"InternetUnreachable"
+                                                  object:nil];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+-(void)handleInternetReachable:(NSNotification *)notification {
+    [self.btnOutletStart setEnabled:YES];
+}
+
+-(void)handleInternetUnreachable:(NSNotification *)notification {
+    [self.btnOutletStart setEnabled:NO];
 }
 
 @end
