@@ -411,7 +411,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="Teu-rc-PHm" kind="push" id="WBA-bu-F92"/>
+                                    <segue destination="Teu-rc-PHm" kind="push" identifier="segue_AcceptTermsAndConditions" id="WBA-bu-F92"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="STx-HC-aCy" customClass="UTIButton">
@@ -515,7 +515,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                         <outlet property="btnOutletStartSession" destination="STx-HC-aCy" id="H8F-TE-1T2"/>
                         <outlet property="noProfilesLabel" destination="3Nv-Sn-NOD" id="kLX-4u-lcb"/>
                         <outlet property="picklistOutletExistingUsers" destination="Wsn-xR-xVO" id="MJx-iP-tpK"/>
-                        <segue destination="Hbt-l3-TWf" kind="push" identifier="id_start" id="yw4-yg-aS5"/>
+                        <segue destination="Hbt-l3-TWf" kind="push" identifier="segue_AboutMyDataView" id="yw4-yg-aS5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Htu-Lg-gzM" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1386,6 +1386,6 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="wuK-sq-Jbq"/>
-        <segue reference="Fms-mC-hRW"/>
+        <segue reference="yw4-yg-aS5"/>
     </inferredMetricsTieBreakers>
 </document>

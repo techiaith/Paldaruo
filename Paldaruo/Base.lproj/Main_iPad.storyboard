@@ -634,7 +634,7 @@
                                 </state>
                                 <connections>
                                     <action selector="btnStartSession:" destination="sMx-fZ-6x9" eventType="touchUpInside" id="c3t-sE-XFT"/>
-                                    <segue destination="nmt-Gv-nbk" kind="push" id="Xfm-KJ-yxh"/>
+                                    <segue destination="nmt-Gv-nbk" kind="push" identifier="segue_AboutMyDataView" id="Xfm-KJ-yxh"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Uned Technolegau Iaith, Canolfan Bedwyr, Prifysgol Bangor" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="krK-25-BVp">
@@ -652,7 +652,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="133-wE-UIG" kind="push" id="W0V-F3-sEZ"/>
+                                    <segue destination="133-wE-UIG" kind="push" identifier="segue_AcceptTermsAndConditions" id="W0V-F3-sEZ"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Dewisiwch broffil neu gliciwch 'Ychwanegu Proffil' i greu un newydd" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QZN-el-6Az">
@@ -843,6 +843,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="KYH-TC-bBo"/>
+        <segue reference="Xfm-KJ-yxh"/>
     </inferredMetricsTieBreakers>
 </document>
