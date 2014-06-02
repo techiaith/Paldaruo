@@ -85,13 +85,24 @@
         NSLog(@"Aborting request...");
         return;
     }
+    
     if (async) {
         [NSURLConnection connectionWithRequest:request delegate:self];
     } else {
-        NSURLResponse *response = nil;
+        NSHTTPURLResponse *response = nil;
         NSError *error = nil;
         NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        
+        // http status code is forgotten about in synchronous communications.
+        if ([response statusCode]!=200)
+        {
+            error = [NSError errorWithDomain:@"uk.ac.bangor.techiaith.paldaruo"
+                                        code:-9999
+                                    userInfo:@{NSLocalizedDescriptionKey:@"Gwall cyffredinol gyda gweinydd Paldaruo"}];
+        }
+        
         self.completionHandler(data, error);
+        
         _request = nil;
     }
 }
@@ -139,14 +150,17 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+   
     NSError *err = nil;
     if (self.request500ed) {
-        err = [NSError errorWithDomain:@"uk.ac.bangor.techiaith.paldaruo" code:-9999 userInfo:@{NSLocalizedDescriptionKey : @"Gwall gyda'r gweinydd"}];
+        err = [NSError errorWithDomain:@"uk.ac.bangor.techiaith.paldaruo"
+                                  code:-9999
+                              userInfo:@{NSLocalizedDescriptionKey : @"Gwall cyffredinol gyda gweinydd Paldaruo"}];
     }
     if (self.completionHandler) {
-
         self.completionHandler(err ? nil : self.responseData, err);
     }
+    
     if (err) {
         // The server gave a 500 error, so we fake that this is a connection failure (for our own error handling)
         [self connection:connection didFailWithError:err];
@@ -156,6 +170,7 @@
     if ([self.delegate respondsToSelector:@selector(connectionDidFinishLoading:)]) {
         [self.delegate connectionDidFinishLoading:connection];
     }
+    
     _request = nil;
 }
 
@@ -173,7 +188,8 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSHTTPURLResponse *)response {
-    if (response.statusCode == 500) {
+    //if (response.statusCode == 500) {
+    if (response.statusCode != 200) {
         self.request500ed = YES;
     }
 }

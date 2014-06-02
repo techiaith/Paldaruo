@@ -225,13 +225,8 @@
     }
     else {
         
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Problem Cysylltu"
-                                                        message: @"Gwiriwch ac ailgysylltu'ch dyfais i'r rhwydwaith ddiwifr cyn parhau"
-                                                       delegate: nil
-                                              cancelButtonTitle: @"Iawn"
-                                              otherButtonTitles: nil];
-        [alert show];
+        [self showCommunicationWithServerError:@"Llwytho sain i fyny"
+                                   description:@"Roedd problem cysylltu. Gwiriwch ac ailgysylltu'ch dyfais i'r rhwydwaith ddiwifr cyn parhau"];
         
     }
     
@@ -245,24 +240,27 @@
 
 - (NSString *)http_createUser_completionBlock:(urlCompletionHandler)block {
     
-    
     NSString __block *newUserId=nil;
-    
     
     UTIRequest *r = [UTIRequest new];
     r.requestPath = @"createUser";
+    
     if (block) {
         r.completionHandler = block;
         [r sendRequestAsync];
         return nil;
     } else {
         r.completionHandler = ^(NSData *data, NSError *error) {
+            
             if (error==nil) {
                 NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
                 NSDictionary *jsonResponse = json[@"response"];
                 newUserId = jsonResponse[@"uid"];
+            } else {
+                [self showCommunicationWithServerError:@"Creu Defnyddiwr" description:error.localizedDescription];
             }
         };
+        
         [r sendRequestSync];
     }
     return newUserId;
@@ -270,12 +268,14 @@
 
 
 -(void) http_fetchOutstandingPrompts:(UTIPromptsTracker*)prompts useridentifier:(NSString *)uid {
+    
     UTIRequest *r = [UTIRequest new];
     r.requestPath = @"getOutstandingPrompts";
     
     [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid] withBoundary:NO];
     
     [r setCompletionHandler:^(NSData *data, NSError *error) {
+        
         if (!error) {
             
             NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
@@ -297,15 +297,12 @@
             
         } else {
             
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i lawr"
-                                                            message: @"Gwall cyffredinol"
-                                                           delegate: nil
-                                                  cancelButtonTitle: @"Iawn"
-                                                  otherButtonTitles: nil];
-            [alert show];
+            [self showCommunicationWithServerError:@"Estyn Testunau i'w Recordio" description:error.localizedDescription];
             
         }
+        
     }];
+    
     [r sendRequestSync];
     
 }
@@ -321,10 +318,13 @@
     ;
     
     [r setCompletionHandler:^(NSData *data, NSError *error) {
+        
         if (error) {
-            [sender showError:error];
+            [self showCommunicationWithServerError:@"Estyn Metadata" description:error.localizedDescription];
         }
+        
         if (error==nil) {
+            
             NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
                                                                options:kNilOptions
                                                                  error:nil];
@@ -336,9 +336,13 @@
                 if ([jsonResponse respondsToSelector:@selector(objectForKey:)]) {
                     errMsg = [jsonResponse objectForKey:@"error"];
                 }
-                [sender showError:[NSError errorWithDomain:@"uk.ac.bangor.techiaith.paldaruo" code:-9999 userInfo:@{NSLocalizedDescriptionKey : errMsg ? errMsg : @"Gwall Cyffredinol"}]];
+                
+                [self showCommunicationWithServerError:@"Estyn Metadata" description:@"Gwall cyffredinol gyda gweinydd Paldaruo"];
+                
                 return;
+                
             }
+            
             // initialise the prompts tracker.
             for (NSDictionary *jsonFieldAttributes in jsonResponse) {
                 UTIMetaDataField *newField=[[UTIMetaDataField alloc] init];
@@ -390,6 +394,7 @@
     NSData *jsonData=[NSJSONSerialization dataWithJSONObject:metaDataValues
                                                      options:0
                                                        error:nil];
+    
     NSString *jsonString=[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
     [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"metadata\"\r\n\r\n%@", jsonString] withBoundary:NO];
@@ -403,6 +408,18 @@
 - (void)saveProfiles {
     NSUserDefaults *persistedStore=[NSUserDefaults standardUserDefaults];
     [persistedStore setObject:[NSKeyedArchiver archivedDataWithRootObject:self.allProfilesArray] forKey:@"AllProfiles"];
+}
+
+-(void)showCommunicationWithServerError:(NSString*)title description:(NSString*)errorText {
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: title
+                                                    message: errorText
+                                                   delegate: nil
+                                          cancelButtonTitle: @"Iawn"
+                                          otherButtonTitles: nil];
+    
+    [alert show];
+
 }
 
 @end

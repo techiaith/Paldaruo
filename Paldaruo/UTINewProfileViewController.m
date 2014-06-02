@@ -338,7 +338,7 @@
         
         [self.lblOutletMetaDataField_Title setText:@"Cwblhau Creu Proffil"];
         [self.lblOutletMetaDataField_Question setText:@"Cliciwch ar Cychwyn i ddechrau recordio."];
-        [self.lblOutletMetaDataField_Explanation setText:@"Neu gciciwch i fynd yn ol i newid ateb unrhyw cwestiwn."];
+        [self.lblOutletMetaDataField_Explanation setText:@"Neu cliciwch Blaenorol i newid ateb unrhyw cwestiwn."];
         
         //[self.lblOutletMetaDataField_Title setHidden:YES];
         //[self.lblOutletMetaDataField_Question setHidden:YES];
@@ -385,26 +385,36 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    [self showError:error];
+    //[self showError:error];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Gweinydd Paldaruo"
+                                                    message: error.localizedDescription
+                                                   delegate: nil
+                                          cancelButtonTitle: @"Iawn"
+                                          otherButtonTitles: nil];
+    [alert show];
+    
 }
 
 #pragma mark UTIErrorReporter protocol
+
 
 - (void)showError:(NSError *)error {
     [self showErrorText:error.localizedDescription];
 }
 
+
 - (void)showErrorText:(NSString *)errorText {
     self.lblOutletError.text = errorText;
     self.lblOutletError.hidden = NO;
     [self.txtBoxNewProfileName becomeFirstResponder];
+    
 }
 
 
 -(void)handleInternetReachable:(NSNotification *)notification {
     
     [self.btnOutletCreateUser setEnabled:YES];
-    //[self.btnOutletStartSession setEnabled:YES];
+    [self.btnOutletStartSession setEnabled:YES];
     [self.btnOutletNextQuestion setEnabled:YES];
     [self.btnOutletPreviousQuestion setEnabled:YES];
     
@@ -422,7 +432,7 @@
 -(void)handleInternetUnreachable:(NSNotification *)notification {
     
     [self.btnOutletCreateUser setEnabled:NO];
-    //[self.btnOutletStartSession setEnabled:NO];
+    [self.btnOutletStartSession setEnabled:NO];
     [self.btnOutletNextQuestion setEnabled:NO];
     [self.btnOutletPreviousQuestion setEnabled:NO];
     
@@ -433,6 +443,7 @@
     [self.lblOutletMetaDataField_Explanation setEnabled:NO];
     
     [self.textFieldOutletMetaDataFreeText setEnabled:NO];
+    
 }
 
 @end

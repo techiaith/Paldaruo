@@ -435,7 +435,9 @@
 }
 
 - (void)removeConnection:(NSURLConnection *)connection {
+    
     [self.currentUploadConnections removeObject:connection];
+    
     if ([self.currentUploadConnections count] == 0) {
         self.lblUploadingFilesInfo.hidden = YES;
         self.uploadProgressBar.hidden = YES;
