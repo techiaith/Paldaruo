@@ -22,19 +22,6 @@
 
 @implementation UTIAcceptTermsAndConditionsViewController
 
--(void)viewDidLoad{
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleInternetReachable:)
-                                                 name:@"InternetReachable"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleInternetUnreachable:)
-                                                 name:@"InternetUnreachable"
-                                               object:nil];
-    
-}
 
 -(void)viewWillAppear:(BOOL)animated {
     
@@ -56,17 +43,6 @@
     
 }
 
-- (void) dealloc {
-    
-    // view did load
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:@"InternetReachable"
-                                                  object:nil];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:@"InternetUnreachable"
-                                                  object:nil];
-}
 
 #pragma mark WebView Delegate methods
 
@@ -108,16 +84,22 @@
     
 }
 
--(void)handleInternetReachable:(NSNotification *)notification {
-    [self.btnOutletAccept setEnabled:YES];
-    [self.btnOutletReject setEnabled:YES];
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    
+    if ([[UTIReachability instance] isPaldaruoServerReachable]){
+        return YES;
+    } else {
+        
+        if ([identifier isEqual:@"segue_NewProfile"])
+        {
+            [[UTIReachability instance] showAppServerUnreachableAlert];
+            return NO;
+        } else {
+            return YES;
+        }
+        
+    }
+    
 }
-
-
--(void)handleInternetUnreachable:(NSNotification *)notification {
-    [self.btnOutletAccept setEnabled:NO];
-    [self.btnOutletReject setEnabled:NO];
-}
-
 
 @end

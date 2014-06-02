@@ -26,37 +26,16 @@
     return self;
 }
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     NSString *uid = [[UTIDataStore sharedDataStore] activeUser].uid;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleInternetReachable:)
-                                                 name:@"InternetReachable"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleInternetUnreachable:)
-                                                 name:@"InternetUnreachable"
-                                               object:nil];
-
     [self.labelOutletMyUID setText:uid];
     
 }
 
-- (void) dealloc {
-    
-    // view did load
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:@"InternetReachable"
-                                                  object:nil];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:@"InternetUnreachable"
-                                                  object:nil];
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -64,12 +43,26 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)handleInternetReachable:(NSNotification *)notification {
-    [self.btnOutletStartSession setEnabled:YES];
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    
+    if ([[UTIReachability instance] isPaldaruoServerReachable]){
+        return YES;
+    } else {
+        
+        if ([identifier isEqual:@"segue_StartRecording"])
+        {
+            [[UTIReachability instance] showAppServerUnreachableAlert];
+            return NO;
+        } else {
+            return YES;
+        }
+        
+    }
+    
 }
 
--(void)handleInternetUnreachable:(NSNotification *)notification {
-    [self.btnOutletStartSession setEnabled:NO];
-}
+
+
 
 @end

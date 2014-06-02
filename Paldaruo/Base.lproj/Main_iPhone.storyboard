@@ -865,7 +865,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="wEw-hX-8Vk" kind="push" id="Zo3-nI-Jrl"/>
+                                    <segue destination="wEw-hX-8Vk" kind="push" identifier="segue_NewProfile" id="Zo3-nI-Jrl"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V54-3V-vln">
@@ -930,7 +930,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hph-7j-vZh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1273" y="688"/>
+            <point key="canvasLocation" x="1179" y="866"/>
         </scene>
         <!--About My Data View Controller-->
         <scene sceneID="tW7-8c-278">
@@ -1077,7 +1077,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="08T-CN-MIq" kind="push" id="rr4-Em-hU8"/>
+                                    <segue destination="08T-CN-MIq" kind="push" identifier="segue_StartRecording" id="rr4-Em-hU8"/>
                                 </connections>
                             </button>
                         </subviews>
