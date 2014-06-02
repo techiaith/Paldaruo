@@ -111,4 +111,10 @@ BOOL internetActive;
     [alert show];
 }
 
+
+-(BOOL) isPaldaruoServerReachable{
+    return internetActive;
+}
+
+
 @end

@@ -26,6 +26,7 @@
 
 @implementation UTIIntroductionScreenViewController
 
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -35,88 +36,15 @@
     return self;
 }
 
+
 - (void)viewDidLoad
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleInternetReachable:)
-                                                 name:@"InternetReachable"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleInternetUnreachable:)
-                                                 name:@"InternetUnreachable"
-                                               object:nil];
-    
     [super viewDidLoad];
     
 	// Do any additional setup after loading the view.
-    
-    
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    /*
-    if (IS_IPHONE_5==YES){
-        
-        // 4 inch
-        
-        // Bangor logo
-        //
-        CGRect newBangorLogoFrame = CGRectMake(250, 495, 65, 50);
-        self.imageOutletBangorLogo.frame = newBangorLogoFrame;
-        
-        CGRect newTechiaithLogoFrame = CGRectMake(15, 490, 50, 65);
-        self.imageOutletTechiaithLogo.frame = newTechiaithLogoFrame;
-        
-        CGRect newTechIaithLabelFrame = CGRectMake(65, 505, 135, 20);
-        self.labelOutletUnedTechnolegauIaith.frame=newTechIaithLabelFrame;
-        
-        CGRect newCanolfanBedwyrLabelFrame = CGRectMake(65, 520, 110, 20);
-        self.labelOutletCanolfanBedwyr.frame = newCanolfanBedwyrLabelFrame;
-        
-        CGRect paldaruoIcon = self.imageOutletPaldaruoIcon.frame;
-        
-        CGRect newPaldaruoIconFrame = CGRectMake(paldaruoIcon.origin.x,
-                       paldaruoIcon.origin.y,
-                       50,50);
-        
-        self.imageOutletPaldaruoIcon.frame=newPaldaruoIconFrame;
-        
-    } else {
-        
-        // 3.5 inch
-        
-        // Bangor logo
-        //
-        CGRect newBangorLogoFrame = CGRectMake(250, 420, 65, 50);
-        self.imageOutletBangorLogo.frame = newBangorLogoFrame;
-        
-        CGRect newTechiaithLogoFrame = CGRectMake(15, 415, 50, 65);
-        self.imageOutletTechiaithLogo.frame = newTechiaithLogoFrame;
 
-        CGRect newTechIaithLabelFrame = CGRectMake(65, 430, 135, 20);
-        self.labelOutletUnedTechnolegauIaith.frame=newTechIaithLabelFrame;
-        
-        CGRect newCanolfanBedwyrLableFrame = CGRectMake(65, 445, 110, 20);
-        self.labelOutletCanolfanBedwyr.frame = newCanolfanBedwyrLableFrame;
-        
-    }
-     */
-    
-}
-
-- (void) dealloc {
-    
-    // view did load
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:@"InternetReachable"
-                                                  object:nil];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:@"InternetUnreachable"
-                                                  object:nil];
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -125,12 +53,20 @@
 }
 
 
--(void)handleInternetReachable:(NSNotification *)notification {
-    [self.btnOutletStart setEnabled:YES];
-}
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
 
--(void)handleInternetUnreachable:(NSNotification *)notification {
-    [self.btnOutletStart setEnabled:NO];
+    if ([[UTIReachability instance] isPaldaruoServerReachable]){
+        return YES;
+    } else {
+        if ([identifier isEqual:@"segue_ProfileSelect"])
+        {
+            [[UTIReachability instance] showAppServerUnreachableAlert];
+            return NO;
+        } else {
+            return YES;
+        }
+    }
+
 }
 
 @end

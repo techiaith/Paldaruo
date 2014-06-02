@@ -24,5 +24,8 @@
 - (void) startNotifiers;
 - (void) stopNotifiers;
 
+-(void) showAppServerUnreachableAlert;
+
+-(BOOL) isPaldaruoServerReachable;
 
 @end
