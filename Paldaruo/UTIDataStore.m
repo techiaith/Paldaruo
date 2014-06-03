@@ -32,8 +32,11 @@
     //[[NSUserDefaults standardUserDefaults] removePersistentDomainForName:domainName];
         
     if (self = [super init]){
+        
         metaDataFields=[[NSArray alloc] init];
         _numberOfUploadingFiles = 0;
+        _currentOutstandingUploads = [NSMutableArray new];
+        
         NSUserDefaults *persistedStore=[NSUserDefaults standardUserDefaults];
         NSData *allProfiles = [persistedStore dataForKey:@"AllProfiles"];
         if (allProfiles!=nil) {
@@ -50,9 +53,11 @@
     
 }
 
+
 - (UTIUser *)addNewUser:(NSString *)userName {
     return [self addNewUser:userName uid:nil];
 }
+
 
 - (UTIUser *)addNewUser:(NSString *)userName uid:(NSString *)uid {
     if (!uid) {
@@ -78,12 +83,14 @@
     
 }
 
+
 - (UTIUser *)userAtIndex:(NSUInteger)idx {
     if (idx >= [self.allProfilesArray count]) {
         return nil;
     }
     return [self.allProfilesArray objectAtIndex:idx];
 }
+
 
 - (UTIUser *)userForName:(NSString *)name {
     for (UTIUser *u in self.allProfilesArray) {
@@ -93,6 +100,7 @@
     }
     return nil;
 }
+
 
 -(void) http_uploadAudio: (NSString*) uid
               identifier:(NSString*) ident
@@ -125,17 +133,27 @@
     NSString *uidTempDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:uid];
     NSFileManager* fileManager = [NSFileManager defaultManager];
     
-    for (NSString* fileName in [fileManager contentsOfDirectoryAtPath:uidTempDirectory error:nil]) {
-        
+    for (NSString* fileName in [fileManager contentsOfDirectoryAtPath:uidTempDirectory error:nil])
+    {
         NSString *audioFileTarget = [uidTempDirectory stringByAppendingFormat:@"/%@", fileName];
         NSURL *audioFileURL = [NSURL fileURLWithPath:audioFileTarget];
         
-        NSString* ident = [fileName stringByReplacingOccurrencesOfString:@".wav"withString:@""];
-        [self http_uploadAudioFile:uid
-                        identifier:ident
-                          filename:fileName
-                               URL:audioFileURL
-                            sender:nil];
+        NSString *outstandingFileCandidateId = [NSString stringWithFormat:@"%@_%@",uid, fileName];
+        
+        NSUInteger fileIndex = [self.currentOutstandingUploads indexOfObject:outstandingFileCandidateId];
+        
+        if (fileIndex==NSNotFound)
+        {
+            [self.currentOutstandingUploads addObject:outstandingFileCandidateId];
+            
+            NSString* ident = [fileName stringByReplacingOccurrencesOfString:@".wav"withString:@""];
+            
+            [self http_uploadAudioFile:uid
+                            identifier:ident
+                              filename:fileName
+                                   URL:audioFileURL
+                                sender:nil];
+        }
 
     }
 
@@ -148,7 +166,6 @@
                          URL:(NSURL*) audioFileURL
                       sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender {
 
-    
     UTIRequest *r = [UTIRequest new];
     r.delegate = sender;
     r.requestPath = @"savePrompt";
@@ -165,34 +182,6 @@
         
         [self handleResponseUploadAudio:data error:error];
         
-        /*
-        self.numberOfUploadingFiles -= 1;
-        NSString *message = nil;
-        
-        if ([data length]) {
-            NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-            NSString *error = responseDict[@"error"];
-            if (error && [error length]) {
-                message = @"Gwall gweinydd";
-            }
-        } else if ([data length] == 0 && error == nil) {
-            message = @"Ymateb gwag o'r gweinydd";
-        } else if (error.code == NSURLErrorTimedOut){
-            message = @"Dim ymateb o'r gweinydd";
-        } else if (error != nil) {
-            message = @"Gwall cyffredinol";
-        }
-        
-        if (message) {
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Llwytho i fyny"
-                                                            message: message
-                                                           delegate: nil
-                                                  cancelButtonTitle: @"Iawn"
-                                                  otherButtonTitles: nil];
-            [alert show];
-        }
-        */
     }];
     
     self.numberOfUploadingFiles += 1;
@@ -203,7 +192,7 @@
 
 -(void) handleResponseUploadAudio:(NSData *)data error:(NSError *)error {
     
-    if ([data length] >0 && error == nil) {
+    if ([data length] > 0 && error == nil) {
         
         NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
                                                            options:kNilOptions
@@ -222,12 +211,21 @@
             [fileManager removeItemAtPath:deleteFileTarget error:Nil];
         }
         
+        NSString *outstandingFileCandidateId = [NSString stringWithFormat:@"%@_%@",uid, filename];
+        
+        NSUInteger fileIndex = [self.currentOutstandingUploads indexOfObject:outstandingFileCandidateId];
+        if (fileIndex!=NSNotFound){
+            [self.currentOutstandingUploads removeObjectAtIndex:fileIndex];
+        }
+        
+        // wedi symud galw ar llwytho i fyny ffeiliau wav 'outstanding' i fama yn hytrach na
+        // view controller. Mae'n gwirio felly pob tro ar ol lwyddo i llwytho i fyny os mae na
+        // ffeiliau wav eraill sydd heb eu lwytho'n lwyddianus.
+        [self http_uploadOutstandingAudio:uid];
+        
     }
     else {
-        
-        [self showCommunicationWithServerError:@"Llwytho sain i fyny"
-                                   description:@"Roedd problem cysylltu. Gwiriwch ac ailgysylltu'ch dyfais i'r rhwydwaith ddiwifr cyn parhau"];
-        
+        [self showCommunicationWithServerError:@"Llwytho sain i fyny" errorObject:error];
     }
     
 }
@@ -257,7 +255,7 @@
                 NSDictionary *jsonResponse = json[@"response"];
                 newUserId = jsonResponse[@"uid"];
             } else {
-                [self showCommunicationWithServerError:@"Creu Defnyddiwr" description:error.localizedDescription];
+                [self showCommunicationWithServerError:@"Creu Defnyddiwr" errorObject:error];
             }
         };
         
@@ -296,9 +294,7 @@
             }
             
         } else {
-            
-            [self showCommunicationWithServerError:@"Estyn Testunau i'w Recordio" description:error.localizedDescription];
-            
+            [self showCommunicationWithServerError:@"Estyn Testunau i'w Recordio" errorObject:error];
         }
         
     }];
@@ -306,7 +302,6 @@
     [r sendRequestSync];
     
 }
-
 
 
 -(void) http_getMetadata: (NSString*) uid sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate, UTIErrorReporter>)sender{
@@ -320,7 +315,7 @@
     [r setCompletionHandler:^(NSData *data, NSError *error) {
         
         if (error) {
-            [self showCommunicationWithServerError:@"Estyn Metadata" description:error.localizedDescription];
+            [self showCommunicationWithServerError:@"Estyn Metadata" errorObject:error];
         }
         
         if (error==nil) {
@@ -337,7 +332,8 @@
                     errMsg = [jsonResponse objectForKey:@"error"];
                 }
                 
-                [self showCommunicationWithServerError:@"Estyn Metadata" description:@"Gwall cyffredinol gyda gweinydd Paldaruo"];
+                [self showCommunicationWithServerError:@"Estyn Metadata"
+                                           description:@"Gwall cyffredinol gyda gweinydd Paldaruo"];
                 
                 return;
                 
@@ -367,7 +363,9 @@
                 } else {
                     newField.isText=YES;
                 }
+                
                 metaDataFields = [metaDataFields arrayByAddingObject:newField];
+                
             }
             
         }
@@ -410,16 +408,46 @@
     [persistedStore setObject:[NSKeyedArchiver archivedDataWithRootObject:self.allProfilesArray] forKey:@"AllProfiles"];
 }
 
--(void)showCommunicationWithServerError:(NSString*)title description:(NSString*)errorText {
+
+-(void)showCommunicationWithServerError:(NSString*) title errorObject:(NSError*)error {
+   
+    UIAlertView *alert;
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: title
-                                                    message: errorText
-                                                   delegate: nil
-                                          cancelButtonTitle: @"Iawn"
-                                          otherButtonTitles: nil];
+    if (error.code != -9999){
+        
+        alert= [[UIAlertView alloc] initWithTitle:title
+                                          message:@"Roedd problem cysylltu. Gwiriwch ac ailgysylltu'ch dyfais i'r rhwydwaith ddiwifr cyn parhau"
+                                         delegate:nil
+                                cancelButtonTitle:@"Iawn"
+                                otherButtonTitles:nil];
+        
+    }
+    else {
+        
+        alert= [[UIAlertView alloc] initWithTitle:title
+                                          message:[error localizedDescription]
+                                         delegate:nil
+                                cancelButtonTitle:@"Iawn"
+                                otherButtonTitles:nil];
+        
+    }
+
+    [alert show];
+    
+}
+
+
+-(void)showCommunicationWithServerError:(NSString*) title description:(NSString*)description {
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                          message:description
+                                         delegate:nil
+                                cancelButtonTitle:@"Iawn"
+                                otherButtonTitles:nil];
     
     [alert show];
-
+    
 }
+
 
 @end
