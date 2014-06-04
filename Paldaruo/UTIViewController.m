@@ -122,7 +122,8 @@
             
             [self recordAudio];
             
-            currentRecordingStatus=RECORDING;
+            //currentRecordingStatus=RECORDING;
+            currentRecordingStatus=RECORDING_FINISHED;
             break;
             
             
@@ -144,14 +145,24 @@
             
             
         } case RECORDING_FINISHED: {
+            
+            [self stopRecording];
+            [self setRedoRecordingText:@"Recordio eto"];
+            [self.btnOutletRedoRecording setHidden:NO];
+            
             [self setMoveToNextRecordStateTitle:@""];
             [self.btnOutletMoveToNextRecordingState setHidden:YES];
             [self.btnOutletRedoRecording setHidden:YES];
+            
             [self playAudio];
+            
             break;
             
             
         } case RECORDING_LISTENING_END: {
+            
+            [self swapButtonsLocations];
+            
             [self setMoveToNextRecordStateTitle:@"Nesaf"];
             [self.btnOutletMoveToNextRecordingState setHidden:NO];
             
@@ -163,6 +174,9 @@
             
             
         } case RECORDING_WAIT_TO_REDO_RECORDING: {
+            
+            [self swapButtonsLocations];
+            
             [self setMoveToNextRecordStateTitle:@"Cychwyn Recordio"];
             [self.lblOutletRecordingStatus setHidden:YES];
             [self.btnOutletRedoRecording setHidden:YES];
@@ -172,6 +186,8 @@
             
             
         } case RECORDING_WAIT_TO_GOTO_NEXT: {
+            
+            [self swapButtonsLocations];
             
             [[UTIDataStore sharedDataStore] http_uploadAudio:uid
                                                   identifier:self.currentPrompt.identifier
@@ -190,6 +206,7 @@
             
             
         } case RECORDING_SESSION_END: {
+            
             [self.btnOutletMoveToNextRecordingState setHidden:YES];
             [self.btnOutletRedoRecording setHidden:YES];
             
@@ -341,6 +358,32 @@
     [self.lblOutletRecordingStatus setHidden:YES];
 }
 
+-(void)swapButtonsLocations{
+    
+    // B1 at B2 location. B2 at B1 location
+    
+    
+    CGPoint moveToNextStateButtonPoint = self.btnOutletMoveToNextRecordingState.frame.origin;
+    CGSize moveToNextStateButtonSize = self.btnOutletMoveToNextRecordingState.frame.size;
+    CGFloat moveToNextStateButtonPoint_Y = moveToNextStateButtonPoint.y;
+    
+    CGPoint redoRecordingButtonPoint = self.btnOutletRedoRecording.frame.origin;
+    CGSize redoRecordingButtonSize = self.btnOutletRedoRecording.frame.size;
+    CGFloat redoRecordingButtonPoint_Y = redoRecordingButtonPoint.y;
+    
+    self.btnOutletMoveToNextRecordingState.frame
+        = CGRectMake(moveToNextStateButtonPoint.x,
+                     redoRecordingButtonPoint_Y,
+                     moveToNextStateButtonSize.width,
+                     moveToNextStateButtonSize.height);
+    
+    self.btnOutletRedoRecording.frame
+        = CGRectMake(redoRecordingButtonPoint.x,
+                     moveToNextStateButtonPoint_Y,
+                     redoRecordingButtonSize.width,
+                     redoRecordingButtonSize.height);
+    
+}
 
 #pragma mark NSURLConnectionDelegate methods
 // Used to keep track of the progress bar
