@@ -474,7 +474,8 @@
 }
 
 
--(void)showCommunicationWithServerError:(NSString*) title description:(NSString*)description {
+-(void)showCommunicationWithServerError:(NSString*) title
+                            description:(NSString*)description {
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
                                           message:description
