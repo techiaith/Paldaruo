@@ -52,29 +52,11 @@
     
     prompts = [[UTIPromptsTracker alloc] init];
     
-    //[[UTIDataStore sharedDataStore] fetchOutstandingPrompts:self identifier:uid];
-    //[[UTIDataStore sharedDataStore] http_fetchOutsandingPrompts:prompts identifier:uid];
     [[UTIDataStore sharedDataStore] http_fetchOutstandingPrompts:prompts useridentifier:uid];
     
     //
-    NSURL *audioFileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:@"audioRecording.wav"]];
-    
-    NSDictionary *audioSettings = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   [NSNumber numberWithFloat:48000], AVSampleRateKey,
-                                   [NSNumber numberWithInt:1], AVNumberOfChannelsKey,
-                                   [NSNumber numberWithInt: kAudioFormatLinearPCM], AVFormatIDKey,
-                                   [NSNumber numberWithInt:16], AVLinearPCMBitDepthKey,
-                                   [NSNumber numberWithBool:NO], AVLinearPCMIsBigEndianKey,
-                                   [NSNumber numberWithBool:NO], AVLinearPCMIsFloatKey,
-                                   nil];
-    
-    AVAudioSession *session = [AVAudioSession sharedInstance];
-    [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
-    
-    self.audioRecorder = [[AVAudioRecorder alloc]
-                          initWithURL:audioFileURL
-                          settings:audioSettings
-                          error:nil];
+    self.audio = [[UTIAudioRecorderPlayer alloc] init];
+    self.audio.delegate = self;
     
     currentRecordingStatus=RECORDING_SESSION_START;
     [self btnMoveToNextRecordingState:self];
@@ -276,24 +258,7 @@
 -(void) recordAudio {
     
     [self startRecordingStatusTimerWithString:@"Yn recordio…"];
-    
-    [self.audioRecorder prepareToRecord];
-    self.audioRecorder.meteringEnabled = YES;
-    
-    [self.audioRecorder record];
-    [self.audioRecorder updateMeters];
-    
-    maximumDbLevel=-160.0;
-    lastAverageDbLevel=0.0;
-    
-    _timerRecordingMetering = [[NSTimer alloc] initWithFireDate:[NSDate dateWithTimeIntervalSinceNow:0.0]
-                               interval:0.03
-                               target:self
-                               selector:@selector(levelTimerCallback:)
-                               userInfo:nil
-                               repeats:YES];
-    
-    [[NSRunLoop currentRunLoop] addTimer:_timerRecordingMetering forMode:NSDefaultRunLoopMode];
+    [self.audio recordAudio];
 
 }
 
@@ -301,41 +266,17 @@
 -(void) stopRecording {
     
     [self removeRecordingStatus];
-    [self.audioRecorder stop];
-    [self.audioPlayer stop];
-    
-    [_timerRecordingMetering invalidate];
-    _timerRecordingMetering=nil;
-    
-    NSURL *audioFileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:@"audioRecording.wav"]];
-    
-    // copy the file to a new location
-    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:audioFileURL error:nil];
-    [self.audioPlayer setDelegate:self];
-    
-}
-
-- (void)levelTimerCallback:(NSTimer *)timer {
-    
-    [self.audioRecorder updateMeters];
-
-    float average = [self.audioRecorder averagePowerForChannel:0];
-    float peak = [self.audioRecorder peakPowerForChannel:0];
-
-    lastAverageDbLevel=average;
-    if (peak>maximumDbLevel)
-        maximumDbLevel=peak;
+    [self.audio stopRecording];
     
 }
 
 -(void) playAudio {
     
-    [self.audioPlayer play];
+    [self.audio playAudio];
     
-    float peakDecibelPowerLevel = powf(10.f,maximumDbLevel/ 20.f);
-    float averageDecibelPowerLevel = powf(10.f,lastAverageDbLevel/ 20.f);
-    
-    NSString *message = [NSString stringWithFormat:@"Chwarae yn ôl (average: %f, peak: %f)", averageDecibelPowerLevel, peakDecibelPowerLevel];
+    NSString *message = [NSString stringWithFormat:@"Chwarae yn ôl (average: %f, peak: %f)",
+                         [self.audio getAveragePower],
+                         [self.audio getPeakPower]];
     
     [self startRecordingStatusTimerWithString:message];//@"Chwarae yn ôl…"];
     
@@ -364,16 +305,11 @@
 }
 
 
-//If user does not do anything by the end of the sound go to secondWindow
-- (void) audioPlayerDidFinishPlaying: (AVAudioPlayer *) player
-                        successfully: (BOOL) flag {
-    
+-(void) audioDidFinishPlaying:(BOOL)successful{
     currentRecordingStatus=RECORDING_LISTENING_END;
     [self removeRecordingStatus];
     [self btnMoveToNextRecordingState:self];
-    
 }
-
 
 #pragma mark Recording label animations
 

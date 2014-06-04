@@ -12,11 +12,11 @@
 
 #import "UTIPromptsTracker.h"
 #import "UTIDataStore.h"
+#import "UTIAudioRecorderPlayer.h"
 
-@interface UTIViewController : UIViewController <AVAudioPlayerDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate>
+@interface UTIViewController : UIViewController <UTIAudioRecorderPlayerDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 
-@property (strong, nonatomic) AVAudioRecorder *audioRecorder;
-@property (strong, nonatomic) AVAudioPlayer *audioPlayer;
+@property (strong, nonatomic) UTIAudioRecorderPlayer *audio;
 @property (strong, nonatomic) NSMutableArray *currentUploadConnections;
 
 -(void) recordAudio;
@@ -29,8 +29,6 @@
 
 -(void) setRecordStatusText : (NSString *) text;
 -(void) setMoveToNextRecordStateTitle : (NSString *) text;
-
-//-(void) handleResponseDownloadPrompts : (NSData *) data error:(NSError *) errorData;
 
 @end
 

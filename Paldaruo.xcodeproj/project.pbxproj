@@ -33,6 +33,7 @@
 		8021ACA0187C456B0069B508 /* bangor_header_crest.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8021AC9F187C456B0069B508 /* bangor_header_crest.jpg */; };
 		8021ACA2187C4F7C0069B508 /* logoprifysgolbangor.gif in Resources */ = {isa = PBXBuildFile; fileRef = 8021ACA1187C4F7C0069B508 /* logoprifysgolbangor.gif */; };
 		8021ACA4187C50CE0069B508 /* uti-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 8021ACA3187C50CE0069B508 /* uti-logo.png */; };
+		8050D31A193F12AF001491CE /* UTIAudioRecorderPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8050D319193F12AF001491CE /* UTIAudioRecorderPlayer.m */; };
 		806B4FCC188D441100851038 /* UTIWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B4FCB188D441100851038 /* UTIWelcomeViewController.m */; };
 		806B4FCF1897D01E00851038 /* UTIDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B4FCE1897D01E00851038 /* UTIDataStore.m */; };
 		806B4FD2189BBE8200851038 /* UTINewProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B4FD1189BBE8200851038 /* UTINewProfileViewController.m */; };
@@ -121,6 +122,8 @@
 		8021AC9F187C456B0069B508 /* bangor_header_crest.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bangor_header_crest.jpg; sourceTree = "<group>"; };
 		8021ACA1187C4F7C0069B508 /* logoprifysgolbangor.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = logoprifysgolbangor.gif; sourceTree = "<group>"; };
 		8021ACA3187C50CE0069B508 /* uti-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uti-logo.png"; sourceTree = "<group>"; };
+		8050D318193F12AF001491CE /* UTIAudioRecorderPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIAudioRecorderPlayer.h; sourceTree = "<group>"; };
+		8050D319193F12AF001491CE /* UTIAudioRecorderPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIAudioRecorderPlayer.m; sourceTree = "<group>"; };
 		806B4FCA188D441100851038 /* UTIWelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIWelcomeViewController.h; sourceTree = "<group>"; };
 		806B4FCB188D441100851038 /* UTIWelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIWelcomeViewController.m; sourceTree = "<group>"; };
 		806B4FCD1897D01E00851038 /* UTIDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIDataStore.h; sourceTree = "<group>"; };
@@ -282,6 +285,8 @@
 				806B504118D1D75A00851038 /* UTIAboutMyDataViewController.m */,
 				5CA5317F1936714E007FDF83 /* UTIReachability.h */,
 				5CA531801936714E007FDF83 /* UTIReachability.m */,
+				8050D318193F12AF001491CE /* UTIAudioRecorderPlayer.h */,
+				8050D319193F12AF001491CE /* UTIAudioRecorderPlayer.m */,
 			);
 			path = Paldaruo;
 			sourceTree = "<group>";
@@ -544,6 +549,7 @@
 				8020410D187EC9B200C9A4F3 /* UTIPrompt.m in Sources */,
 				CD32105918E6AEDB009056EE /* UTIRequest.m in Sources */,
 				806B503218BCED5000851038 /* UTIIntroductionScreenViewController.m in Sources */,
+				8050D31A193F12AF001491CE /* UTIAudioRecorderPlayer.m in Sources */,
 				806B504218D1D75A00851038 /* UTIAboutMyDataViewController.m in Sources */,
 				CDEF14D518E6B054008CAD01 /* UTIButton.m in Sources */,
 				806B4FCF1897D01E00851038 /* UTIDataStore.m in Sources */,
