@@ -102,6 +102,7 @@
 }
 
 
+
 -(void) http_uploadAudio: (NSString*) uid
               identifier:(NSString*) ident
                   sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender {
@@ -229,6 +230,42 @@
     }
     
 }
+
+
+
+-(void) http_uploadSilenceAudioFile: (NSString*) uid
+                  sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender {
+    
+    NSDate * now = [NSDate date];
+    NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+    [outputFormatter setDateFormat:@"YYYYMMddHHmmss"];
+    NSString *newDateString = [outputFormatter stringFromDate:now];
+    NSString *identifier = [NSString stringWithFormat:@"silence_%@",newDateString];
+    NSString *filename = [NSString stringWithFormat:@"%@.wav", identifier];
+
+    NSString *uidTempDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:uid];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:uidTempDirectory])
+        [[NSFileManager defaultManager] createDirectoryAtPath:uidTempDirectory
+                                  withIntermediateDirectories:NO
+                                                   attributes:nil
+                                                        error:nil];
+    
+    NSString *audioFileSource = [NSTemporaryDirectory() stringByAppendingString:@"audioRecording.wav"];
+    NSString *audioFileTarget = [uidTempDirectory stringByAppendingFormat:@"/%@", filename];
+    
+    [[NSFileManager defaultManager] copyItemAtPath:audioFileSource toPath:audioFileTarget error:nil];
+    
+    NSURL *audioFileURL = [NSURL fileURLWithPath:audioFileTarget];
+    
+    [self http_uploadAudioFile:uid
+                    identifier:identifier
+                      filename:filename
+                           URL:audioFileURL
+                        sender:sender];
+    
+}
+
 
 
 - (NSString *)http_createUser {

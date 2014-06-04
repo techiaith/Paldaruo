@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "UTIDataStore.h"
+#import "UTIAudioRecorderPlayer.h"
 
-@interface UTIAboutMyDataViewController : UIViewController
+@interface UTIAboutMyDataViewController : UIViewController <UTIAudioRecorderPlayerDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 
 @end

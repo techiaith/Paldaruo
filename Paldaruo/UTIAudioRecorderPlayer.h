@@ -10,6 +10,9 @@
 #import <CoreAudio/CoreAudioTypes.h>
 #import <AVFoundation/AVFoundation.h>
 
+#define PEAK_UPPER 1.0000
+#define PEAK_LOWER 0.5000
+
 @class UTIAudioRecorderPlayer;
 
 @protocol UTIAudioRecorderPlayerDelegate
@@ -32,6 +35,10 @@
 
 -(float) getPeakPower;
 -(float) getAveragePower;
+
+-(BOOL) areLevelsOk;
+-(BOOL) areLevelsTooLoud;
+-(BOOL) areLevelsTooQuiet;
 
 @end
 

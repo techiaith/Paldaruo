@@ -115,4 +115,32 @@
     
 }
 
+-(BOOL) areLevelsOk {
+    float peak=[self getPeakPower];
+    
+    if (peak > PEAK_LOWER && peak < PEAK_UPPER)
+        return YES;
+    else
+        return NO;
+}
+
+-(BOOL) areLevelsTooLoud {
+    float peak=[self getPeakPower];
+    
+    if (peak > PEAK_UPPER)
+        return YES;
+    else
+        return NO;
+}
+
+-(BOOL) areLevelsTooQuiet{
+    float peak=[self getPeakPower];
+    
+    if (peak < PEAK_LOWER)
+        return YES;
+    else
+        return NO;
+}
+
+
 @end

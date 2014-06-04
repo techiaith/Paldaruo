@@ -8,10 +8,17 @@
 
 #import "UTIAboutMyDataViewController.h"
 
+
 @interface UTIAboutMyDataViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *labelOutletMyUID;
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletStartSession;
+@property (weak, nonatomic) IBOutlet UIButton *btnOutletTestBackgroundSound;
+
+@property (strong, nonatomic) UTIAudioRecorderPlayer *audio;
+
+- (IBAction)btnActionTestBackgroundSound:(id)sender;
+- (IBAction)btnActionStartSession:(id)sender;
 
 @end
 
@@ -30,9 +37,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
 	// Do any additional setup after loading the view.
     NSString *uid = [[UTIDataStore sharedDataStore] activeUser].uid;
     [self.labelOutletMyUID setText:uid];
+    
+    self.audio = [[UTIAudioRecorderPlayer alloc]init];
+    self.audio.delegate=self;
+    
+    [self.btnOutletStartSession setEnabled:NO];
     
 }
 
@@ -63,6 +76,73 @@
 }
 
 
+- (IBAction)btnActionTestBackgroundSound:(id)sender {
+    
+    [self.btnOutletTestBackgroundSound setEnabled:NO];
+    [self.audio recordAudio];
+    
+    [NSTimer scheduledTimerWithTimeInterval:10.0
+                                     target:self
+                                   selector:@selector(testbackgroundSoundDidComplete)
+                                   userInfo:nil
+                                    repeats:NO];
+    
+}
+
+- (IBAction)btnActionStartSession:(id)sender {
+    NSString *uid = [[UTIDataStore sharedDataStore] activeUser].uid;
+    
+    [[UTIDataStore sharedDataStore] http_uploadSilenceAudioFile:uid
+                                                         sender:self];
+    
+}
+
+-(void) testbackgroundSoundDidComplete{
+    
+    [self.audio stopRecording];
+    [self.btnOutletTestBackgroundSound setEnabled:YES];
+    [self.btnOutletStartSession setEnabled:YES];
+    
+    NSString *message;
+    
+    if ([self.audio areLevelsTooQuiet]){
+        message = [NSString stringWithFormat:@"Gwych! Mae'r sŵn cefndir yn ddigon distaw ar gyfer recordio (%f)",[self.audio getPeakPower]];
+    } else {
+        message = [NSString stringWithFormat:@"O diar. Mae na ormod o sŵn cefndir ar gyfer i ni dderbyn recordiadau da. Symudwch i man ddistawach cyn profi eto neu Ymlaen . Diolch yn fawr.(%f)",[self.audio getPeakPower]];
+    }
+    
+    UIAlertView *messageView = [[UIAlertView alloc] initWithTitle:@"Profi lefelau sŵn cefndir"
+                                                          message:message
+                                                         delegate:nil
+                                                cancelButtonTitle:@"Iawn"
+                                                otherButtonTitles:nil];
+
+    [messageView show];
+        
+}
+
+-(void) audioDidFinishPlaying:(BOOL)successful{
+    // do nothing
+}
+
+
+- (void)connection:(NSURLConnection *)connection
+            didSendBodyData:(NSInteger)bytesWritten
+          totalBytesWritten:(NSInteger)totalBytesWritten
+  totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
+}
+
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+}
+
+
+- (void)removeConnection:(NSURLConnection *)connection {
+}
+
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+}
 
 
 @end

@@ -56,10 +56,14 @@
 - (NSString *)http_createUser_completionBlock:(urlCompletionHandler)block;
 - (void)http_fetchOutstandingPrompts:(UTIPromptsTracker *)prompts useridentifier:(NSString *)ident;
 - (void)http_uploadAudio:(NSString *)uid identifier:(NSString*)ident sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender;
+
 - (void)http_uploadAudioFile:(NSString *)uid
                   identifier:(NSString *)ident
                     filename:(NSString *)filename
                          URL:(NSURL *)audioFileURL
+                      sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender;
+
+- (void)http_uploadSilenceAudioFile:(NSString *)uid
                       sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender;
 
 - (void)http_getMetadata:(NSString *)uid sender:(id <UTIErrorReporter>)sender;
