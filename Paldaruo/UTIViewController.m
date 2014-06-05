@@ -296,14 +296,14 @@
     NSString *message;
     
     if ([self.audio areLevelsOk]){
-        message = [NSString stringWithFormat:@"Da Iawn! Roedd y lefel sain yn iawn."];
+        message = [NSString stringWithFormat:@"Da Iawn! Lefel sain da."];
     } else if ([self.audio areLevelsTooLoud]){
-        message = [NSString stringWithFormat:@"Argian! Peidiwch a siarad mor swnllyd!"];
+        message = [NSString stringWithFormat:@"O diar. Rhy swnllyd."];
     } else if ([self.audio areLevelsTooQuiet]){
         if (IS_IPHONE)
-            message = [NSString stringWithFormat:@"Beth? Siaradwch yn uwch."];
+            message = [NSString stringWithFormat:@"O diar. Rhy dawel."];
         else
-            message = [NSString stringWithFormat:@"Beth? Siaradwch yn uwch os gwelwch yn dda."];
+            message = [NSString stringWithFormat:@"O diar. Rhy dawel."];
     }
     
     //= [NSString stringWithFormat:@"Chwarae yn ôl (average: %f, peak: %f)",
