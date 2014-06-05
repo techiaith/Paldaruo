@@ -13,8 +13,12 @@
 
 -(void) addPromptForRecording: (UTIPrompt *) prompt;
 -(void) promptHasBeenRecorded: (UTIPrompt *) prompt;
+-(void) setFetchErrorObject: (NSError*) error;
+-(NSError *) getFetchErrorObject;
+
 -(UTIPrompt *) getNextPromptToRecord;
 -(NSInteger) getRemainingCount;
 -(NSInteger) getInitialCount;
 
 @end
+

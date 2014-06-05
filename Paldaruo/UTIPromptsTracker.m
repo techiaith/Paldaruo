@@ -16,6 +16,7 @@
 
 @property NSInteger initialCount;
 @property NSInteger remainingCount;
+@property NSError *error;
 
 @end
 
@@ -30,6 +31,7 @@
         self.prompts=[[NSMutableArray alloc] init];
         self.initialCount=0;
         self.remainingCount=0;
+        self.error=nil;
         
     }
     
@@ -63,12 +65,24 @@
     
 }
 
+
 -(NSInteger) getInitialCount{
     return self.initialCount;
 }
 
+
 -(NSInteger) getRemainingCount {
     return self.remainingCount;
 }
+
+
+-(void) setFetchErrorObject: (NSError*)error {
+    self.error = error;
+}
+
+-(NSError *) getFetchErrorObject{
+    return self.error;
+}
+
 
 @end

@@ -51,7 +51,6 @@
     self.uploadProgressBar.progress = 0;
     
     prompts = [[UTIPromptsTracker alloc] init];
-    
     [[UTIDataStore sharedDataStore] http_fetchOutstandingPrompts:prompts useridentifier:uid];
     
     //
@@ -85,6 +84,7 @@
     switch (currentRecordingStatus) {
             
         case DOWNLOADING_PROMPTS: {
+            
             NSString* userName = [[UTIDataStore sharedDataStore] activeUser].name;
             NSString* userGreeting=[NSString stringWithFormat:@"Helo %@!", userName];
             
@@ -99,6 +99,7 @@
             
             
         } case RECORDING_SESSION_START: {
+            
             if (![self gotoNextPrompt]) {
                 break;
             }
@@ -115,6 +116,7 @@
             
             
         } case RECORDING_WAIT_TO_START: {
+            
             [self setMoveToNextRecordStateTitle:@"Gorffen Recordio"];
             
             //[self.lblOutletRecordingStatus setHidden:NO];
@@ -128,6 +130,7 @@
             
             
         } case RECORDING: {
+            
             [self stopRecording];
 
             [self.btnOutletRedoRecording setHidden:YES];
@@ -322,10 +325,21 @@
     
     if (self.currentPrompt==nil) {
         
-        self.lblOutletNextPrompt.text=@"Dim byd ar ôl";
-        currentRecordingStatus = RECORDING_SESSION_END;
-        [self btnMoveToNextRecordingState:self];
-        return NO;
+        // what if there was an error.
+        NSError *fetchError = [prompts getFetchErrorObject];
+        
+        if (fetchError==nil){
+            
+            self.lblOutletNextPrompt.text=@"Dim byd ar ôl";
+            currentRecordingStatus = RECORDING_SESSION_END;
+            [self btnMoveToNextRecordingState:self];
+            return NO;
+            
+            // perform segue to the next screen thanking for their contribution.
+            
+        } else {
+            // perform segue to the next screen indicating that there was an error.
+        }
         
     } else {
         NSString* displayedPrompt=[self.currentPrompt.text stringByReplacingOccurrencesOfString:@" " withString:@"  "];

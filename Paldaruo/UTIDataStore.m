@@ -331,6 +331,7 @@
             }
             
         } else {
+            [prompts setFetchErrorObject:error];
             [self showCommunicationWithServerError:@"Estyn Testunau i'w Recordio" errorObject:error];
         }
         
