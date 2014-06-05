@@ -362,26 +362,23 @@
     
     // B1 at B2 location. B2 at B1 location
     
-    
     CGPoint moveToNextStateButtonPoint = self.btnOutletMoveToNextRecordingState.frame.origin;
     CGSize moveToNextStateButtonSize = self.btnOutletMoveToNextRecordingState.frame.size;
-    CGFloat moveToNextStateButtonPoint_Y = moveToNextStateButtonPoint.y;
+    float moveToNextStateButtonPoint_Y = moveToNextStateButtonPoint.y;
     
     CGPoint redoRecordingButtonPoint = self.btnOutletRedoRecording.frame.origin;
     CGSize redoRecordingButtonSize = self.btnOutletRedoRecording.frame.size;
-    CGFloat redoRecordingButtonPoint_Y = redoRecordingButtonPoint.y;
+    float redoRecordingButtonPoint_Y = redoRecordingButtonPoint.y;
+
+    [self.btnOutletMoveToNextRecordingState setFrame:CGRectMake(moveToNextStateButtonPoint.x,
+                                                                redoRecordingButtonPoint_Y,
+                                                                moveToNextStateButtonSize.width,
+                                                                moveToNextStateButtonSize.height)];
     
-    self.btnOutletMoveToNextRecordingState.frame
-        = CGRectMake(moveToNextStateButtonPoint.x,
-                     redoRecordingButtonPoint_Y,
-                     moveToNextStateButtonSize.width,
-                     moveToNextStateButtonSize.height);
-    
-    self.btnOutletRedoRecording.frame
-        = CGRectMake(redoRecordingButtonPoint.x,
-                     moveToNextStateButtonPoint_Y,
-                     redoRecordingButtonSize.width,
-                     redoRecordingButtonSize.height);
+    [self.btnOutletRedoRecording setFrame:CGRectMake(redoRecordingButtonPoint.x,
+                                                     moveToNextStateButtonPoint_Y,
+                                                     redoRecordingButtonSize.width,
+                                                     redoRecordingButtonSize.height)];
     
 }
 
