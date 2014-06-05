@@ -19,6 +19,8 @@
 
 - (IBAction)btnActionTestBackgroundSound:(id)sender;
 - (IBAction)btnActionStartSession:(id)sender;
+- (IBAction)btnActionUnwindToHome:(id)sender;
+
 
 @end
 
@@ -96,6 +98,12 @@
                                                          sender:self];
     
 }
+
+
+-(IBAction)btnActionUnwindToHome:(id)sender{
+      [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 
 -(void) testbackgroundSoundDidComplete{
     

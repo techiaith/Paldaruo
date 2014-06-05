@@ -13,6 +13,7 @@
 @interface UTIWelcomeViewController ()
 
 - (IBAction)btnStartSession:(id)sender;
+- (IBAction)btnActionUnwindToHome:(id)sender;
 
 @end
 
@@ -79,6 +80,12 @@
     
 }
 
+
+- (IBAction)btnActionUnwindToHome:(id)sender {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
     
     if ([[UTIReachability instance] isPaldaruoServerReachable]){
@@ -97,5 +104,6 @@
     }
     
 }
+
 
 @end
