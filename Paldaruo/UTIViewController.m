@@ -176,6 +176,7 @@
         } case RECORDING_WAIT_TO_REDO_RECORDING: {
             
             [self swapButtonsLocations];
+            [self removeRecordingStatus];
             
             [self setMoveToNextRecordStateTitle:@"Cychwyn Recordio"];
             [self.lblOutletRecordingStatus setHidden:YES];
@@ -188,6 +189,7 @@
         } case RECORDING_WAIT_TO_GOTO_NEXT: {
             
             [self swapButtonsLocations];
+            [self removeRecordingStatus];
             
             [[UTIDataStore sharedDataStore] http_uploadAudio:uid
                                                   identifier:self.currentPrompt.identifier
@@ -274,7 +276,7 @@
 
 -(void) recordAudio {
     
-    [self startRecordingStatusTimerWithString:@"Yn recordio…"];
+    [self startRecordingStatusTimerWithString:@"Yn recordio…" blink:YES];
     [self.audio recordAudio];
 
 }
@@ -291,11 +293,21 @@
     
     [self.audio playAudio];
     
-    NSString *message = [NSString stringWithFormat:@"Chwarae yn ôl (average: %f, peak: %f)",
-                         [self.audio getAveragePower],
-                         [self.audio getPeakPower]];
+    NSString *message;
     
-    [self startRecordingStatusTimerWithString:message];//@"Chwarae yn ôl…"];
+    if ([self.audio areLevelsOk]){
+        message = [NSString stringWithFormat:@"Da Iawn! Roedd y lefel sain yn iawn."];
+    } else if ([self.audio areLevelsTooLoud]){
+        message = [NSString stringWithFormat:@"Argian! Peidiwch a siarad mor swnllyd!"];
+    } else if ([self.audio areLevelsTooQuiet]){
+        message = [NSString stringWithFormat:@"Beth? Siaradwch yn uwch os gwelwch yn dda."];
+    }
+    
+    //= [NSString stringWithFormat:@"Chwarae yn ôl (average: %f, peak: %f)",
+    //                     [self.audio getAveragePower],
+    //                     [self.audio getPeakPower]];
+    
+    [self startRecordingStatusTimerWithString:message blink:NO];//@"Chwarae yn ôl…"];
     
 }
 
@@ -323,24 +335,28 @@
 
 
 -(void) audioDidFinishPlaying:(BOOL)successful{
+    
     currentRecordingStatus=RECORDING_LISTENING_END;
-    [self removeRecordingStatus];
+    //[self removeRecordingStatus];
     [self btnMoveToNextRecordingState:self];
 }
 
 #pragma mark Recording label animations
 
 #define kStatusFlashTime 0.6
--(void) startRecordingStatusTimerWithString:(NSString *)string {
+-(void) startRecordingStatusTimerWithString:(NSString *)string blink:(BOOL)blinkFlag {
+    
     if (!self.lblOutletRecordingStatusTimer) {
         self.lblOutletRecordingStatus.hidden = NO;
         self.lblOutletRecordingStatus.alpha = 1;
         [self setRecordStatusText:string];
-        self.lblOutletRecordingStatusTimer=[NSTimer scheduledTimerWithTimeInterval:kStatusFlashTime
-                                                                            target:self
-                                                                          selector:@selector(toggleLabelRecordingStatus)
-                                                                          userInfo:nil
-                                                                           repeats:YES];
+        
+        if (blinkFlag==YES)
+            self.lblOutletRecordingStatusTimer=[NSTimer scheduledTimerWithTimeInterval:kStatusFlashTime
+                                                                                target:self
+                                                                              selector:@selector(toggleLabelRecordingStatus)
+                                                                              userInfo:nil
+                                                                               repeats:YES];
     }
 
 }
