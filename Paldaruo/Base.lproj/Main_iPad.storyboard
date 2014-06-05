@@ -126,6 +126,7 @@
                     <connections>
                         <outlet property="btnOutletStartSession" destination="cpd-Fz-7kk" id="Gj3-PP-DVi"/>
                         <outlet property="btnOutletTestBackgroundSound" destination="BNy-g4-p7Z" id="qNX-Ax-Y0Q"/>
+                        <outlet property="btnOutletUnwindToHome" destination="bKf-OU-A3Q" id="65k-ZQ-jHc"/>
                         <outlet property="labelOutletMyUID" destination="yHz-cz-BH6" id="J0L-x0-icb"/>
                     </connections>
                 </viewController>

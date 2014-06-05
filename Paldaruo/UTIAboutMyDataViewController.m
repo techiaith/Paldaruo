@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelOutletMyUID;
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletStartSession;
 @property (weak, nonatomic) IBOutlet UIButton *btnOutletTestBackgroundSound;
+@property (weak, nonatomic) IBOutlet UIButton *btnOutletUnwindToHome;
 
 @property (strong, nonatomic) UTIAudioRecorderPlayer *audio;
 
@@ -82,6 +83,7 @@
     
     [self.btnOutletTestBackgroundSound setEnabled:NO];
     [self.audio recordAudio];
+    [self.btnOutletUnwindToHome setEnabled:NO];
     
     [NSTimer scheduledTimerWithTimeInterval:10.0
                                      target:self
@@ -110,6 +112,7 @@
     [self.audio stopRecording];
     [self.btnOutletTestBackgroundSound setEnabled:YES];
     [self.btnOutletStartSession setEnabled:YES];
+    [self.btnOutletUnwindToHome setEnabled:YES];
     
     NSString *message;
     
