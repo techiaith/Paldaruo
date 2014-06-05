@@ -300,7 +300,10 @@
     } else if ([self.audio areLevelsTooLoud]){
         message = [NSString stringWithFormat:@"Argian! Peidiwch a siarad mor swnllyd!"];
     } else if ([self.audio areLevelsTooQuiet]){
-        message = [NSString stringWithFormat:@"Beth? Siaradwch yn uwch os gwelwch yn dda."];
+        if (IS_IPHONE)
+            message = [NSString stringWithFormat:@"Beth? Siaradwch yn uwch."];
+        else
+            message = [NSString stringWithFormat:@"Beth? Siaradwch yn uwch os gwelwch yn dda."];
     }
     
     //= [NSString stringWithFormat:@"Chwarae yn ôl (average: %f, peak: %f)",
