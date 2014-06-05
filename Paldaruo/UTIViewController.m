@@ -195,6 +195,7 @@
             [self setMoveToNextRecordStateTitle:@"Cychwyn Recordio"];
             [self.lblOutletRecordingStatus setHidden:YES];
             [self.btnOutletRedoRecording setHidden:YES];
+            [self.btnOutletMoveToNextRecordingState setHidden:NO];
             
             currentRecordingStatus=RECORDING_WAIT_TO_START;
             break;
