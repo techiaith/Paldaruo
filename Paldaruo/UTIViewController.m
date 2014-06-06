@@ -175,7 +175,18 @@
             currentRecordingStatus=RECORDING_WAIT_TO_GOTO_NEXT;
             break;
             
+        } case RECORDING_TIMEDOUT: {
             
+            [self swapButtonsLocations];
+            [self.btnOutletMoveToNextRecordingState setHidden:YES];
+            [self removeRecordingStatus];
+            
+            [self setRedoRecordingText:@"Recordio eto"];
+            [self.btnOutletRedoRecording setHidden:NO];
+            
+            currentRecordingStatus=RECORDING_WAIT_TO_GOTO_NEXT;
+            break;
+
         } case RECORDING_WAIT_TO_REDO_RECORDING: {
             
             [self swapButtonsLocations];
@@ -184,6 +195,7 @@
             [self setMoveToNextRecordStateTitle:@"Cychwyn Recordio"];
             [self.lblOutletRecordingStatus setHidden:YES];
             [self.btnOutletRedoRecording setHidden:YES];
+            [self.btnOutletMoveToNextRecordingState setHidden:NO];
             
             currentRecordingStatus=RECORDING_WAIT_TO_START;
             break;
@@ -356,6 +368,11 @@
     currentRecordingStatus=RECORDING_LISTENING_END;
     //[self removeRecordingStatus];
     [self btnMoveToNextRecordingState:self];
+}
+
+-(void) audioRecordingDidTimeout {
+    currentRecordingStatus=RECORDING_TIMEDOUT;
+    [self btnMoveToNextRecordingState:(self)];
 }
 
 #pragma mark Recording label animations

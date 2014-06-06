@@ -43,6 +43,8 @@
 }
 
 
+#define RECORDING_TIMEOUT 20.0
+
 -(void) recordAudio {
     
     [self.audioRecorder prepareToRecord];
@@ -63,6 +65,11 @@
     
     [[NSRunLoop currentRunLoop] addTimer:_timerRecordingMetering forMode:NSDefaultRunLoopMode];
     
+    self.recordingTimer = [NSTimer scheduledTimerWithTimeInterval:RECORDING_TIMEOUT
+                                                            target:self
+                                                          selector:@selector(timeOutRecording)
+                                                          userInfo:nil
+                                                           repeats:NO];
 }
 
 
@@ -74,11 +81,21 @@
     [_timerRecordingMetering invalidate];
     _timerRecordingMetering=nil;
     
+    [self.recordingTimer invalidate];
+    self.recordingTimer = nil;
+    
     NSURL *audioFileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:@"audioRecording.wav"]];
     
     // copy the file to a new location
     self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:audioFileURL error:nil];
     [self.audioPlayer setDelegate:self];
+    
+}
+
+-(void) timeOutRecording {
+    
+    [self stopRecording];
+    [delegate audioRecordingDidTimeout];
     
 }
 

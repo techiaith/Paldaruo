@@ -18,6 +18,7 @@
 @protocol UTIAudioRecorderPlayerDelegate
 
 -(void)audioDidFinishPlaying:(BOOL)successful;
+-(void)audioRecordingDidTimeout;
 
 @end
 
@@ -28,6 +29,7 @@
 @property (strong, nonatomic) AVAudioRecorder *audioRecorder;
 @property (strong, nonatomic) AVAudioPlayer *audioPlayer;
 @property (strong, nonatomic) NSTimer *timerRecordingMetering;
+@property (strong, nonatomic) NSTimer *recordingTimer;
 
 -(void) recordAudio;
 -(void) stopRecording;

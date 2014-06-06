@@ -136,6 +136,10 @@
     // do nothing
 }
 
+-(void) audioRecordingDidTimeout {
+    // do nothing
+}
+
 
 - (void)connection:(NSURLConnection *)connection
             didSendBodyData:(NSInteger)bytesWritten
