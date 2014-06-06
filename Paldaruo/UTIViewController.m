@@ -294,6 +294,7 @@
 -(void) recordAudio {
     
     [self startRecordingStatusTimerWithString:@"Yn recordio…" blink:YES];
+    [self.btnOutletBackToHome setEnabled:NO];
     [self.audio recordAudio];
 
 }
@@ -302,6 +303,7 @@
 -(void) stopRecording {
     
     [self removeRecordingStatus];
+    [self.btnOutletBackToHome setEnabled:YES];
     [self.audio stopRecording];
     
 }

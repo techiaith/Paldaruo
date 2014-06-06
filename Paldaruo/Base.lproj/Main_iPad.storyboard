@@ -257,6 +257,7 @@
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
+                        <outlet property="btnOutletBackToHome" destination="K3f-Fr-qRB" id="E4s-MF-LxC"/>
                         <outlet property="btnOutletMoveToNextRecordingState" destination="fSP-Ib-wPV" id="9bK-yD-GlO"/>
                         <outlet property="btnOutletRedoRecording" destination="TKF-uj-H4S" id="uKu-W8-Ycv"/>
                         <outlet property="lblOutletNextPrompt" destination="KYh-ss-ARJ" id="Zag-Y1-feo"/>
