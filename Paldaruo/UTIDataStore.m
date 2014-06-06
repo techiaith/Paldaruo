@@ -106,7 +106,27 @@
 -(void) http_uploadAudio: (NSString*) uid
               identifier:(NSString*) ident
                   sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender {
-    
+    //
+    // TODO:
+    //
+    // need to check that the upload engine and subsequent progress bar in the UI
+    // can cope and be consistent with a slow upload wifi
+    //
+    // have used the Network Link Conditioner on the iPad to provide certain test conditions.
+    //
+    // I'm concerned that there isn't any more any use of NSQueuedOperation as in the beta
+    // version.
+    //
+    // At the moment the progress bar and uploading hang on slow uploads, error messages appear
+    // and wavs are missing on the server. If it was for re-introducing uploadOutstandingAudioFiles
+    // after the mega merge, these would never arrive at the server.
+    //
+    // NEED TO EVALUATE WHY UPLOADS HANG. WHY DO ERROR MESSAGES APPEAR. WHY DOES THE PROGRESS BAR
+    // NEVER INCREMENTS BEYOND 2. WHAT ALTERATIONS ARE NEED FOR THE UI - PERHAPS REMOVE THE PROGRESS
+    // BAR AND FILTER ERROR MESSAGES (ESP. IF uploadOutstandingAudioFiles RESCUES THE SITUATION) PERHAPS
+    // THE PROGRESS BAR CAN BE KEPT TO THE FINAL THANK YOU SCREEN IF A PILE OF FILES HAVE ACCUMALATED AND
+    // THE USER SHOULD NOT YET SHUTDOWN THE APP.
+    //
     NSString *filename = [NSString stringWithFormat:@"%@.wav", ident];
     NSString *uidTempDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:uid];
     
