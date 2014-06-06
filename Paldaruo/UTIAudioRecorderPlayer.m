@@ -93,10 +93,8 @@
 }
 
 -(void) timeOutRecording {
-    [self.recordingTimer invalidate];
-    self.recordingTimer = nil;
     
-    //call delegate
+    [self stopRecording];
     [delegate audioRecordingDidTimeout];
     
 }
