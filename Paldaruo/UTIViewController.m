@@ -177,25 +177,27 @@
             
         } case RECORDING_TIMEDOUT: {
             
-            [self swapButtonsLocations];
-            [self.btnOutletMoveToNextRecordingState setHidden:YES];
             [self removeRecordingStatus];
             
-            [self setRedoRecordingText:@"Recordio eto"];
-            [self.btnOutletRedoRecording setHidden:NO];
+            [self.btnOutletMoveToNextRecordingState setHidden:NO];
+            [self setMoveToNextRecordStateTitle:@"Cychwyn Recordio"];
             
-            currentRecordingStatus=RECORDING_WAIT_TO_GOTO_NEXT;
+            [self.btnOutletRedoRecording setHidden:YES];
+            
+            currentRecordingStatus=RECORDING_WAIT_TO_START;
             break;
-
+            
         } case RECORDING_WAIT_TO_REDO_RECORDING: {
             
             [self swapButtonsLocations];
             [self removeRecordingStatus];
             
-            [self setMoveToNextRecordStateTitle:@"Cychwyn Recordio"];
-            [self.lblOutletRecordingStatus setHidden:YES];
-            [self.btnOutletRedoRecording setHidden:YES];
             [self.btnOutletMoveToNextRecordingState setHidden:NO];
+            [self setMoveToNextRecordStateTitle:@"Cychwyn Recordio"];
+           
+            //[self.lblOutletRecordingStatus setHidden:YES];
+            
+            [self.btnOutletRedoRecording setHidden:YES];
             
             currentRecordingStatus=RECORDING_WAIT_TO_START;
             break;
@@ -373,6 +375,15 @@
 -(void) audioRecordingDidTimeout {
     currentRecordingStatus=RECORDING_TIMEDOUT;
     [self btnMoveToNextRecordingState:(self)];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Terfyn amser recordio"
+                                                    message:@"Ydych chi wedi anghofio pwyso 'Gorffen Recordio' ar ddiwedd darllen y testun? Pwyswch 'Cychwyn Redordio' i geisio recordio'r testun eto."
+                                                   delegate:nil
+                                          cancelButtonTitle:@"Iawn"
+                                          otherButtonTitles:nil];
+    
+    [alert show];
+    
 }
 
 #pragma mark Recording label animations
