@@ -14,4 +14,5 @@
 @property (strong) NSString *text;
 @property (getter = isRecorded) BOOL recorded;
 @property NSInteger index;
+
 @end

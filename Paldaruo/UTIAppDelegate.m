@@ -62,4 +62,28 @@
     [[UTIDataStore sharedDataStore] saveProfiles];
 }
 
+
+- (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier
+  completionHandler:(void (^)())completionHandler {
+    self.backgroundSessionCompletionHandler = completionHandler;
+    
+    //add notification
+    [self presentNotification];
+}
+
+-(void)presentNotification{
+    
+    UILocalNotification* localNotification = [[UILocalNotification alloc] init];
+    localNotification.alertBody = @"Download Complete!";
+    localNotification.alertAction = @"Background Transfer Download!";
+    
+    //On sound
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    
+    //increase the badge number of application plus 1
+    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
+    
+    [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+}
+
 @end

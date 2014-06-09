@@ -17,23 +17,21 @@
 //
 
 @protocol UTIErrorReporter <NSObject>
-
 - (void)showError:(NSError *)error;
 - (void)showErrorText:(NSString *)errorText;
 @end
 
 
-@interface UTIDataStore : NSObject {
+@interface UTIDataStore : NSObject  <NSURLSessionDelegate> {
     NSArray *metaDataFields;
-    
 }
 
 @property UTIUser *activeUser;
 @property (nonatomic, retain) NSMutableArray *allProfilesArray;
 @property (nonatomic, retain) NSArray *metaDataFields;
 
-@property (strong, nonatomic) NSMutableArray *currentOutstandingUploads;
-@property __block NSUInteger numberOfUploadingFiles;
+@property (nonatomic, strong) NSURLSession *session;
+@property (nonatomic, strong) NSMutableArray *arrFileUploadData;
 
 - (UTIUser *)userAtIndex:(NSUInteger)idx;
 - (UTIUser *)userForName:(NSString *)name;
@@ -69,8 +67,7 @@
 
 - (void)http_getMetadata:(NSString *)uid sender:(id <UTIErrorReporter>)sender;
 - (void)http_saveMetadata:(NSString *)uid sender:(id <NSURLConnectionDataDelegate, NSURLConnectionDelegate>)sender;
-- (void)http_uploadOutstandingAudio:(NSString*)uid;
-
+//- (void)http_uploadOutstandingAudio:(NSString*)uid;
 
 +(id) sharedDataStore;
 

@@ -16,4 +16,6 @@
 @property (strong, nonatomic) UIWindow *window;
 //@property (strong, nonatomic) Reachability *appReachability;
 
+@property (copy) void (^backgroundSessionCompletionHandler)();
+
 @end
