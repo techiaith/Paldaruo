@@ -31,6 +31,7 @@
 @property UTIUser *activeUser;
 @property (nonatomic, retain) NSMutableArray *allProfilesArray;
 @property (nonatomic, retain) NSArray *metaDataFields;
+
 @property (strong, nonatomic) NSMutableArray *currentOutstandingUploads;
 @property __block NSUInteger numberOfUploadingFiles;
 

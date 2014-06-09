@@ -27,6 +27,7 @@ typedef void (^urlCompletionHandler)(NSData *data, NSError *error);
 @property (strong) id <NSURLConnectionDelegate, NSURLConnectionDataDelegate> delegate;
 @property (strong) NSMutableData *responseData;
 @property BOOL request500ed;
+@property NSString * tag;
 
 /**
  *  An array of data objects which are added to the body of the http request. Separated by the boundary string

@@ -127,6 +127,21 @@
     // THE PROGRESS BAR CAN BE KEPT TO THE FINAL THANK YOU SCREEN IF A PILE OF FILES HAVE ACCUMALATED AND
     // THE USER SHOULD NOT YET SHUTDOWN THE APP.
     //
+    // OBSERVSATIONS AFTER A SLOW CONNECTION: timeouts started occurring after the 6th or 7th file. The app
+    // would recover and try to send the files again. But the user experience would be confused with the
+    // errors popping up all the time. It was seen that 3 to 5 files can be sent at the same time to the server
+    // thus causing the timeouts if a request was not serviced in time, whilst other files we're being uploaded.
+    //
+    // Therefore we need the NSQueuedOperations so that we can utilise built in queue functonality and not have
+    // to re-invent the wheel. The problem with NSQueuedOperation however is that it requires using sendAsynchronousRequest
+    // which as the Apple documentation states:
+    //
+    // If you do not need to monitor the status of a request, but merely need to perform some operation when the data
+    // has been fully received, you can call sendAsynchronousRequest:queue:completionHandler:, passing a block to
+    // handle the results. For more details, see “Retrieving Data Using a Completion Handler Block.”
+    //
+    //
+    
     NSString *filename = [NSString stringWithFormat:@"%@.wav", ident];
     NSString *uidTempDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:uid];
     
@@ -156,18 +171,15 @@
     
     for (NSString* fileName in [fileManager contentsOfDirectoryAtPath:uidTempDirectory error:nil])
     {
+        NSString* ident = [fileName stringByReplacingOccurrencesOfString:@".wav"withString:@""];
         NSString *audioFileTarget = [uidTempDirectory stringByAppendingFormat:@"/%@", fileName];
         NSURL *audioFileURL = [NSURL fileURLWithPath:audioFileTarget];
         
-        NSString *outstandingFileCandidateId = [NSString stringWithFormat:@"%@_%@",uid, fileName];
-        
-        NSUInteger fileIndex = [self.currentOutstandingUploads indexOfObject:outstandingFileCandidateId];
-        
-        if (fileIndex==NSNotFound)
-        {
-            [self.currentOutstandingUploads addObject:outstandingFileCandidateId];
+        if (![self isFileUploadUTIRequestAlreadyQueued:ident uid:uid]){
+            //if (![self isFileAlreadyQueued:ident uid:uid]){
             
-            NSString* ident = [fileName stringByReplacingOccurrencesOfString:@".wav"withString:@""];
+            NSString *logMessage = [NSString stringWithFormat:@"http_uploadOutstandingAudio ident:%@ uploadCount:%lu",ident, (unsigned long)[self.currentOutstandingUploads count]];
+            NSLog(logMessage);
             
             [self http_uploadAudioFile:uid
                             identifier:ident
@@ -199,19 +211,95 @@
     [r addBodyString:@"Content-Type: audio/wav\r\n\r\n" withBoundary:NO];
     [r addBodyData:[[NSData alloc] initWithContentsOfURL:audioFileURL] withBoundary:NO];
     
+    [self addFileUploadUTIRequestToDispatchQueue:r ident:ident uid:uid];
+    
     [r setCompletionHandler:^(NSData *data, NSError *error) {
         
         [self handleResponseUploadAudio:data error:error];
         
     }];
     
-    self.numberOfUploadingFiles += 1;
-    [r sendRequestAsync];
+    [self sendNextUTIFileToServer];
+        
+}
+
+
+-(void) sendNextUTIFileToServer {
+    
+    if (self.numberOfUploadingFiles==0){
+        
+        if ([self.currentOutstandingUploads count] > 0){
+            self.numberOfUploadingFiles += 1;
+            UTIRequest *r = (UTIRequest *)[self.currentOutstandingUploads objectAtIndex:0];
+            
+            NSString *logMessage = [NSString stringWithFormat:@"http_uploadAudioFile ident:%@ uploadCount:%lu size:%lu",
+                                    r.tag,
+                                    (unsigned long)[self.currentOutstandingUploads count],
+                                    (unsigned long)[r.bodyDataArray count]];
+            NSLog(logMessage);
+            
+            [r sendRequestAsync];
+        }
+    }
+    
+}
+
+
+-(void) addFileUploadUTIRequestToDispatchQueue:(UTIRequest *) request
+                                         ident:(NSString*) ident
+                                           uid:(NSString*)uid{
+    
+    NSString *outstandingFileCandidateId = [NSString stringWithFormat:@"%@_%@",uid, ident];
+    request.tag=outstandingFileCandidateId;
+    
+    [self.currentOutstandingUploads addObject:request];
+    
+}
+
+
+
+-(void) removeFileUploadUTIRequestFromSendQueue:(NSString*) ident uid:(NSString*)uid {
+    
+    NSString *outstandingFileCandidateId = [NSString stringWithFormat:@"%@_%@",uid, ident];
+    NSMutableArray *tempArray = [NSMutableArray array];
+    
+    for (UTIRequest *nextRequest in self.currentOutstandingUploads){
+        
+        if (![nextRequest.tag isEqualToString:outstandingFileCandidateId]){
+            //[self.currentOutstandingUploads removeObject:nextRequest];
+            [tempArray addObject:nextRequest];
+        }
+        
+    }
+    
+    [self.currentOutstandingUploads removeAllObjects];
+    [self.currentOutstandingUploads addObjectsFromArray:tempArray];
+    
+    if ([self.currentOutstandingUploads count]==0)
+    {
+        NSLog(@"Current Outstanding Uploads Queue is empty");
+    }
+}
+
+
+-(BOOL) isFileUploadUTIRequestAlreadyQueued:(NSString*) ident uid:(NSString*)uid {
+    NSString *outstandingFileCandidateId = [NSString stringWithFormat:@"%@_%@",uid, ident];
+    
+    
+    for (UTIRequest *nextRequest in self.currentOutstandingUploads){
+        if ([nextRequest.tag isEqualToString:outstandingFileCandidateId]){
+            return YES;
+        }
+    }
+    
+    return NO;
     
 }
 
 
 -(void) handleResponseUploadAudio:(NSData *)data error:(NSError *)error {
+    
+    self.numberOfUploadingFiles -= 1;
     
     if ([data length] > 0 && error == nil) {
         
@@ -223,8 +311,15 @@
         NSString *filename = jsonResponse[@"fileId"];
         NSString *uid = jsonResponse[@"uid"];
         
+        NSString *logMessage = [NSString stringWithFormat:@"handleResponseUploadAudio ident:%@ uploadCount:%lu",filename,(unsigned long)[self.currentOutstandingUploads count]];
+        NSLog(logMessage);
+        
         NSString *uidTempDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:uid];
         NSString *deleteFileTarget = [uidTempDirectory stringByAppendingFormat:@"/%@",filename];
+        NSString *ident = [filename stringByReplacingOccurrencesOfString:@".wav"withString:@""];
+        
+        // remove successful file upload from queue and the iDevice
+        [self removeFileUploadUTIRequestFromSendQueue:ident uid:uid];
         
         NSFileManager *fileManager = [NSFileManager defaultManager];
         BOOL fileExists = [fileManager fileExistsAtPath:deleteFileTarget];
@@ -232,13 +327,8 @@
             [fileManager removeItemAtPath:deleteFileTarget error:Nil];
         }
         
-        NSString *outstandingFileCandidateId = [NSString stringWithFormat:@"%@_%@",uid, filename];
-        
-        NSUInteger fileIndex = [self.currentOutstandingUploads indexOfObject:outstandingFileCandidateId];
-        if (fileIndex!=NSNotFound){
-            [self.currentOutstandingUploads removeObjectAtIndex:fileIndex];
-        }
-        
+        [self sendNextUTIFileToServer];
+
         // wedi symud galw ar llwytho i fyny ffeiliau wav 'outstanding' i fama yn hytrach na
         // view controller. Mae'n gwirio felly pob tro ar ol lwyddo i llwytho i fyny os mae na
         // ffeiliau wav eraill sydd heb eu lwytho'n lwyddianus.
@@ -247,10 +337,49 @@
     }
     else {
         [self showCommunicationWithServerError:@"Llwytho sain i fyny" errorObject:error];
+        
+        // try again
+        [self sendNextUTIFileToServer];
     }
+    
+    
     
 }
 
+
+/*
+ -(void) addFileToSendQueue:(NSString*) ident uid:(NSString*)uid {
+ NSString *outstandingFileCandidateId = [NSString stringWithFormat:@"%@_%@",uid, ident];
+ NSUInteger fileIndex = [self.currentOutstandingUploads indexOfObject:outstandingFileCandidateId];
+ if (fileIndex==NSNotFound)
+ {
+ [self.currentOutstandingUploads addObject:outstandingFileCandidateId];
+ }
+ }
+ 
+ 
+ -(void) removeFileUploadFromSendQueue:(NSString*) ident uid:(NSString*)uid {
+ NSString *outstandingFileCandidateId = [NSString stringWithFormat:@"%@_%@",uid, ident];
+ 
+ NSUInteger fileIndex = [self.currentOutstandingUploads indexOfObject:outstandingFileCandidateId];
+ 
+ if (fileIndex!=NSNotFound){
+ [self.currentOutstandingUploads removeObjectAtIndex:fileIndex];
+ }
+ }
+ 
+ 
+ -(BOOL) isFileAlreadyQueued:(NSString*) ident uid:(NSString*)uid {
+ NSString *outstandingFileCandidateId = [NSString stringWithFormat:@"%@_%@",uid, ident];
+ NSUInteger fileIndex = [self.currentOutstandingUploads indexOfObject:outstandingFileCandidateId];
+ if (fileIndex==NSNotFound)
+ {
+ return NO;
+ } else {
+ return YES;
+ }
+ }
+ */
 
 
 -(void) http_uploadSilenceAudioFile: (NSString*) uid

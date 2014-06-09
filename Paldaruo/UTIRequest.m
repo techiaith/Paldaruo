@@ -137,9 +137,13 @@
     return _completionHandler;
 }
 
+
 #pragma mark Delegate methods
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    
+    NSLog(error.localizedDescription);
+    
     if (self.completionHandler) {
         self.completionHandler(self.responseData, nil);
     }
@@ -181,8 +185,13 @@
     }
 }
 
-- (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
+- (void)connection:(NSURLConnection *)connection c:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
+    
     if ([self.delegate respondsToSelector:@selector(connection:didSendBodyData:totalBytesWritten:totalBytesExpectedToWrite:)]) {
+        
+        NSString* message = [NSString stringWithFormat:@"%d written out of %d", totalBytesWritten, totalBytesExpectedToWrite];
+        NSLog(message);
+        
         [self.delegate connection:connection didSendBodyData:bytesWritten totalBytesWritten:totalBytesExpectedToWrite totalBytesExpectedToWrite:totalBytesExpectedToWrite];
     }
 }
