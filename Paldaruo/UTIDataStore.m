@@ -208,38 +208,32 @@
                          URL:(NSURL*) audioFileURL
                       sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender {
 
-    NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/savePrompt";
+    // gweler:
+    // http://stackoverflow.com/questions/22487336/how-to-get-backgroundsession-nsurlsessionuploadtask-response
+    // http://stackoverflow.com/questions/21767334/uploads-using-backgroundsessionconfiguration-and-nsurlsessionuploadtask-cause-ap
+    
+    // Yn benodol:
+    //
+    //  With upload tasks, make sure to not call setHTTPBody of a NSMutableRequest.
+    //  With upload tasks, the body of the request cannot be in the request itself.
+    //  Make sure you implement the appropriate NSURLSessionDelegate, NSURLSessionTaskDelegate methods.
+    //  Make sure to implement application:handleEventsForBackgroundURLSession: in
+    //  your app delegate (so you can capture the completionHandler, which you'll call
+    //  in URLSessionDidFinishEventsForBackgroundURLSession).
+    //
+    // Felly mae angen creu request heb body (sy'n cymhlethu pethau ynghylch pasio uid, promptId a filename fel
+    // parameters. Efallai dylwn newid i ddefnyddio PUT a creu URL y lleoliad terfynol ar sail uid a ident a filename
+    // ein hunain.
+    
+    //NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/savePrompt";
+    NSString *urlString = @"http://127.0.0.1:8082/savePrompt";
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:urlString]];
-    [request setHTTPMethod:@"POST"];
+    [request setHTTPMethod:@"PUT"];
     
-    NSString *boundary = @"---------------------------14737809831466499882746641449";
-    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
-    [request addValue:contentType forHTTPHeaderField: @"Content-Type"];
-    
-    NSMutableData *body = [NSMutableData data];
-    
-    // add uid
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid]] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    // add prompt id
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"promptId\"\r\n\r\n%@", ident]] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    // add wav file
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n", filename]] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    // add wav data
-    //NSData *audioFileData= [[NSData alloc] initWithContentsOfURL:audioFileURL];
-
-    //[body appendData:[@"Content-Type: audio/wav\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-    //[body appendData:[NSData dataWithData:audioFileData]];
-    //[body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [request setHTTPBody:body];
+    [request setValue:[NSString stringWithFormat:@"%@", uid] forHTTPHeaderField:@"uid"];
+    [request setValue:[NSString stringWithFormat:@"%@", ident] forHTTPHeaderField:@"promptId"];
     
     UTIUploadAudioInfo *newUploadTask = [[UTIUploadAudioInfo alloc] initWithUid:uid andUploadSource:audioFileURL andIdent:ident];
     [self.arrFileUploadData addObject:newUploadTask];
@@ -252,17 +246,13 @@
 }
 
 
--(void) handleResponseUploadAudio:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error {
+-(void) handleResponseUploadAudio:(NSString *)uid
+                    audioFileName:(NSString *)filename
+                         response:(NSURLResponse *)response
+                            error:(NSError *)error {
     
-    if ([data length] > 0 && error == nil) {
-        
-        NSDictionary *json=[NSJSONSerialization JSONObjectWithData:data
-                                                           options:kNilOptions
-                                                             error:nil];
-        
-        NSDictionary *jsonResponse = json[@"response"];
-        NSString *filename = jsonResponse[@"fileId"];
-        NSString *uid = jsonResponse[@"uid"];
+    //
+    if (error== nil) {
         
         //NSString *logMessage = [NSString stringWithFormat:@"handleResponseUploadAudio ident:%@ uploadCount:%lu",filename,(unsigned long)[self.currentOutstandingUploads count]];
         //NSLog(logMessage);
@@ -286,9 +276,7 @@
     else {
         [self showCommunicationWithServerError:@"Llwytho sain i fyny" errorObject:error];
     }
-    
-    
-    
+
 }
 
 
@@ -549,29 +537,16 @@
 
 
 
-
 -(void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
-
-    int index = [self getFileUploadInfoIndexWithTaskIdentifier:dataTask.taskIdentifier];
-    UTIUploadAudioInfo *upinfo = [self.arrFileUploadData objectAtIndex:index];
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        NSString *message = [NSString stringWithFormat:@"Completed - Ident : %@ ", upinfo.ident];
-        NSLog(message);
-    }];
-}
-
-
-- (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session {
-    NSLog(@"URLSessionDidFinishEventsForBackgroundURLSession");
     
-    UTIAppDelegate *appDelegate = (UTIAppDelegate *)[[UIApplication sharedApplication] delegate];
-    if (appDelegate.backgroundSessionCompletionHandler) {
-        void (^completionHandler)() = appDelegate.backgroundSessionCompletionHandler;
-        appDelegate.backgroundSessionCompletionHandler = nil;
-        completionHandler();
+    if ([self isExistFileUploadInfoWithTaskIdentifier:dataTask.taskIdentifier]){
+        int index = [self getFileUploadInfoIndexWithTaskIdentifier:dataTask.taskIdentifier];
+        UTIUploadAudioInfo *upinfo = [self.arrFileUploadData objectAtIndex:index];
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            NSString *message = [NSString stringWithFormat:@"Completed - Ident : %@ ", upinfo.ident];
+            NSLog(message);
+        }];
     }
-    
-    NSLog(@"All tasks are finished");
 }
 
 
@@ -603,24 +578,38 @@
 
 -(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error   {
     
-    int index=[self getFileUploadInfoIndexWithTaskIdentifier:task.taskIdentifier];
-    UTIUploadAudioInfo *upi = [self.arrFileUploadData objectAtIndex:index];
-    
-    if (error) {
-        NSLog(@"%@ upload failed", upi.ident);
-    } else {
-        NSLog(@"%@ upload succeeded", upi.ident);
-    }
-    // Also check http status code
     NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
+    
     if ([response statusCode] >= 300) {
         NSLog(@"Background transfer is failed, status code: %d", [response statusCode]);
         return;
     }
     
+    NSDictionary* headers = [response allHeaderFields];
+    NSString *filename = headers[@"fileId"];
+    NSString *uid = headers[@"uid"];
+    
+    [self handleResponseUploadAudio:uid audioFileName:filename response:response error:error];
+    
     NSLog(@"Background transfer is success");
     
 }
+
+
+- (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session {
+    
+    NSLog(@"URLSessionDidFinishEventsForBackgroundURLSession");
+    
+    UTIAppDelegate *appDelegate = (UTIAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (appDelegate.backgroundSessionCompletionHandler) {
+        void (^completionHandler)() = appDelegate.backgroundSessionCompletionHandler;
+        appDelegate.backgroundSessionCompletionHandler = nil;
+        completionHandler();
+    }
+    
+    NSLog(@"All tasks are finished");
+}
+
 
 
 -(int) getFileUploadInfoIndexWithTaskIdentifier:(unsigned long) taskIdentifier {

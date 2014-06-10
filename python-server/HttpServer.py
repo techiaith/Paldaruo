@@ -13,8 +13,8 @@ class AuthError(Exception):
     pass
 
 class TorfRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
+    
     def do_GET(self):
-
         htmlFile='test.html'
         print self.path;
 
@@ -48,6 +48,20 @@ class TorfRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         self.wfile.write(jsonVal)
         self.wfile.close()
 
+    def do_PUT(self):
+        try:
+            responseheaders = self.getPutResponse()
+            responseCode = 200
+        except Exception, ex:
+            traceback.print_exc()
+            jsonVal = json.dumps({"error": str(ex)})
+            responseCode = 500
+        self.send_response(responseCode)
+        for key in responseheaders.keys():
+            self.send_header(key,responseheaders[key])
+        self.end_headers()
+        self.wfile.close()
+
     def getPostResponse(self, path, query):
         if path == '/resetDatabase':
             raise ValueError("Refused to reset database")
@@ -67,6 +81,12 @@ class TorfRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         else:
             raise ValueError("Bad path: " + path)
 
+    def getPutResponse(self):
+       if self.path == '/savePrompt':
+           return self.putPrompt()
+       else:
+           raise ValueError("Bad path: " + path)
+ 
     def dbConnect(self):
         db = sqlite3.connect(self.server.dbFile)
         db.isolation_level = None
@@ -263,6 +283,8 @@ class TorfRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             raise ValueError("Invalid promptId: %r" % promptId)
         if not os.path.isdir(self.server.storeDir):
             os.mkdir(self.server.storeDir)
+        if not re.match(r"^[-0-9A-Za-z_]+$", uid):
+            raise ValueError("Invalid uid: %r" % uid)
         userDir = os.path.join(self.server.storeDir, uid)
         if not os.path.isdir(userDir):
             os.mkdir(userDir)
@@ -274,6 +296,30 @@ class TorfRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
         filename=promptId+".wav" 
         return {"uid":uid, "fileId":filename}
+
+
+    def putPrompt(self):
+        promptId = self.headers['promptId']
+        if not re.match(r"^[0-9A-Za-z_]+$", promptId):
+            raise ValueError("Invalid promptId: %r" % promptId)
+        uid = self.headers['uid']
+        if not re.match(r"^[-0-9A-Za-z_]+$", uid):
+            raise ValueError("Invalid uid: %r" % uid)
+        userDir = os.path.join(self.server.storeDir, uid)
+        if not os.path.isdir(userDir):
+            os.mkdir(userDir)
+        promptFile = os.path.join(userDir, promptId + '.wav')
+        length = int(self.headers['Content-Length'])
+
+        with open(promptFile, 'w') as f:
+            f.write(self.rfile.read(length))
+
+        print uid + ", " + promptId
+
+        filename=promptId+".wav"
+        
+        return {"uid":uid, "fileId":filename}
+
 
 class HttpServer(SocketServer.ThreadingMixIn, BaseHTTPServer.HTTPServer):
     def __init__(self, hostAndPort, dbFile, storeDir):

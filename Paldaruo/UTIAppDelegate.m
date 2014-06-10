@@ -65,16 +65,17 @@
 
 - (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier
   completionHandler:(void (^)())completionHandler {
+    
     self.backgroundSessionCompletionHandler = completionHandler;
     
     //add notification
-    [self presentNotification];
+    //[self presentNotification];
 }
 
 -(void)presentNotification{
     
     UILocalNotification* localNotification = [[UILocalNotification alloc] init];
-    localNotification.alertBody = @"Download Complete!";
+    localNotification.alertBody = @"Upload Complete!";
     localNotification.alertAction = @"Background Transfer Download!";
     
     //On sound
