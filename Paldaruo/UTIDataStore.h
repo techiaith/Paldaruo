@@ -22,7 +22,7 @@
 @end
 
 
-@interface UTIDataStore : NSObject  <NSURLSessionDelegate> {
+@interface UTIDataStore : NSObject  <NSURLSessionTaskDelegate> {
     NSArray *metaDataFields;
 }
 

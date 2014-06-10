@@ -51,10 +51,10 @@
         self.arrFileUploadData = [[NSMutableArray alloc] init];
         
         NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration backgroundSessionConfiguration:@"uk.ac.bangor.techiaith.paldaruo"];
-        sessionConfiguration.HTTPMaximumConnectionsPerHost = 5;
+        sessionConfiguration.HTTPMaximumConnectionsPerHost = 1;
         self.session = [NSURLSession sessionWithConfiguration:sessionConfiguration
                                                      delegate:self
-                                                delegateQueue:nil];
+                                                delegateQueue:[NSOperationQueue mainQueue]];
     }
     
     return self;
@@ -208,20 +208,45 @@
                          URL:(NSURL*) audioFileURL
                       sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender {
 
+    NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/savePrompt";
     
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:urlString]];
+    [request setHTTPMethod:@"POST"];
     
-    UTIRequest *r = [UTIRequest new];
-    r.delegate = sender;
-    r.requestPath = @"savePrompt";
-    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid] withBoundary:YES];
-    [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"promptId\"\r\n\r\n%@", ident] withBoundary:YES];
+    NSString *boundary = @"---------------------------14737809831466499882746641449";
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
+    [request addValue:contentType forHTTPHeaderField: @"Content-Type"];
+    
+    NSMutableData *body = [NSMutableData data];
+    
+    // add uid
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uid\"\r\n\r\n%@", uid]] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    // add prompt id
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"promptId\"\r\n\r\n%@", ident]] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    // add wav file
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n", filename]] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    // add wav data
+    //NSData *audioFileData= [[NSData alloc] initWithContentsOfURL:audioFileURL];
+
+    //[body appendData:[@"Content-Type: audio/wav\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    //[body appendData:[NSData dataWithData:audioFileData]];
+    //[body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    [request setHTTPBody:body];
     
     UTIUploadAudioInfo *newUploadTask = [[UTIUploadAudioInfo alloc] initWithUid:uid andUploadSource:audioFileURL andIdent:ident];
     [self.arrFileUploadData addObject:newUploadTask];
     
-    newUploadTask.uploadTask = [self.session uploadTaskWithRequest:r.request
-                                                          fromFile:audioFileURL];
+    newUploadTask.uploadTask = [self.session uploadTaskWithRequest:request fromFile:audioFileURL];
     newUploadTask.taskIdentifier = newUploadTask.uploadTask.taskIdentifier;
+    
     [newUploadTask.uploadTask resume];
     
 }
@@ -535,20 +560,9 @@
     }];
 }
 
--(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error   {
-
-    int index=[self getFileUploadInfoIndexWithTaskIdentifier:task.taskIdentifier];
-    UTIUploadAudioInfo *upi = [self.arrFileUploadData objectAtIndex:index];
-    
-    if (error) {
-        NSLog(@"%@ upload failed", upi.ident);
-    } else {
-        NSLog(@"%@ upload succeeded", upi.ident);
-    }
-    
-}
 
 - (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session {
+    NSLog(@"URLSessionDidFinishEventsForBackgroundURLSession");
     
     UTIAppDelegate *appDelegate = (UTIAppDelegate *)[[UIApplication sharedApplication] delegate];
     if (appDelegate.backgroundSessionCompletionHandler) {
@@ -560,6 +574,7 @@
     NSLog(@"All tasks are finished");
 }
 
+
 -(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
 {
     if (totalBytesExpectedToSend == NSURLSessionTransferSizeUnknown)
@@ -568,21 +583,49 @@
     }
     else {
     
-        int index = [self getFileUploadInfoIndexWithTaskIdentifier:task.taskIdentifier];
-        UTIUploadAudioInfo *upinfo = [self.arrFileUploadData objectAtIndex:index];
+        if ([self isExistFileUploadInfoWithTaskIdentifier:task.taskIdentifier]){
+            int index = [self getFileUploadInfoIndexWithTaskIdentifier:task.taskIdentifier];
+            UTIUploadAudioInfo *upinfo = [self.arrFileUploadData objectAtIndex:index];
     
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            upinfo.uploadProgress = (double) totalBytesSent / (double)totalBytesExpectedToSend;
-            NSString *message = [NSString stringWithFormat:@"Progress - Ident : %@ (%.2f)", upinfo.ident, upinfo.uploadProgress];
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                upinfo.uploadProgress = (double) totalBytesSent / (double)totalBytesExpectedToSend;
+                NSString *message = [NSString stringWithFormat:@"Progress - Ident : %@ (%.2f)", upinfo.ident, upinfo.uploadProgress];
+                NSLog(message);
+            }];
+        } else {
+            NSString *message = [NSString stringWithFormat:@"Task Id %lu not found", (unsigned long)task.taskIdentifier];
             NSLog(message);
-        }];
+        }
     }
+    
+}
+
+
+-(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error   {
+    
+    int index=[self getFileUploadInfoIndexWithTaskIdentifier:task.taskIdentifier];
+    UTIUploadAudioInfo *upi = [self.arrFileUploadData objectAtIndex:index];
+    
+    if (error) {
+        NSLog(@"%@ upload failed", upi.ident);
+    } else {
+        NSLog(@"%@ upload succeeded", upi.ident);
+    }
+    // Also check http status code
+    NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
+    if ([response statusCode] >= 300) {
+        NSLog(@"Background transfer is failed, status code: %d", [response statusCode]);
+        return;
+    }
+    
+    NSLog(@"Background transfer is success");
     
 }
 
 
 -(int) getFileUploadInfoIndexWithTaskIdentifier:(unsigned long) taskIdentifier {
     int index=0;
+    
     for (int i=0; i<[self.arrFileUploadData count]; i++){
         UTIUploadAudioInfo *upinfo=[self.arrFileUploadData objectAtIndex:i];
         if (upinfo.taskIdentifier==taskIdentifier){
@@ -590,8 +633,24 @@
             break;
         }
     }
+    
     return  index;
 }
 
+
+-(BOOL) isExistFileUploadInfoWithTaskIdentifier:(unsigned long) taskIdentifier {
+
+    BOOL result=NO;
+    
+    for (int i=0; i<[self.arrFileUploadData count]; i++){
+        UTIUploadAudioInfo *upinfo=[self.arrFileUploadData objectAtIndex:i];
+        if (upinfo.taskIdentifier==taskIdentifier){
+            result=YES;
+        }
+    }
+    
+    return result;
+    
+}
 
 @end
