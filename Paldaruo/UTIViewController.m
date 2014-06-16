@@ -226,20 +226,6 @@
             
         } case RECORDING_SESSION_END: {
             
-            /*
-            [self.btnOutletMoveToNextRecordingState setHidden:YES];
-            [self.btnOutletRedoRecording setHidden:YES];
-            
-            [self.lblOutletSessionProgress setHidden:YES];
-            
-            NSString* userName=[[UTIDataStore sharedDataStore] activeUser].name;
-            
-            NSString* userGreeting = [NSString stringWithFormat:@"Diolch yn fawr iawn am gyfrannu dy lais %@!", userName];
-            
-            [[self lblOutletProfileName] setText:userGreeting];
-            [self.btnOutletBackToHome setHidden:NO];
-            */
-            
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self performSegueWithIdentifier:@"segue_ThankYouForContributing" sender:self];
             });

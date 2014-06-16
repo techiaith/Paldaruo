@@ -24,6 +24,7 @@
 		5C7C7FBD186E159A00E13FC0 /* PaldaruoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7C7FBC186E159A00E13FC0 /* PaldaruoTests.m */; };
 		5C7C7FC718720EB300E13FC0 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7C7FC618720EB300E13FC0 /* AVFoundation.framework */; };
 		5C7C7FC918720F6000E13FC0 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7C7FC818720F6000E13FC0 /* CoreAudio.framework */; };
+		5C833C17194F667C00CAA6D5 /* UTICompletionScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C833C16194F667C00CAA6D5 /* UTICompletionScreen.m */; };
 		5CA531811936714E007FDF83 /* UTIReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA531801936714E007FDF83 /* UTIReachability.m */; };
 		801ACF3F18E1D9BF00B85FC9 /* sarah_yn_paldaruo_llai.m4v in Resources */ = {isa = PBXBuildFile; fileRef = 801ACF3E18E1D9BF00B85FC9 /* sarah_yn_paldaruo_llai.m4v */; };
 		8020410A187EC8EE00C9A4F3 /* UTIPromptsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 80204109187EC8EE00C9A4F3 /* UTIPromptsTracker.m */; };
@@ -110,6 +111,8 @@
 		5C7C7FBC186E159A00E13FC0 /* PaldaruoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaldaruoTests.m; sourceTree = "<group>"; };
 		5C7C7FC618720EB300E13FC0 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5C7C7FC818720F6000E13FC0 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		5C833C15194F667C00CAA6D5 /* UTICompletionScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTICompletionScreen.h; sourceTree = "<group>"; };
+		5C833C16194F667C00CAA6D5 /* UTICompletionScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTICompletionScreen.m; sourceTree = "<group>"; };
 		5CA5317F1936714E007FDF83 /* UTIReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIReachability.h; sourceTree = "<group>"; };
 		5CA531801936714E007FDF83 /* UTIReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIReachability.m; sourceTree = "<group>"; };
 		801ACF3E18E1D9BF00B85FC9 /* sarah_yn_paldaruo_llai.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = sarah_yn_paldaruo_llai.m4v; sourceTree = "<group>"; };
@@ -253,6 +256,8 @@
 				5C7C7FA3186E159A00E13FC0 /* Main_iPad.storyboard */,
 				5C7C7FA6186E159A00E13FC0 /* UTIViewController.h */,
 				5C7C7FA7186E159A00E13FC0 /* UTIViewController.m */,
+				5C833C15194F667C00CAA6D5 /* UTICompletionScreen.h */,
+				5C833C16194F667C00CAA6D5 /* UTICompletionScreen.m */,
 				5C7C7FA9186E159A00E13FC0 /* Images.xcassets */,
 				CD4E563518E9098800DEDD53 /* Constants.h */,
 				5C7C7F95186E159A00E13FC0 /* Supporting Files */,
@@ -535,6 +540,7 @@
 				5C7C7F9B186E159A00E13FC0 /* main.m in Sources */,
 				CDC3152918E17FEA003A2440 /* (null) in Sources */,
 				8020410A187EC8EE00C9A4F3 /* UTIPromptsTracker.m in Sources */,
+				5C833C17194F667C00CAA6D5 /* UTICompletionScreen.m in Sources */,
 				806B502F18B64EB900851038 /* UTIFurtherInformationViewController.m in Sources */,
 				CDEF14D218E6B01B008CAD01 /* UTIUser.m in Sources */,
 				5CA531811936714E007FDF83 /* UTIReachability.m in Sources */,
