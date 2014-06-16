@@ -226,6 +226,7 @@
             
         } case RECORDING_SESSION_END: {
             
+            /*
             [self.btnOutletMoveToNextRecordingState setHidden:YES];
             [self.btnOutletRedoRecording setHidden:YES];
             
@@ -237,7 +238,14 @@
             
             [[self lblOutletProfileName] setText:userGreeting];
             [self.btnOutletBackToHome setHidden:NO];
+            */
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self performSegueWithIdentifier:@"segue_ThankYouForContributing" sender:self];
+            });
+            
             break;
+            
         }
             
             
