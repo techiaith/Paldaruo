@@ -273,10 +273,10 @@
             </objects>
             <point key="canvasLocation" x="1955" y="-913"/>
         </scene>
-        <!--Completion Screen-->
+        <!--Completion Screen View Controller-->
         <scene sceneID="TmT-0c-0D3">
             <objects>
-                <viewController id="Ipj-Rd-UGa" customClass="UTICompletionScreen" sceneMemberID="viewController">
+                <viewController id="Ipj-Rd-UGa" customClass="UTICompletionScreenViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BpQ-n0-u13">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -291,7 +291,7 @@
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="50"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Torfoli Corpws Adnabod Lleferydd Cymraeg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nAt-U9-49C">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Torfoli Corpws Adnabod Lleferydd Cymraeg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nAt-U9-49C" customClass="UTI">
                                 <rect key="frame" x="161" y="89" width="584" height="79"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <rect key="contentStretch" x="0.25" y="0.34999999999999998" width="1" height="1"/>

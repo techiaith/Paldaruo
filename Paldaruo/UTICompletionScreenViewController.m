@@ -6,17 +6,17 @@
 //  Copyright (c) 2014 Uned Technolegau Iaith. All rights reserved.
 //
 
-#import "UTICompletionScreen.h"
+#import "UTICompletionScreenViewController.h"
 #import "UTIDataStore.h"
 
-@interface UTICompletionScreen ()
+@interface UTICompletionScreenViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *lblOutletContributorName;
 - (IBAction)btnActionReturnToHomeScreen:(id)sender;
 
 @end
 
-@implementation UTICompletionScreen
+@implementation UTICompletionScreenViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

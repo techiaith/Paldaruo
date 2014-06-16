@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UTICompletionScreen : UIViewController
+@interface UTICompletionScreenViewController : UIViewController
 
 @end

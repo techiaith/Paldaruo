@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C15D5AD194FB1C900693225 /* UTICompletionScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C15D5AC194FB1C900693225 /* UTICompletionScreenViewController.m */; };
 		5C329B68194F45C000C25430 /* UTIDataStoreOffline.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C329B67194F45C000C25430 /* UTIDataStoreOffline.m */; };
 		5C7C7F8F186E159A00E13FC0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7C7F8E186E159A00E13FC0 /* Foundation.framework */; };
 		5C7C7F91186E159A00E13FC0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7C7F90186E159A00E13FC0 /* CoreGraphics.framework */; };
@@ -90,6 +91,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5C15D5AB194FB1C900693225 /* UTICompletionScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTICompletionScreenViewController.h; sourceTree = "<group>"; };
+		5C15D5AC194FB1C900693225 /* UTICompletionScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTICompletionScreenViewController.m; sourceTree = "<group>"; };
 		5C329B66194F45C000C25430 /* UTIDataStoreOffline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIDataStoreOffline.h; sourceTree = "<group>"; };
 		5C329B67194F45C000C25430 /* UTIDataStoreOffline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIDataStoreOffline.m; sourceTree = "<group>"; };
 		5C7C7F8B186E159A00E13FC0 /* Paldaruo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Paldaruo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -259,8 +262,8 @@
 				5C7C7FA3186E159A00E13FC0 /* Main_iPad.storyboard */,
 				5C7C7FA6186E159A00E13FC0 /* UTIViewController.h */,
 				5C7C7FA7186E159A00E13FC0 /* UTIViewController.m */,
-				5C833C15194F667C00CAA6D5 /* UTICompletionScreen.h */,
-				5C833C16194F667C00CAA6D5 /* UTICompletionScreen.m */,
+				5C15D5AB194FB1C900693225 /* UTICompletionScreenViewController.h */,
+				5C15D5AC194FB1C900693225 /* UTICompletionScreenViewController.m */,
 				5C7C7FA9186E159A00E13FC0 /* Images.xcassets */,
 				CD4E563518E9098800DEDD53 /* Constants.h */,
 				5C7C7F95186E159A00E13FC0 /* Supporting Files */,
@@ -552,11 +555,11 @@
 				5C7C7F9B186E159A00E13FC0 /* main.m in Sources */,
 				CDC3152918E17FEA003A2440 /* (null) in Sources */,
 				8020410A187EC8EE00C9A4F3 /* UTIPromptsTracker.m in Sources */,
-				5C833C17194F667C00CAA6D5 /* UTICompletionScreen.m in Sources */,
 				806B502F18B64EB900851038 /* UTIFurtherInformationViewController.m in Sources */,
 				CDEF14D218E6B01B008CAD01 /* UTIUser.m in Sources */,
 				5CA531811936714E007FDF83 /* UTIReachability.m in Sources */,
 				806B4FCC188D441100851038 /* UTIWelcomeViewController.m in Sources */,
+				5C15D5AD194FB1C900693225 /* UTICompletionScreenViewController.m in Sources */,
 				CD1020DC18E08F2200610EB2 /* (null) in Sources */,
 				5C7C7F9F186E159A00E13FC0 /* UTIAppDelegate.m in Sources */,
 				CDC3152618E17E45003A2440 /* (null) in Sources */,
