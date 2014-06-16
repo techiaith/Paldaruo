@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C329B68194F45C000C25430 /* UTIDataStoreOffline.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C329B67194F45C000C25430 /* UTIDataStoreOffline.m */; };
 		5C7C7F8F186E159A00E13FC0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7C7F8E186E159A00E13FC0 /* Foundation.framework */; };
 		5C7C7F91186E159A00E13FC0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7C7F90186E159A00E13FC0 /* CoreGraphics.framework */; };
 		5C7C7F93186E159A00E13FC0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7C7F92186E159A00E13FC0 /* UIKit.framework */; };
@@ -89,6 +90,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5C329B66194F45C000C25430 /* UTIDataStoreOffline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIDataStoreOffline.h; sourceTree = "<group>"; };
+		5C329B67194F45C000C25430 /* UTIDataStoreOffline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIDataStoreOffline.m; sourceTree = "<group>"; };
 		5C7C7F8B186E159A00E13FC0 /* Paldaruo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Paldaruo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C7C7F8E186E159A00E13FC0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5C7C7F90186E159A00E13FC0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -270,8 +273,9 @@
 				8020410B187EC9B200C9A4F3 /* UTIPrompt.h */,
 				8020410C187EC9B200C9A4F3 /* UTIPrompt.m */,
 				806B4FCD1897D01E00851038 /* UTIDataStore.h */,
-				CD32105518E6AE47009056EE /* UTIDataStore */,
 				806B4FCE1897D01E00851038 /* UTIDataStore.m */,
+				5C329B66194F45C000C25430 /* UTIDataStoreOffline.h */,
+				5C329B67194F45C000C25430 /* UTIDataStoreOffline.m */,
 				806B4FD0189BBE8200851038 /* UTINewProfileViewController.h */,
 				806B4FD1189BBE8200851038 /* UTINewProfileViewController.m */,
 				806B4FCA188D441100851038 /* UTIWelcomeViewController.h */,
@@ -292,6 +296,7 @@
 				8050D319193F12AF001491CE /* UTIAudioRecorderPlayer.m */,
 				5C84DA61194644B700FD04F8 /* UTIUploadAudioInfo.h */,
 				5C84DA62194644B700FD04F8 /* UTIUploadAudioInfo.m */,
+				CD32105518E6AE47009056EE /* UTIDataStore */,
 			);
 			path = Paldaruo;
 			sourceTree = "<group>";
@@ -562,6 +567,7 @@
 				806B503218BCED5000851038 /* UTIIntroductionScreenViewController.m in Sources */,
 				8050D31A193F12AF001491CE /* UTIAudioRecorderPlayer.m in Sources */,
 				806B504218D1D75A00851038 /* UTIAboutMyDataViewController.m in Sources */,
+				5C329B68194F45C000C25430 /* UTIDataStoreOffline.m in Sources */,
 				CDEF14D518E6B054008CAD01 /* UTIButton.m in Sources */,
 				806B4FCF1897D01E00851038 /* UTIDataStore.m in Sources */,
 				5C7C7FA8186E159A00E13FC0 /* UTIViewController.m in Sources */,

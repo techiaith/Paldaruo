@@ -10,6 +10,7 @@
 #import "UTIRequest.h"
 #import "UTIUploadAudioInfo.h"
 #import "UTIAppDelegate.h"
+#import "UTIDataStoreOffline.h"
 
 
 @implementation UTIDataStore
@@ -167,7 +168,11 @@
     NSURL *audioFileURL = [NSURL fileURLWithPath:audioFileTarget];
     //[NSTemporaryDirectory()stringByAppendingString:@"audioRecording.wav"]];
     
+#ifndef WIFI_OFFLINE_DEMO
     [self http_uploadAudioFile:uid identifier:ident filename:filename URL:audioFileURL sender:sender];
+#else
+    [UTIDataStoreOffline http_uploadAudioFile:uid identifier:ident filename:filename URL:audioFileURL sender:sender];
+#endif
     
 }
 
@@ -304,12 +309,12 @@
     [[NSFileManager defaultManager] copyItemAtPath:audioFileSource toPath:audioFileTarget error:nil];
     
     NSURL *audioFileURL = [NSURL fileURLWithPath:audioFileTarget];
-    
-    [self http_uploadAudioFile:uid
-                    identifier:identifier
-                      filename:filename
-                           URL:audioFileURL
-                        sender:sender];
+   
+#ifndef WIFI_OFFLINE_DEMO
+    [self http_uploadAudioFile:uid identifier:identifier filename:filename URL:audioFileURL sender:sender];
+#else
+    [UTIDataStoreOffline http_uploadAudioFile:uid identifier:identifier filename:filename URL:audioFileURL sender:sender];
+#endif
     
 }
 
@@ -390,32 +395,17 @@
     
 #else
     
-    [self http_offline_fetchOutstandingPrompts:prompts useridentifier:uid];
+    [UTIDataStoreOffline http_fetchOutstandingPrompts:prompts useridentifier:uid];
     
 #endif
     
 }
 
--(void) http_offline_fetchOutstandingPrompts:(UTIPromptsTracker*)prompts useridentifier:(NSString *)uid {
-    
-    NSArray *hardcodePrompts = [NSArray arrayWithObjects:
-                                @"hen gwlad tadau annwyl mi",
-                                @"tatws moron pys cig",
-                                @"gwyliau haul traeth tywod",
-                                nil];
-    
-    for (int x=0; x < hardcodePrompts.count; x++)
-    {
-        UTIPrompt *newPrompt = [[UTIPrompt alloc] init];
-        newPrompt.text = [hardcodePrompts objectAtIndex:x];
-        newPrompt.identifier = [NSString stringWithFormat:@"sample%d",x];
-        
-        [prompts addPromptForRecording:newPrompt];
-    }
-    
-}
 
 -(void) http_getMetadata: (NSString*) uid sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate, UTIErrorReporter>)sender{
+    
+    
+#ifndef WIFI_OFFLINE_DEMO
     
     UTIRequest *r = [UTIRequest new];
     r.requestPath = @"getMetadata";
@@ -483,11 +473,20 @@
     }];
     
     [r sendRequestAsync];
+    
+#else
+    
+    [UTIDataStoreOffline http_getMetadata:uid sender:sender];
+    
+#endif
+    
 }
 
 
 - (void)http_saveMetadata: (NSString*) uid sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender{
     
+#ifndef WIFI_OFFLINE_DEMO
+
     UTIRequest *r = [UTIRequest new];
     r.requestPath = @"saveMetadata";
     r.delegate = sender;
@@ -509,7 +508,11 @@
     [r addBodyString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"metadata\"\r\n\r\n%@", jsonString] withBoundary:NO];
 
     [r sendRequestAsync];
+#else
     
+    [UTIDataStoreOffline http_saveMetadata:uid sender:sender];
+
+#endif
 }
 
 
