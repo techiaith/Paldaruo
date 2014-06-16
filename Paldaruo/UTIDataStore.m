@@ -500,8 +500,10 @@
     
     if (error.code != -9999){
         
+        NSString *message = [NSString stringWithFormat:@"Roedd problem cysylltu. Gwiriwch ac ailgysylltu'ch dyfais i'r rhwydwaith ddiwifr cyn parhau. \n\n%@", [error localizedDescription]];
+        
         alert= [[UIAlertView alloc] initWithTitle:title
-                                          message:@"Roedd problem cysylltu. Gwiriwch ac ailgysylltu'ch dyfais i'r rhwydwaith ddiwifr cyn parhau"
+                                          message:message
                                          delegate:nil
                                 cancelButtonTitle:@"Iawn"
                                 otherButtonTitles:nil];
