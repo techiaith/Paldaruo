@@ -350,6 +350,8 @@
 
 
 -(void) http_fetchOutstandingPrompts:(UTIPromptsTracker*)prompts useridentifier:(NSString *)uid {
+
+#ifndef WIFI_OFFLINE_DEMO
     
     UTIRequest *r = [UTIRequest new];
     r.requestPath = @"getOutstandingPrompts";
@@ -386,8 +388,32 @@
     
     [r sendRequestSync];
     
+#else
+    
+    [self http_offline_fetchOutstandingPrompts:prompts useridentifier:uid];
+    
+#endif
+    
 }
 
+-(void) http_offline_fetchOutstandingPrompts:(UTIPromptsTracker*)prompts useridentifier:(NSString *)uid {
+    
+    NSArray *hardcodePrompts = [NSArray arrayWithObjects:
+                                @"hen gwlad tadau annwyl mi",
+                                @"tatws moron pys cig",
+                                @"gwyliau haul traeth tywod",
+                                nil];
+    
+    for (int x=0; x < hardcodePrompts.count; x++)
+    {
+        UTIPrompt *newPrompt = [[UTIPrompt alloc] init];
+        newPrompt.text = [hardcodePrompts objectAtIndex:x];
+        newPrompt.identifier = [NSString stringWithFormat:@"sample%d",x];
+        
+        [prompts addPromptForRecording:newPrompt];
+    }
+    
+}
 
 -(void) http_getMetadata: (NSString*) uid sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate, UTIErrorReporter>)sender{
     

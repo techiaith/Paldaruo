@@ -67,6 +67,8 @@ BOOL internetActive;
 
 -(void)networkStatusChanged:(NSNotification *)notice {
     
+#ifndef WIFI_OFFLINE_DEMO
+    
     NetworkStatus internetStatus = [internetReachable currentReachabilityStatus];
     NetworkStatus hostStatus = [hostReachable currentReachabilityStatus];
     NetworkStatus wifiStatus = [wifiReachable currentReachabilityStatus];
@@ -82,7 +84,7 @@ BOOL internetActive;
     if (existingInternetActive!=internetActive){
         
         if (internetActive==NO){
-        
+            
             // notify all observing viewcontrollers that the internet via wifi is down
             // (so that they can take action when in the middle of their interaction with the user
             //
@@ -98,6 +100,9 @@ BOOL internetActive;
         }
         
     }
+    
+#endif
+    
     
 }
 
@@ -115,6 +120,5 @@ BOOL internetActive;
 -(BOOL) isPaldaruoServerReachable{
     return internetActive;
 }
-
 
 @end

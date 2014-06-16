@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "Reachability.h"
 
+#define WIFI_OFFLINE_DEMO
+
 @class Reachability;
 
 @interface UTIReachability : NSObject {
