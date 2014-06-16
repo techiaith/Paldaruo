@@ -273,10 +273,10 @@
             </objects>
             <point key="canvasLocation" x="1955" y="-913"/>
         </scene>
-        <!--Completion Screen-->
+        <!--Completion Screen View Controller-->
         <scene sceneID="TmT-0c-0D3">
             <objects>
-                <viewController id="Ipj-Rd-UGa" customClass="UTICompletionScreen" sceneMemberID="viewController">
+                <viewController id="Ipj-Rd-UGa" customClass="UTICompletionScreenViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BpQ-n0-u13">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

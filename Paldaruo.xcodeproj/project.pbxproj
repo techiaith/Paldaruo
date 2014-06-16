@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C15D5B0194FB50100693225 /* UTICompletionScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C15D5AF194FB50100693225 /* UTICompletionScreenViewController.m */; };
 		5C329B68194F45C000C25430 /* UTIDataStoreOffline.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C329B67194F45C000C25430 /* UTIDataStoreOffline.m */; };
 		5C7C7F8F186E159A00E13FC0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7C7F8E186E159A00E13FC0 /* Foundation.framework */; };
 		5C7C7F91186E159A00E13FC0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7C7F90186E159A00E13FC0 /* CoreGraphics.framework */; };
@@ -76,7 +77,6 @@
 		CDC3152618E17E45003A2440 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		CDC3152918E17FEA003A2440 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		CDEF14D218E6B01B008CAD01 /* UTIUser.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEF14D118E6B01B008CAD01 /* UTIUser.m */; };
-		CDEF14D518E6B054008CAD01 /* UTIButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CDEF14D418E6B054008CAD01 /* UTIButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +90,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5C15D5AE194FB50100693225 /* UTICompletionScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTICompletionScreenViewController.h; sourceTree = "<group>"; };
+		5C15D5AF194FB50100693225 /* UTICompletionScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTICompletionScreenViewController.m; sourceTree = "<group>"; };
 		5C329B66194F45C000C25430 /* UTIDataStoreOffline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIDataStoreOffline.h; sourceTree = "<group>"; };
 		5C329B67194F45C000C25430 /* UTIDataStoreOffline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIDataStoreOffline.m; sourceTree = "<group>"; };
 		5C7C7F8B186E159A00E13FC0 /* Paldaruo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Paldaruo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -182,8 +184,6 @@
 		CD4E563518E9098800DEDD53 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		CDEF14D018E6B01B008CAD01 /* UTIUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIUser.h; sourceTree = "<group>"; };
 		CDEF14D118E6B01B008CAD01 /* UTIUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIUser.m; sourceTree = "<group>"; };
-		CDEF14D318E6B054008CAD01 /* UTIButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIButton.h; sourceTree = "<group>"; };
-		CDEF14D418E6B054008CAD01 /* UTIButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIButton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,45 +253,43 @@
 			isa = PBXGroup;
 			children = (
 				806B503618C887B200851038 /* External Classes */,
+				5C7C7F95186E159A00E13FC0 /* Supporting Files */,
+				5C7C7FA9186E159A00E13FC0 /* Images.xcassets */,
 				5C7C7F9D186E159A00E13FC0 /* UTIAppDelegate.h */,
 				5C7C7F9E186E159A00E13FC0 /* UTIAppDelegate.m */,
 				5C7C7FA0186E159A00E13FC0 /* Main_iPhone.storyboard */,
 				5C7C7FA3186E159A00E13FC0 /* Main_iPad.storyboard */,
+				806B503018BCED5000851038 /* UTIIntroductionScreenViewController.h */,
+				806B503118BCED5000851038 /* UTIIntroductionScreenViewController.m */,
+				806B502D18B64EB900851038 /* UTIFurtherInformationViewController.h */,
+				806B502E18B64EB900851038 /* UTIFurtherInformationViewController.m */,
+				806B4FCA188D441100851038 /* UTIWelcomeViewController.h */,
+				806B4FCB188D441100851038 /* UTIWelcomeViewController.m */,
+				806B503318C788C600851038 /* UTIAcceptTermsAndConditionsViewController.h */,
+				806B503418C788C600851038 /* UTIAcceptTermsAndConditionsViewController.m */,
+				806B4FD0189BBE8200851038 /* UTINewProfileViewController.h */,
+				806B4FD1189BBE8200851038 /* UTINewProfileViewController.m */,
+				806B504018D1D75A00851038 /* UTIAboutMyDataViewController.h */,
+				806B504118D1D75A00851038 /* UTIAboutMyDataViewController.m */,
 				5C7C7FA6186E159A00E13FC0 /* UTIViewController.h */,
 				5C7C7FA7186E159A00E13FC0 /* UTIViewController.m */,
-				5C833C15194F667C00CAA6D5 /* UTICompletionScreen.h */,
-				5C833C16194F667C00CAA6D5 /* UTICompletionScreen.m */,
-				5C7C7FA9186E159A00E13FC0 /* Images.xcassets */,
+				5C15D5AE194FB50100693225 /* UTICompletionScreenViewController.h */,
+				5C15D5AF194FB50100693225 /* UTICompletionScreenViewController.m */,
 				CD4E563518E9098800DEDD53 /* Constants.h */,
-				5C7C7F95186E159A00E13FC0 /* Supporting Files */,
-				CDEF14D318E6B054008CAD01 /* UTIButton.h */,
-				CDEF14D418E6B054008CAD01 /* UTIButton.m */,
-				CDEF14D018E6B01B008CAD01 /* UTIUser.h */,
-				CDEF14D118E6B01B008CAD01 /* UTIUser.m */,
-				CD32105718E6AEDB009056EE /* UTIRequest.h */,
-				CD32105818E6AEDB009056EE /* UTIRequest.m */,
-				80204108187EC8EE00C9A4F3 /* UTIPromptsTracker.h */,
-				80204109187EC8EE00C9A4F3 /* UTIPromptsTracker.m */,
-				8020410B187EC9B200C9A4F3 /* UTIPrompt.h */,
-				8020410C187EC9B200C9A4F3 /* UTIPrompt.m */,
 				806B4FCD1897D01E00851038 /* UTIDataStore.h */,
 				806B4FCE1897D01E00851038 /* UTIDataStore.m */,
 				5C329B66194F45C000C25430 /* UTIDataStoreOffline.h */,
 				5C329B67194F45C000C25430 /* UTIDataStoreOffline.m */,
-				806B4FD0189BBE8200851038 /* UTINewProfileViewController.h */,
-				806B4FD1189BBE8200851038 /* UTINewProfileViewController.m */,
-				806B4FCA188D441100851038 /* UTIWelcomeViewController.h */,
-				806B4FCB188D441100851038 /* UTIWelcomeViewController.m */,
+				80204108187EC8EE00C9A4F3 /* UTIPromptsTracker.h */,
+				80204109187EC8EE00C9A4F3 /* UTIPromptsTracker.m */,
+				CDEF14D018E6B01B008CAD01 /* UTIUser.h */,
+				CDEF14D118E6B01B008CAD01 /* UTIUser.m */,
+				8020410B187EC9B200C9A4F3 /* UTIPrompt.h */,
+				8020410C187EC9B200C9A4F3 /* UTIPrompt.m */,
 				806B4FD3189FE95300851038 /* UTIMetaDataField.h */,
 				806B4FD4189FE95300851038 /* UTIMetaDataField.m */,
-				806B502D18B64EB900851038 /* UTIFurtherInformationViewController.h */,
-				806B502E18B64EB900851038 /* UTIFurtherInformationViewController.m */,
-				806B503018BCED5000851038 /* UTIIntroductionScreenViewController.h */,
-				806B503118BCED5000851038 /* UTIIntroductionScreenViewController.m */,
-				806B503318C788C600851038 /* UTIAcceptTermsAndConditionsViewController.h */,
-				806B503418C788C600851038 /* UTIAcceptTermsAndConditionsViewController.m */,
-				806B504018D1D75A00851038 /* UTIAboutMyDataViewController.h */,
-				806B504118D1D75A00851038 /* UTIAboutMyDataViewController.m */,
+				CD32105718E6AEDB009056EE /* UTIRequest.h */,
+				CD32105818E6AEDB009056EE /* UTIRequest.m */,
 				5CA5317F1936714E007FDF83 /* UTIReachability.h */,
 				5CA531801936714E007FDF83 /* UTIReachability.m */,
 				8050D318193F12AF001491CE /* UTIAudioRecorderPlayer.h */,
@@ -552,11 +550,11 @@
 				5C7C7F9B186E159A00E13FC0 /* main.m in Sources */,
 				CDC3152918E17FEA003A2440 /* (null) in Sources */,
 				8020410A187EC8EE00C9A4F3 /* UTIPromptsTracker.m in Sources */,
-				5C833C17194F667C00CAA6D5 /* UTICompletionScreen.m in Sources */,
 				806B502F18B64EB900851038 /* UTIFurtherInformationViewController.m in Sources */,
 				CDEF14D218E6B01B008CAD01 /* UTIUser.m in Sources */,
 				5CA531811936714E007FDF83 /* UTIReachability.m in Sources */,
 				806B4FCC188D441100851038 /* UTIWelcomeViewController.m in Sources */,
+				5C15D5B0194FB50100693225 /* UTICompletionScreenViewController.m in Sources */,
 				CD1020DC18E08F2200610EB2 /* (null) in Sources */,
 				5C7C7F9F186E159A00E13FC0 /* UTIAppDelegate.m in Sources */,
 				CDC3152618E17E45003A2440 /* (null) in Sources */,
@@ -571,7 +569,6 @@
 				8050D31A193F12AF001491CE /* UTIAudioRecorderPlayer.m in Sources */,
 				806B504218D1D75A00851038 /* UTIAboutMyDataViewController.m in Sources */,
 				5C329B68194F45C000C25430 /* UTIDataStoreOffline.m in Sources */,
-				CDEF14D518E6B054008CAD01 /* UTIButton.m in Sources */,
 				806B4FCF1897D01E00851038 /* UTIDataStore.m in Sources */,
 				5C7C7FA8186E159A00E13FC0 /* UTIViewController.m in Sources */,
 			);
