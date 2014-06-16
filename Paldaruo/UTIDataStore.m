@@ -225,8 +225,8 @@
     // parameters. Efallai dylwn newid i ddefnyddio PUT a creu URL y lleoliad terfynol ar sail uid a ident a filename
     // ein hunain.
     
-    //NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/savePrompt";
-    NSString *urlString = @"http://127.0.0.1:8082/savePrompt";
+    NSString *urlString = @"http://paldaruo.techiaith.bangor.ac.uk/savePrompt";
+    //NSString *urlString = @"http://127.0.0.1:8082/savePrompt";
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:urlString]];
