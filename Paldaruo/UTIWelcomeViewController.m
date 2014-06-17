@@ -24,6 +24,11 @@
 {
     //self.dataStore=[[UTIDataStore alloc] init];
 
+    
+#ifdef WIFI_OFFLINE_DEMO
+    [self.btnOutletAddProfile setEnabled:NO];
+#endif
+    
 	// Do any additional setup after loading the view.
     self.picklistOutletExistingUsers.delegate = self;
     self.picklistOutletExistingUsers.dataSource = self;
