@@ -25,14 +25,25 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     
+    /*
     [self.btnOutletAccept setHidden:NO];
     [self.btnOutletReject setHidden:NO];
     
     // Disable the buttons until the T&Cs have fully loaded
     [self.btnOutletAccept setEnabled:NO];
     [self.btnOutletReject setEnabled:NO];
-
+    */
     [self.backButton setHidden:YES];
+    
+    
+    NSURL *url = [[NSBundle mainBundle] URLForResource:@"telerau_v1.0" withExtension:@"html"];
+    
+    NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
+    
+    [self.webViewOutletTermsAndConditionsText loadRequest:requestObj];
+    self.webViewOutletTermsAndConditionsText.delegate = self;
+    
+    /*
     NSString *urlAdress=@"http://paldaruo.techiaith.bangor.ac.uk/telerau_v1.0.html";
     
     NSURL *url = [NSURL URLWithString:urlAdress];
@@ -40,12 +51,13 @@
     
     [DejalActivityView activityViewForView:self.webViewOutletTermsAndConditionsText withLabel:nil];
     [self.webViewOutletTermsAndConditionsText loadRequest:requestObj];
+    */
     
 }
 
 
 #pragma mark WebView Delegate methods
-
+/*
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     
     [DejalActivityView removeView];
@@ -72,7 +84,7 @@
     [self.btnOutletReject setEnabled:YES];
     
 }
-
+*/
 - (IBAction)unwindToSegue:(id)sender {
     
     if (sender == self.backButton) {

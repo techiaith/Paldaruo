@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UTIAcceptTermsAndConditionsViewController : UIViewController
+@interface UTIAcceptTermsAndConditionsViewController : UIViewController <UIWebViewDelegate>
 
 @end

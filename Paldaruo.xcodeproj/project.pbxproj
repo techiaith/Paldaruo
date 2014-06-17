@@ -70,6 +70,7 @@
 		806B503F18CDEF7800851038 /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 806B503E18CDEF7800851038 /* about.html */; };
 		806B504218D1D75A00851038 /* UTIAboutMyDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B504118D1D75A00851038 /* UTIAboutMyDataViewController.m */; };
 		80B217BF195056AF003D12E5 /* logos4c.png in Resources */ = {isa = PBXBuildFile; fileRef = 80B217BE195056AF003D12E5 /* logos4c.png */; };
+		80B217C11950681B003D12E5 /* telerau_v1.0.html in Resources */ = {isa = PBXBuildFile; fileRef = 80B217C01950681B003D12E5 /* telerau_v1.0.html */; };
 		CD1020DC18E08F2200610EB2 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		CD32104F18E5E2E8009056EE /* (null) in Sources */ = {isa = PBXBuildFile; };
 		CD32105418E6ADFF009056EE /* DejalActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD32105318E6ADFF009056EE /* DejalActivityView.m */; };
@@ -178,6 +179,7 @@
 		806B504018D1D75A00851038 /* UTIAboutMyDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIAboutMyDataViewController.h; sourceTree = "<group>"; };
 		806B504118D1D75A00851038 /* UTIAboutMyDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIAboutMyDataViewController.m; sourceTree = "<group>"; };
 		80B217BE195056AF003D12E5 /* logos4c.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logos4c.png; sourceTree = "<group>"; };
+		80B217C01950681B003D12E5 /* telerau_v1.0.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = telerau_v1.0.html; sourceTree = "<group>"; };
 		CD32105218E6ADFF009056EE /* DejalActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DejalActivityView.h; path = Externals/DejalActivityView/DejalActivityView.h; sourceTree = "<group>"; };
 		CD32105318E6ADFF009056EE /* DejalActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DejalActivityView.m; path = Externals/DejalActivityView/DejalActivityView.m; sourceTree = "<group>"; };
 		CD32105518E6AE47009056EE /* UTIDataStore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UTIDataStore; sourceTree = "<group>"; };
@@ -391,6 +393,7 @@
 		806B503D18CDEF0300851038 /* HTML */ = {
 			isa = PBXGroup;
 			children = (
+				80B217C01950681B003D12E5 /* telerau_v1.0.html */,
 				806B503E18CDEF7800851038 /* about.html */,
 			);
 			name = HTML;
@@ -523,6 +526,7 @@
 				8021ACA2187C4F7C0069B508 /* logoprifysgolbangor.gif in Resources */,
 				CD32105618E6AE48009056EE /* UTIDataStore in Resources */,
 				8021AC9C187C44770069B508 /* logos4c.jpeg in Resources */,
+				80B217C11950681B003D12E5 /* telerau_v1.0.html in Resources */,
 				806B500D18AE41BC00851038 /* AppIcon29x29.png in Resources */,
 				806B501818AE41BC00851038 /* AppIcon72x72@2x.png in Resources */,
 				806B501A18AE41BC00851038 /* AppIcon76x76@2x.png in Resources */,
