@@ -376,7 +376,7 @@
     [self btnMoveToNextRecordingState:(self)];
 
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Terfyn amser recordio"
-                                                    message:@"Wnaethoch chi anghofio pwyso 'Gorffen Recordio' ar ddiwedd darllen y testun? Pwyswch 'Cychwyn Recordio' i recordio'r testun eto."
+                                                    message:@"\nWnaethoch chi anghofio pwyso 'Gorffen Recordio' ar ddiwedd darllen y testun? \n\nPwyswch 'Cychwyn Recordio' i recordio'r testun eto."
                                                    delegate:nil
                                           cancelButtonTitle:@"Iawn"
                                           otherButtonTitles:nil];

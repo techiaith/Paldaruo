@@ -119,9 +119,9 @@
     NSString *message;
     
     if ([self.audio areLevelsTooQuiet]){
-        message = [NSString stringWithFormat:@"Gwych! Mae'r sŵn cefndir yn ddigon distaw ar gyfer recordio. Pwyswch ar Ymlaen i ddechrau recordio."];//,[self.audio getPeakPower]];
+        message = [NSString stringWithFormat:@"\nGwych! Mae'r sŵn cefndir yn ddigon distaw ar gyfer recordio. \n\n Pwyswch ar Ymlaen i ddechrau recordio."];//,[self.audio getPeakPower]];
     } else {
-        message = [NSString stringWithFormat:@"O diar. Mae gormod o sŵn cefndir i ni dderbyn recordiadau da. Symudwch i fan distawach cyn profi eto, neu pwyswch Ymlaen i recordio beth bynnag."];//,[self.audio getPeakPower]];
+        message = [NSString stringWithFormat:@"\nO diar. Mae gormod o sŵn cefndir i ni dderbyn recordiadau da. \n\n Symudwch i fan distawach cyn profi eto, neu pwyswch Ymlaen i recordio beth bynnag."];//,[self.audio getPeakPower]];
     }
     //@PRAWF
     UIAlertView *messageView = [[UIAlertView alloc] initWithTitle:@"Profi lefelau sŵn cefndir"
