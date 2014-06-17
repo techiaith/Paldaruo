@@ -13,10 +13,16 @@
 
 + (void)http_fetchOutstandingPrompts:(UTIPromptsTracker *)prompts useridentifier:(NSString *)ident {
     
-    
     NSDictionary *json = @{@"response":@[
-                                       @{@"identifier":@"sample1", @"text":@"HEN GWLAD TADAU ANNWYL MI"},
-                                       @{@"identifier":@"sample2", @"text":@"TATWS BLODAU MORON MEFUS"}
+                                       @{@"identifier":@"sample1", @"text":@"lleuad, melyn, aelodau, siarad, ffordd, ymlaen, cefnogaeth, Helen"},
+                                       @{@"identifier":@"sample2", @"text":@"gwraig, oren, diwrnod, gwaith, mewn, eisteddfod, disgownt, iddo"},
+                                       @{@"identifier":@"sample3", @"text":@"oherwydd, Elliw, awdurdod, blynyddoedd, gwlad, tywysog, llyw, uwch"},
+                                       @{@"identifier":@"sample4", @"text":@"rhybuddio, Elen, uwchraddio, hwnnw, beic, Cymru, rhoi, aelod"},
+                                       @{@"identifier":@"sample5", @"text":@"rhai, steroid, cefnogaeth, felen, cau, garej, angau, ymhlith"},
+                                       @{@"identifier":@"sample6", @"text":@"gwneud, iawn, un, dweud, llais, wedi, gyda, llyn"},
+                                       @{@"identifier":@"sample7", @"text":@"lliw, yng Nghymru, gwneud, rownd, ychydig, wy, yn, llaes"},
+                                       @{@"identifier":@"sample8", @"text":@"hyn, newyddion, ar, roedd, pan, llun, melin, sychu"},
+                                       @{@"identifier":@"sample9", @"text":@"ychydig, glin, wrth, Huw, at, nhw, bod, bydd"}
                                        ]
                            };
     
