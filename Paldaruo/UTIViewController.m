@@ -307,16 +307,19 @@
     [self.audio playAudio];
     
     NSString *message;
-    
+
     if ([self.audio areLevelsOk]){
-        message = [NSString stringWithFormat:@"Da Iawn! Lefel sain da."];
+        message = [NSString stringWithFormat:@"Gwych! Lefel sain da."];
     } else if ([self.audio areLevelsTooLoud]){
-        message = [NSString stringWithFormat:@"O diar. Rhy swnllyd."];
+        if (IS_IPHONE)
+            message = [NSString stringWithFormat:@"Rhy swnllyd."];
+        else
+            message = [NSString stringWithFormat:@"Rhy swnllyd.\n Peidiwch gweiddi na dal y ddyfais yn rhy agos."];
     } else if ([self.audio areLevelsTooQuiet]){
         if (IS_IPHONE)
-            message = [NSString stringWithFormat:@"O diar. Rhy dawel."];
+            message = [NSString stringWithFormat:@"Rhy dawel."];
         else
-            message = [NSString stringWithFormat:@"O diar. Rhy dawel."];
+            message = [NSString stringWithFormat:@"Rhy dawel.\n Siaradwch yn uwch neu daliwch y ddyfais yn agosach."];
     }
     
     //= [NSString stringWithFormat:@"Chwarae yn ôl (average: %f, peak: %f)",
@@ -340,7 +343,7 @@
         
         if (fetchError==nil){
             
-            self.lblOutletNextPrompt.text=@"Dim byd ar ôl";
+            self.lblOutletNextPrompt.text=@"";
             currentRecordingStatus = RECORDING_SESSION_END;
             [self btnMoveToNextRecordingState:self];
             return NO;
@@ -371,9 +374,9 @@
 -(void) audioRecordingDidTimeout {
     currentRecordingStatus=RECORDING_TIMEDOUT;
     [self btnMoveToNextRecordingState:(self)];
-    
+
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Terfyn amser recordio"
-                                                    message:@"Ydych chi wedi anghofio pwyso 'Gorffen Recordio' ar ddiwedd darllen y testun? Pwyswch 'Cychwyn Redordio' i geisio recordio'r testun eto."
+                                                    message:@"Wnaethoch chi anghofio pwyso 'Gorffen Recordio' ar ddiwedd darllen y testun? Pwyswch 'Cychwyn Recordio' i recordio'r testun eto."
                                                    delegate:nil
                                           cancelButtonTitle:@"Iawn"
                                           otherButtonTitles:nil];

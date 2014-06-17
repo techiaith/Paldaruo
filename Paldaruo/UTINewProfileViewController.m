@@ -157,9 +157,9 @@
         NSString __block *errorText = nil;
         
         if ([[newUserName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] == 0) {
-            errorText = @"Rhaid rhoi enw i'r proffil";
+            errorText = @"Rhaid rhoi enw i'r proffil.";
         } else if ([[UTIDataStore sharedDataStore] userForName:newUserName]) {
-            errorText = @"Mae proffil gyda'r enw yma'n bodoli eisioes";
+            errorText = @"Mae proffil gyda'r enw yma eisioes yn bodoli.";
         } else {
             // The new user (if created) is automatically made the active user
             [self.txtBoxNewProfileName resignFirstResponder];
@@ -332,10 +332,10 @@
         
         [self.btnOutletNextQuestion setHidden:YES];
         [self.btnOutletStartSession setHidden:NO];
-        
+        //@PRAWF
         [self.lblOutletMetaDataField_Title setText:@"Cwblhau Creu Proffil"];
         [self.lblOutletMetaDataField_Question setText:@"Cliciwch ar Cychwyn i ddechrau recordio."];
-        [self.lblOutletMetaDataField_Explanation setText:@"Neu cliciwch Blaenorol i newid ateb unrhyw cwestiwn."];
+        [self.lblOutletMetaDataField_Explanation setText:@"neu cliciwch Blaenorol i newid ateb unrhyw cwestiwn."];
         
         //[self.lblOutletMetaDataField_Title setHidden:YES];
         //[self.lblOutletMetaDataField_Question setHidden:YES];

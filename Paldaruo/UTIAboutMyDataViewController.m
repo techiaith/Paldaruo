@@ -79,13 +79,15 @@
 }
 
 
+#define BACKGROUND_TEST_DURATION 5.0
+
 - (IBAction)btnActionTestBackgroundSound:(id)sender {
     
     [self.btnOutletTestBackgroundSound setEnabled:NO];
     [self.audio recordAudio];
     [self.btnOutletUnwindToHome setEnabled:NO];
     
-    [NSTimer scheduledTimerWithTimeInterval:10.0
+    [NSTimer scheduledTimerWithTimeInterval:BACKGROUND_TEST_DURATION
                                      target:self
                                    selector:@selector(testbackgroundSoundDidComplete)
                                    userInfo:nil
@@ -117,11 +119,11 @@
     NSString *message;
     
     if ([self.audio areLevelsTooQuiet]){
-        message = [NSString stringWithFormat:@"Gwych! Mae'r sŵn cefndir yn ddigon distaw ar gyfer recordio (%f)",[self.audio getPeakPower]];
+        message = [NSString stringWithFormat:@"Gwych! Mae'r sŵn cefndir yn ddigon distaw ar gyfer recordio. Pwyswch ar Ymlaen i ddechrau recordio."];//,[self.audio getPeakPower]];
     } else {
-        message = [NSString stringWithFormat:@"O diar. Mae na ormod o sŵn cefndir ar gyfer i ni dderbyn recordiadau da. Symudwch i man ddistawach cyn profi eto neu Ymlaen . Diolch yn fawr.(%f)",[self.audio getPeakPower]];
+        message = [NSString stringWithFormat:@"O diar. Mae gormod o sŵn cefndir i ni dderbyn recordiadau da. Symudwch i fan distawach cyn profi eto, neu pwyswch Ymlaen i recordio beth bynnag."];//,[self.audio getPeakPower]];
     }
-    
+    //@PRAWF
     UIAlertView *messageView = [[UIAlertView alloc] initWithTitle:@"Profi lefelau sŵn cefndir"
                                                           message:message
                                                          delegate:nil
