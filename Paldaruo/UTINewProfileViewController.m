@@ -306,17 +306,19 @@
         if (localCopyNextMetaDataField.isText==YES){
             
             [self.pickerViewOutletMetaDataOption setHidden:YES];
-            
             [self.textFieldOutletMetaDataFreeText setHidden:NO];
             [self.textFieldOutletMetaDataFreeText becomeFirstResponder];
+            [self.textFieldOutletMetaDataFreeText setText:localCopyNextMetaDataField.value];
             
         } else {
             
             [self.view endEditing:YES];
             [self.textFieldOutletMetaDataFreeText setHidden:YES];
-            
             [self.pickerViewOutletMetaDataOption setHidden:NO];
             [self.pickerViewOutletMetaDataOption reloadAllComponents];
+            [self.pickerViewOutletMetaDataOption selectRow:localCopyNextMetaDataField.selectedOptionIndex
+                                               inComponent:0
+                                                  animated:NO];
             
         }
         
