@@ -708,6 +708,7 @@ Tapiwch 'Ychwanegu proffil' er mwyn creu un newydd</string>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
+                                    <action selector="btnActionStartSession:" destination="Hbt-l3-TWf" eventType="touchUpInside" id="C7t-Wi-fNj"/>
                                     <segue destination="08T-CN-MIq" kind="push" identifier="segue_StartRecording" id="rr4-Em-hU8"/>
                                 </connections>
                             </button>
