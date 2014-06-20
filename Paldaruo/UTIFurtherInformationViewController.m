@@ -76,7 +76,8 @@
 
 - (IBAction)btnVideoPlay:(id)sender {
     
-    NSURL *movieURL = [[NSBundle mainBundle] URLForResource:@"sarah_yn_paldaruo_llai" withExtension:@".m4v"];
+    //NSURL *movieURL = [[NSBundle mainBundle] URLForResource:@"sarah_yn_paldaruo_llai" withExtension:@".m4v"];
+    NSURL *movieURL = [[NSBundle mainBundle] URLForResource:@"paldaruo_20140620_480_ipad" withExtension:@".m4v"];
     _moviePlayerController = [[MPMoviePlayerViewController alloc] initWithContentURL:movieURL];
 
     
