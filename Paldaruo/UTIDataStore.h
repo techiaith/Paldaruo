@@ -31,7 +31,6 @@
 @property (nonatomic, retain) NSArray *metaDataFields;
 
 @property (nonatomic, strong) NSURLSession *session;
-@property (nonatomic, strong) NSMutableArray *arrFileUploadData;
 
 - (UTIUser *)userAtIndex:(NSUInteger)idx;
 - (UTIUser *)userForName:(NSString *)name;

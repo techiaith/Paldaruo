@@ -8,7 +8,6 @@
 
 #import "UTIDataStore.h"
 #import "UTIRequest.h"
-#import "UTIUploadAudioInfo.h"
 #import "UTIAppDelegate.h"
 #import "UTIDataStoreOffline.h"
 
@@ -49,7 +48,7 @@
             
         }
         
-        self.arrFileUploadData = [[NSMutableArray alloc] init];
+        //self.arrFileUploadData = [[NSMutableArray alloc] init];
         
         NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration backgroundSessionConfiguration:@"uk.ac.bangor.techiaith.paldaruo"];
         sessionConfiguration.HTTPMaximumConnectionsPerHost = 1;
@@ -240,13 +239,9 @@
     [request setValue:[NSString stringWithFormat:@"%@", uid] forHTTPHeaderField:@"uid"];
     [request setValue:[NSString stringWithFormat:@"%@", ident] forHTTPHeaderField:@"promptId"];
     
-    UTIUploadAudioInfo *newUploadTask = [[UTIUploadAudioInfo alloc] initWithUid:uid andUploadSource:audioFileURL andIdent:ident];
-    [self.arrFileUploadData addObject:newUploadTask];
-    
-    newUploadTask.uploadTask = [self.session uploadTaskWithRequest:request fromFile:audioFileURL];
-    newUploadTask.taskIdentifier = newUploadTask.uploadTask.taskIdentifier;
-    
-    [newUploadTask.uploadTask resume];
+    NSURLSessionUploadTask *newUploadTask = [self.session uploadTaskWithRequest:request fromFile:audioFileURL];
+    newUploadTask.taskDescription=[NSString stringWithFormat:@"%@!%@",uid, ident];
+    [newUploadTask resume];
     
 }
 
@@ -257,7 +252,7 @@
                             error:(NSError *)error {
     
     //
-    if (error== nil) {
+    if (error==nil) {
         
         //NSString *logMessage = [NSString stringWithFormat:@"handleResponseUploadAudio ident:%@ uploadCount:%lu",filename,(unsigned long)[self.currentOutstandingUploads count]];
         //NSLog(logMessage);
@@ -566,18 +561,24 @@
     
 }
 
+-(void)listOutstandingSessionUploads {
+    
+    [self.session getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
+        
+        for (int i=0; i < uploadTasks.count;i++){
+            NSURLSessionUploadTask *nu=[uploadTasks objectAtIndex:i];
+            NSLog(@"Session task : %@", nu.taskDescription);
+        }
+    }];
+    
+}
 
 
 -(void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
     
-    if ([self isExistFileUploadInfoWithTaskIdentifier:dataTask.taskIdentifier]){
-        int index = [self getFileUploadInfoIndexWithTaskIdentifier:dataTask.taskIdentifier];
-        UTIUploadAudioInfo *upinfo = [self.arrFileUploadData objectAtIndex:index];
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            NSString *message = [NSString stringWithFormat:@"Completed - Ident : %@ ", upinfo.ident];
-            NSLog(message);
-        }];
-    }
+    NSString *message = [NSString stringWithFormat:@"Completed Task : %@ ", dataTask.taskDescription];
+    NSLog(message);
+    
 }
 
 
@@ -588,20 +589,9 @@
         NSLog(@"Unknown upload size");
     }
     else {
-    
-        if ([self isExistFileUploadInfoWithTaskIdentifier:task.taskIdentifier]){
-            int index = [self getFileUploadInfoIndexWithTaskIdentifier:task.taskIdentifier];
-            UTIUploadAudioInfo *upinfo = [self.arrFileUploadData objectAtIndex:index];
-    
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                upinfo.uploadProgress = (double) totalBytesSent / (double)totalBytesExpectedToSend;
-                NSString *message = [NSString stringWithFormat:@"Progress - Ident : %@ (%.2f)", upinfo.ident, upinfo.uploadProgress];
-                NSLog(message);
-            }];
-        } else {
-            NSString *message = [NSString stringWithFormat:@"Task Id %lu not found", (unsigned long)task.taskIdentifier];
-            NSLog(message);
-        }
+        double progress = (double) totalBytesSent / (double) totalBytesExpectedToSend;
+        NSString *message = [NSString stringWithFormat:@"Progress - : %@ (%.2f)", task.taskDescription, progress];
+        NSLog(message);
     }
     
 }
@@ -611,22 +601,27 @@
     
     NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
     
-    if ([response statusCode] >= 300) {
-        NSLog(@"Background transfer is failed, status code: %d", [response statusCode]);
-        return;
+    if ([response statusCode] != 200) {
+        NSLog(@"Background transfer is failed, http status code: %d", [response statusCode]);
+        error = [NSError errorWithDomain:@"uk.ac.bangor.techiaith.paldaruo"
+                                    code:-9999
+                                userInfo:@{NSLocalizedDescriptionKey:@"Gwall cyffredinol gyda gweinydd Paldaruo"}];
     }
+
+    NSArray *taskDescriptionFields = [task.taskDescription componentsSeparatedByString:@"!"];
     
-    NSDictionary* headers = [response allHeaderFields];
-    NSString *filename = headers[@"fileId"];
-    NSString *uid = headers[@"uid"];
+    NSString *uid = [taskDescriptionFields objectAtIndex:0];
+    NSString *filename = [NSString stringWithFormat:@"%@.wav", [taskDescriptionFields objectAtIndex:1]];
     
     [self handleResponseUploadAudio:uid audioFileName:filename response:response error:error];
     
-    NSLog(@"Background transfer is success");
+    NSString *message = [NSString stringWithFormat:@"uid:%@ filename:%@ ", filename, uid];
+    NSLog(@"Background transfer is success %@",message);
     
 }
 
-
+/*
+ // NOT SURE WHAT TO DO WITH THIS......
 - (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session {
     
     NSLog(@"URLSessionDidFinishEventsForBackgroundURLSession");
@@ -640,37 +635,7 @@
     
     NSLog(@"All tasks are finished");
 }
+*/
 
-
-
--(int) getFileUploadInfoIndexWithTaskIdentifier:(unsigned long) taskIdentifier {
-    int index=0;
-    
-    for (int i=0; i<[self.arrFileUploadData count]; i++){
-        UTIUploadAudioInfo *upinfo=[self.arrFileUploadData objectAtIndex:i];
-        if (upinfo.taskIdentifier==taskIdentifier){
-            index=i;
-            break;
-        }
-    }
-    
-    return  index;
-}
-
-
--(BOOL) isExistFileUploadInfoWithTaskIdentifier:(unsigned long) taskIdentifier {
-
-    BOOL result=NO;
-    
-    for (int i=0; i<[self.arrFileUploadData count]; i++){
-        UTIUploadAudioInfo *upinfo=[self.arrFileUploadData objectAtIndex:i];
-        if (upinfo.taskIdentifier==taskIdentifier){
-            result=YES;
-        }
-    }
-    
-    return result;
-    
-}
 
 @end

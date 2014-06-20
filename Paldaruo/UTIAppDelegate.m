@@ -64,14 +64,15 @@
 
 
 - (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier
-  completionHandler:(void (^)())completionHandler {
+                                                                   completionHandler:(void (^)())completionHandler {
     
     self.backgroundSessionCompletionHandler = completionHandler;
+    NSLog(@"handleEventsForBackgroundURLSession initiated");
     
-    //add notification
-    //[self presentNotification];
 }
 
+
+/*
 -(void)presentNotification{
     
     UILocalNotification* localNotification = [[UILocalNotification alloc] init];
@@ -86,5 +87,6 @@
     
     [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
 }
+*/
 
 @end
