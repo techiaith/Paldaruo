@@ -76,6 +76,39 @@
 
 - (IBAction)btnVideoPlay:(id)sender {
     
+    
+    if ([[UTIReachability instance] isPaldaruoServerReachable]){
+        
+        [YTVimeoExtractor fetchVideoURLFromURL:@"https://vimeo.com/98728429"
+                                       quality:YTVimeoVideoQualityMedium
+                             completionHandler:^(NSURL *videoURL, NSError *error, YTVimeoVideoQuality quality)
+         {
+             if (error) {
+                 
+                 // handle error
+                 NSLog(@"Video URL: %@", [videoURL absoluteString]);
+                 
+                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Fideo Paldaruo"
+                                                                 message: @"Mae problem gyda'r wasanaeth fideo."
+                                                                delegate: nil
+                                                       cancelButtonTitle: @"Iawn"
+                                                       otherButtonTitles: nil];
+                 [alert show];
+
+                 
+             } else {
+                 // run player
+                 self.moviePlayerController = [[MPMoviePlayerViewController alloc] initWithContentURL:videoURL];
+                 [self.moviePlayerController.moviePlayer prepareToPlay];
+                 [self presentViewController:self.moviePlayerController animated:YES completion:nil];
+             }
+         }];
+        
+    } else {
+        [[UTIReachability instance] showAppServerUnreachableAlert];
+    }
+    
+    /*
     //NSURL *movieURL = [[NSBundle mainBundle] URLForResource:@"sarah_yn_paldaruo_llai" withExtension:@".m4v"];
     NSURL *movieURL = [[NSBundle mainBundle] URLForResource:@"paldaruo_20140620_480_ipad" withExtension:@".m4v"];
     _moviePlayerController = [[MPMoviePlayerViewController alloc] initWithContentURL:movieURL];
@@ -102,6 +135,7 @@
     // Start playback
     [_moviePlayerController.moviePlayer prepareToPlay];
     [_moviePlayerController.moviePlayer play];
+    */
     
 }
 

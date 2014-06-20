@@ -35,7 +35,7 @@
 		8021ACA2187C4F7C0069B508 /* logoprifysgolbangor.gif in Resources */ = {isa = PBXBuildFile; fileRef = 8021ACA1187C4F7C0069B508 /* logoprifysgolbangor.gif */; };
 		8021ACA4187C50CE0069B508 /* uti-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 8021ACA3187C50CE0069B508 /* uti-logo.png */; };
 		8050D31A193F12AF001491CE /* UTIAudioRecorderPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8050D319193F12AF001491CE /* UTIAudioRecorderPlayer.m */; };
-		805220991954519600E78B91 /* paldaruo_20140620_480_ipad.m4v in Resources */ = {isa = PBXBuildFile; fileRef = 805220981954519600E78B91 /* paldaruo_20140620_480_ipad.m4v */; };
+		8052209D19545A9200E78B91 /* YTVimeoExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 8052209C19545A9200E78B91 /* YTVimeoExtractor.m */; };
 		806B4FCC188D441100851038 /* UTIWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B4FCB188D441100851038 /* UTIWelcomeViewController.m */; };
 		806B4FCF1897D01E00851038 /* UTIDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B4FCE1897D01E00851038 /* UTIDataStore.m */; };
 		806B4FD2189BBE8200851038 /* UTINewProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806B4FD1189BBE8200851038 /* UTINewProfileViewController.m */; };
@@ -130,7 +130,8 @@
 		8021ACA3187C50CE0069B508 /* uti-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uti-logo.png"; sourceTree = "<group>"; };
 		8050D318193F12AF001491CE /* UTIAudioRecorderPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIAudioRecorderPlayer.h; sourceTree = "<group>"; };
 		8050D319193F12AF001491CE /* UTIAudioRecorderPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIAudioRecorderPlayer.m; sourceTree = "<group>"; };
-		805220981954519600E78B91 /* paldaruo_20140620_480_ipad.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = paldaruo_20140620_480_ipad.m4v; sourceTree = "<group>"; };
+		8052209B19545A9200E78B91 /* YTVimeoExtractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTVimeoExtractor.h; sourceTree = "<group>"; };
+		8052209C19545A9200E78B91 /* YTVimeoExtractor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTVimeoExtractor.m; sourceTree = "<group>"; };
 		806B4FCA188D441100851038 /* UTIWelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIWelcomeViewController.h; sourceTree = "<group>"; };
 		806B4FCB188D441100851038 /* UTIWelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTIWelcomeViewController.m; sourceTree = "<group>"; };
 		806B4FCD1897D01E00851038 /* UTIDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTIDataStore.h; sourceTree = "<group>"; };
@@ -304,7 +305,6 @@
 		5C7C7F95186E159A00E13FC0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				805220981954519600E78B91 /* paldaruo_20140620_480_ipad.m4v */,
 				80B217BE195056AF003D12E5 /* logos4c.png */,
 				806B503D18CDEF0300851038 /* HTML */,
 				806B502918B3A27900851038 /* 150px-S4C_logo.svg.png */,
@@ -338,6 +338,15 @@
 				5C7C7FB9186E159A00E13FC0 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8052209A19545A4E00E78B91 /* YTVimeoExtractor */ = {
+			isa = PBXGroup;
+			children = (
+				8052209B19545A9200E78B91 /* YTVimeoExtractor.h */,
+				8052209C19545A9200E78B91 /* YTVimeoExtractor.m */,
+			);
+			name = YTVimeoExtractor;
 			sourceTree = "<group>";
 		};
 		806B4FFC18AE419200851038 /* AppIcons */ = {
@@ -379,6 +388,7 @@
 		806B503618C887B200851038 /* External Classes */ = {
 			isa = PBXGroup;
 			children = (
+				8052209A19545A4E00E78B91 /* YTVimeoExtractor */,
 				CD32105118E6ADF5009056EE /* DejalActivityView */,
 				CD32105018E6ADE4009056EE /* Reachability */,
 			);
@@ -503,7 +513,6 @@
 				806B501618AE41BC00851038 /* AppIcon60x60@2x.png in Resources */,
 				806B500F18AE41BC00851038 /* AppIcon40x40.png in Resources */,
 				8021ACA0187C456B0069B508 /* bangor_header_crest.jpg in Resources */,
-				805220991954519600E78B91 /* paldaruo_20140620_480_ipad.m4v in Resources */,
 				806B502418AE53CF00851038 /* README.md in Resources */,
 				806B501118AE41BC00851038 /* AppIcon50x50.png in Resources */,
 				806B501918AE41BC00851038 /* AppIcon76x76.png in Resources */,
@@ -567,6 +576,7 @@
 				806B503518C788C600851038 /* UTIAcceptTermsAndConditionsViewController.m in Sources */,
 				CD32105418E6ADFF009056EE /* DejalActivityView.m in Sources */,
 				8020410D187EC9B200C9A4F3 /* UTIPrompt.m in Sources */,
+				8052209D19545A9200E78B91 /* YTVimeoExtractor.m in Sources */,
 				CD32105918E6AEDB009056EE /* UTIRequest.m in Sources */,
 				806B503218BCED5000851038 /* UTIIntroductionScreenViewController.m in Sources */,
 				8050D31A193F12AF001491CE /* UTIAudioRecorderPlayer.m in Sources */,

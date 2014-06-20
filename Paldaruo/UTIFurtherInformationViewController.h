@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YTVimeoExtractor.h"
 
 @interface UTIFurtherInformationViewController : UIViewController <UIWebViewDelegate>
 
