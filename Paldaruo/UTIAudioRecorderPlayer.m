@@ -30,6 +30,7 @@
         
         AVAudioSession *session = [AVAudioSession sharedInstance];
         [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+        [session overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
         
         self.audioRecorder = [[AVAudioRecorder alloc]
                               initWithURL:audioFileURL
@@ -107,8 +108,10 @@
     float peak = [self.audioRecorder peakPowerForChannel:0];
     
     lastAverageDbLevel=average;
-    if (peak>maximumDbLevel)
+    if (peak>maximumDbLevel){
         maximumDbLevel=peak;
+        NSLog(@"Maximum Peak %f", powf(10.f, maximumDbLevel/20.f));
+    }
     
 }
 
