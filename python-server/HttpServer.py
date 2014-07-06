@@ -21,12 +21,12 @@ class AuthError(Exception):
 class TorfRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     
     def do_GET(self):
-        htmlFile='test.html'
-        print self.path;
-
         if self.path == '/telerau_v1.0.html':
-            htmlFile='telerau_v1.0.html'            
-        elif self.path != '/':
+            htmlFile = 'telerau_v1.0.html'            
+        #elif self.path == '/test.html':
+        #    htmlFile = 'test.html'
+        else:
+            print "Not found: %r" % (self.path,)
             self.send_response(404)
             self.end_headers()
             self.wfile.close()
@@ -129,6 +129,8 @@ class TorfRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         if not re.match(r"^[-0-9A-Za-z_]+$", uid):
             raise ValueError("Invalid uid: %r" % uid)
         userDir = os.path.join(self.server.storeDir, uid)
+        if not os.path.isdir(userDir):
+            os.mkdir(userDir)
         allIds = set(p["identifier"] for p in Prompts.PROMPTS)
         completedIds = set(os.path.splitext(x)[0] for x in os.listdir(userDir))
         outstandingIds = allIds - completedIds
