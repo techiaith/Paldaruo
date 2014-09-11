@@ -16,7 +16,7 @@
 
 @synthesize metaDataFields;
 
-+(id) sharedDataStore {
++(instancetype)sharedDataStore {
     
     static UTIDataStore *sharedDataStoreSingleton=nil;
     static dispatch_once_t onceToken;
@@ -29,10 +29,7 @@
 }
 
 
--(id) init {
-    
-    //NSString *domainName = [[NSBundle mainBundle] bundleIdentifier];
-    //[[NSUserDefaults standardUserDefaults] removePersistentDomainForName:domainName];
+-(instancetype)init {
         
     if (self = [super init]){
         
@@ -47,8 +44,6 @@
             _allProfilesArray=[[NSMutableArray alloc] init];
             
         }
-        
-        //self.arrFileUploadData = [[NSMutableArray alloc] init];
         
         NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration backgroundSessionConfiguration:@"uk.ac.bangor.techiaith.paldaruo"];
         sessionConfiguration.HTTPMaximumConnectionsPerHost = 1;
@@ -65,7 +60,7 @@
 - (UTIUser *)addNewUser:(NSString *)userName {
     return [self addNewUser:userName uid:nil];
 }
-
+//
 
 - (UTIUser *)addNewUser:(NSString *)userName uid:(NSString *)uid {
     if (!uid) {
@@ -78,8 +73,6 @@
     
     UTIUser *newUser = [UTIUser userWithName:userName uid:uid];
     
-    //NSString *newUserJsonString=[NSString stringWithFormat:@"{\"name\":\"%@\",\"uid\":\"%@\"}",userName, uid];
-    //
     [self willChangeValueForKey:@"allProfilesArray"];
     [self.allProfilesArray addObject:newUser];
     [self didChangeValueForKey:@"allProfilesArray"];
@@ -111,9 +104,7 @@
 
 
 
--(void) http_uploadAudio: (NSString*) uid
-              identifier:(NSString*) ident
-                  sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender {
+-(void) http_uploadAudio: (NSString*)uid identifier:(NSString*)ident sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender {
     //
     // TODO:
     //
@@ -175,42 +166,8 @@
     
 }
 
-/*
-- (void)http_uploadOutstandingAudio:(NSString*) uid {
-    
-    NSString *uidTempDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:uid];
-    NSFileManager* fileManager = [NSFileManager defaultManager];
-    
-    for (NSString* fileName in [fileManager contentsOfDirectoryAtPath:uidTempDirectory error:nil])
-    {
-        NSString* ident = [fileName stringByReplacingOccurrencesOfString:@".wav"withString:@""];
-        NSString *audioFileTarget = [uidTempDirectory stringByAppendingFormat:@"/%@", fileName];
-        NSURL *audioFileURL = [NSURL fileURLWithPath:audioFileTarget];
-        
-        if (![self isFileUploadUTIRequestAlreadyQueued:ident uid:uid]){
-            //if (![self isFileAlreadyQueued:ident uid:uid]){
-            
-            NSString *logMessage = [NSString stringWithFormat:@"http_uploadOutstandingAudio ident:%@ uploadCount:%lu",ident, (unsigned long)[self.currentOutstandingUploads count]];
-            NSLog(logMessage);
-            
-            [self http_uploadAudioFile:uid
-                            identifier:ident
-                              filename:fileName
-                                   URL:audioFileURL
-                                sender:nil];
-        }
 
-    }
-
-}
-*/
-
-
-- (void)http_uploadAudioFile:(NSString*) uid
-                  identifier:(NSString*) ident
-                    filename:(NSString*) filename
-                         URL:(NSURL*) audioFileURL
-                      sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender {
+- (void)http_uploadAudioFile:(NSString*) uid identifier:(NSString*) ident filename:(NSString*) filename URL:(NSURL*) audioFileURL sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender {
 
     // gweler:
     // http://stackoverflow.com/questions/22487336/how-to-get-backgroundsession-nsurlsessionuploadtask-response
@@ -274,7 +231,7 @@
         
     }
     else {
-        [self showCommunicationWithServerError:@"Llwytho sain i fyny" errorObject:error];
+        [self showCommunicationWithServerError:NSLocalizedString(@"Llwytho sain i fyny", @"Title displayed when uploading audio") errorObject:error];
     }
 
 }
@@ -339,7 +296,7 @@
                 NSDictionary *jsonResponse = json[@"response"];
                 newUserId = jsonResponse[@"uid"];
             } else {
-                [self showCommunicationWithServerError:@"Creu Defnyddiwr" errorObject:error];
+                [self showCommunicationWithServerError:NSLocalizedString(@"Creu Defnyddiwr", @"Create user title") errorObject:error];
             }
         };
         
@@ -381,7 +338,7 @@
             
         } else {
             [prompts setFetchErrorObject:error];
-            [self showCommunicationWithServerError:@"Estyn Testunau i'w Recordio" errorObject:error];
+            [self showCommunicationWithServerError:NSLocalizedString(@"Estyn Testunau i'w Recordio", @"Title displayed when outstanding prompts are being downloaded") errorObject:error];
         }
         
     }];
@@ -411,7 +368,7 @@
     [r setCompletionHandler:^(NSData *data, NSError *error) {
         
         if (error) {
-            [self showCommunicationWithServerError:@"Estyn Metadata" errorObject:error];
+            [self showCommunicationWithServerError:NSLocalizedString(@"Estyn Metadata", @"Fetching Metadata title") errorObject:error];
         }
         
         if (error==nil) {
@@ -428,8 +385,7 @@
                     errMsg = [jsonResponse objectForKey:@"error"];
                 }
                 
-                [self showCommunicationWithServerError:@"Estyn Metadata"
-                                           description:@"Gwall cyffredinol gyda gweinydd Paldaruo"];
+                [self showCommunicationWithServerError:NSLocalizedString(@"Estyn Metadata", @"Error title when there was a problem retrieving metadata") description:NSLocalizedString(@"Gwall cyffredinol gyda gweinydd Paldaruo", @"Message displayed when there was a problem retrieving metadata")];
                 
                 return;
                 
@@ -494,9 +450,7 @@
         [metaDataValues setValue:field.value forKey:field.fieldId];
     }];
     
-    NSData *jsonData=[NSJSONSerialization dataWithJSONObject:metaDataValues
-                                                     options:0
-                                                       error:nil];
+    NSData *jsonData=[NSJSONSerialization dataWithJSONObject:metaDataValues options:0 error:nil];
     
     NSString *jsonString=[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
@@ -523,24 +477,11 @@
     UIAlertView *alert;
     
     if (error.code != -9999){
+        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"\nRoedd problem cysylltu. \n\nGwiriwch ac ailgysylltu'ch dyfais i'r rhwydwaith ddiwifr cyn parhau. \n\n%@", @"Error shown when there was a server connection problem"), [error localizedDescription]];
+        alert= [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:NSLocalizedString(@"Iawn", @"OK Button") otherButtonTitles:nil];
         
-        NSString *message = [NSString stringWithFormat:@"\nRoedd problem cysylltu. \n\nGwiriwch ac ailgysylltu'ch dyfais i'r rhwydwaith ddiwifr cyn parhau. \n\n%@", [error localizedDescription]];
-        
-        alert= [[UIAlertView alloc] initWithTitle:title
-                                          message:message
-                                         delegate:nil
-                                cancelButtonTitle:@"Iawn"
-                                otherButtonTitles:nil];
-        
-    }
-    else {
-        
-        alert= [[UIAlertView alloc] initWithTitle:title
-                                          message:[error localizedDescription]
-                                         delegate:nil
-                                cancelButtonTitle:@"Iawn"
-                                otherButtonTitles:nil];
-        
+    } else {
+        alert= [[UIAlertView alloc] initWithTitle:title message:[error localizedDescription] delegate:nil cancelButtonTitle:NSLocalizedString(@"Iawn", @"OK Button") otherButtonTitles:nil];
     }
 
     [alert show];
@@ -548,14 +489,9 @@
 }
 
 
--(void)showCommunicationWithServerError:(NSString*) title
-                            description:(NSString*)description {
+-(void)showCommunicationWithServerError:(NSString*) title description:(NSString*)description {
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                          message:description
-                                         delegate:nil
-                                cancelButtonTitle:@"Iawn"
-                                otherButtonTitles:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:description delegate:nil cancelButtonTitle:NSLocalizedString(@"Iawn", @"OK Button") otherButtonTitles:nil];
     
     [alert show];
     
@@ -576,8 +512,7 @@
 
 -(void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
     
-    NSString *message = [NSString stringWithFormat:@"Completed Task : %@ ", dataTask.taskDescription];
-    NSLog(message);
+    NSLog(@"Completed Task : %@ ", dataTask.taskDescription);
     
 }
 
@@ -590,8 +525,7 @@
     }
     else {
         double progress = (double) totalBytesSent / (double) totalBytesExpectedToSend;
-        NSString *message = [NSString stringWithFormat:@"Progress - : %@ (%.2f)", task.taskDescription, progress];
-        NSLog(message);
+        NSLog(@"Progress - : %@ (%.2f)", task.taskDescription, progress);
     }
     
 }
@@ -602,10 +536,10 @@
     NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
     
     if ([response statusCode] != 200) {
-        NSLog(@"Background transfer is failed, http status code: %d", [response statusCode]);
+        NSLog(@"Background transfer failed, http status code: %d", [response statusCode]);
         error = [NSError errorWithDomain:@"uk.ac.bangor.techiaith.paldaruo"
                                     code:-9999
-                                userInfo:@{NSLocalizedDescriptionKey:@"Gwall cyffredinol gyda gweinydd Paldaruo"}];
+                                userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"Gwall cyffredinol gyda gweinydd Paldaruo", @"Error shown when there was a problem connecting to the server")}];
     }
 
     NSArray *taskDescriptionFields = [task.taskDescription componentsSeparatedByString:@"!"];
@@ -619,23 +553,6 @@
     NSLog(@"Background transfer is success %@",message);
     
 }
-
-/*
- // NOT SURE WHAT TO DO WITH THIS......
-- (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session {
-    
-    NSLog(@"URLSessionDidFinishEventsForBackgroundURLSession");
-    
-    UTIAppDelegate *appDelegate = (UTIAppDelegate *)[[UIApplication sharedApplication] delegate];
-    if (appDelegate.backgroundSessionCompletionHandler) {
-        void (^completionHandler)() = appDelegate.backgroundSessionCompletionHandler;
-        appDelegate.backgroundSessionCompletionHandler = nil;
-        completionHandler();
-    }
-    
-    NSLog(@"All tasks are finished");
-}
-*/
 
 
 @end

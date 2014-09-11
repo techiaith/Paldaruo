@@ -9,10 +9,6 @@
 #import "UTIViewController.h"
 #import "UTIReachability.h"
 
-#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-#define IS_IPHONE_5 (IS_IPHONE && [[UIScreen mainScreen] bounds].size.height == 568.0f)
-
 @interface UTIViewController ()
 
 - (IBAction)btnMoveToNextRecordingState:(id)sender;
@@ -86,11 +82,11 @@
         case DOWNLOADING_PROMPTS: {
             
             NSString* userName = [[UTIDataStore sharedDataStore] activeUser].name;
-            NSString* userGreeting=[NSString stringWithFormat:@"Helo %@!", userName];
+            NSString* userGreeting=[NSString stringWithFormat:NSLocalizedString(@"Helo %@!", @"Welcome message, with the user's name"), userName];
             
             [[self lblOutletProfileName] setText:userGreeting];
             
-            [self.lblOutletNextPrompt setText:@"Estyn testunau i'w recordio...."];
+            [self.lblOutletNextPrompt setText:NSLocalizedString(@"Estyn testunau i'w recordio....", @"Button text for moving to the next prompt for recording")];
             [self.btnOutletMoveToNextRecordingState setHidden:YES];
             [self.lblOutletRecordingStatus setHidden:YES];
             [self.lblOutletSessionProgress setHidden:YES];
@@ -103,7 +99,7 @@
             if (![self gotoNextPrompt]) {
                 break;
             }
-            [self setMoveToNextRecordStateTitle:@"Cychwyn Recordio"];
+            [self setMoveToNextRecordStateTitle:NSLocalizedString(@"Cychwyn Recordio", @"'Start Recording' button, displayed on the recording screen")];
             
             [self.lblOutletSessionProgress setHidden:NO];
             [self.btnOutletMoveToNextRecordingState setHidden:NO];
@@ -117,7 +113,7 @@
             
         } case RECORDING_WAIT_TO_START: {
             
-            [self setMoveToNextRecordStateTitle:@"Gorffen Recordio"];
+            [self setMoveToNextRecordStateTitle:NSLocalizedString(@"Gorffen Recordio", @"'End Recording' button, displayed on the recording screen")];
             
             //[self.lblOutletRecordingStatus setHidden:NO];
             [self.btnOutletRedoRecording setHidden:YES];
@@ -136,11 +132,11 @@
             [self.btnOutletRedoRecording setHidden:YES];
             
             if (IS_IPHONE)
-                [self setMoveToNextRecordStateTitle:@"Gwrando"];
+                [self setMoveToNextRecordStateTitle:NSLocalizedString(@"Gwrando", @"'Listen' button (to listen to an existing recording - iPhone only)")];
             else
-                [self setMoveToNextRecordStateTitle:@"Cliciwch i wrando ar eich recordiad"];
+                [self setMoveToNextRecordStateTitle:NSLocalizedString(@"Cliciwch i wrando ar eich recordiad", @"'Listen' button (to listen to an existing recording - iPad only)")];
             
-            [self setRedoRecordingText:@"Recordio eto"];
+            [self setRedoRecordingText:NSLocalizedString(@"Recordio eto", @"'Record again' button. Displayed once a recording has been made")];
             [self.btnOutletRedoRecording setHidden:NO];
             
             currentRecordingStatus=RECORDING_FINISHED;
@@ -150,7 +146,7 @@
         } case RECORDING_FINISHED: {
             
             [self stopRecording];
-            [self setRedoRecordingText:@"Recordio eto"];
+            [self setRedoRecordingText:NSLocalizedString(@"Recordio eto", @"'Record again' button. Displayed once a recording has been made")];
             [self.btnOutletRedoRecording setHidden:NO];
             
             [self setMoveToNextRecordStateTitle:@""];
@@ -166,10 +162,10 @@
             
             [self swapButtonsLocations];
             
-            [self setMoveToNextRecordStateTitle:@"Nesaf"];
+            [self setMoveToNextRecordStateTitle:NSLocalizedString(@"Nesaf", @"Next button")];
             [self.btnOutletMoveToNextRecordingState setHidden:NO];
             
-            [self setRedoRecordingText:@"Recordio eto"];
+            [self setRedoRecordingText:NSLocalizedString(@"Recordio eto", @"'Record again' button. Displayed once a recording has been made")];
             [self.btnOutletRedoRecording setHidden:NO];
             
             currentRecordingStatus=RECORDING_WAIT_TO_GOTO_NEXT;
@@ -180,7 +176,7 @@
             [self removeRecordingStatus];
             
             [self.btnOutletMoveToNextRecordingState setHidden:NO];
-            [self setMoveToNextRecordStateTitle:@"Cychwyn Recordio"];
+            [self setMoveToNextRecordStateTitle:NSLocalizedString(@"Cychwyn Recordio", @"'Start Recording' button, displayed on the recording screen")];
             
             [self.btnOutletRedoRecording setHidden:YES];
             
@@ -193,7 +189,7 @@
             [self removeRecordingStatus];
             
             [self.btnOutletMoveToNextRecordingState setHidden:NO];
-            [self setMoveToNextRecordStateTitle:@"Cychwyn Recordio"];
+            [self setMoveToNextRecordStateTitle:NSLocalizedString(@"Cychwyn Recordio", @"'Start Recording' button, displayed on the recording screen")];
            
             //[self.lblOutletRecordingStatus setHidden:YES];
             
@@ -208,15 +204,13 @@
             [self swapButtonsLocations];
             [self removeRecordingStatus];
             
-            [[UTIDataStore sharedDataStore] http_uploadAudio:uid
-                                                  identifier:self.currentPrompt.identifier
-                                                      sender:self];
+            [[UTIDataStore sharedDataStore] http_uploadAudio:uid identifier:self.currentPrompt.identifier sender:self];
             
             [self gotoNextPrompt];
             
             [self updateSessionProgress];
             
-            [self setMoveToNextRecordStateTitle:@"Cychwyn Recordio"];
+            [self setMoveToNextRecordStateTitle:NSLocalizedString(@"Cychwyn Recordio", @"'Start Recording' button, displayed on the recording screen")];
             [self.lblOutletRecordingStatus setHidden:YES];
             [self.btnOutletRedoRecording setHidden:YES];
             
@@ -260,7 +254,7 @@
 - (void) updateSessionProgress {
     
     
-    NSString* progressString = [NSString stringWithFormat:@"%ld / %ld testun ar ôl",
+    NSString* progressString = [NSString stringWithFormat:NSLocalizedString(@"%ld / %ld testun ar ôl", @"Status string - showing how many phrases still need to be recordered"),
                                 (long)[prompts getRemainingCount],
                                 (long)[prompts getInitialCount]
                                 ];
@@ -287,7 +281,7 @@
 
 -(void) recordAudio {
     
-    [self startRecordingStatusTimerWithString:@"Yn recordio…" blink:YES];
+    [self startRecordingStatusTimerWithString:NSLocalizedString(@"Yn recordio…", @"Status message to show that a recording is in process") blink:YES];
     [self.btnOutletBackToHome setEnabled:NO];
     [self.audio recordAudio];
 
@@ -309,24 +303,20 @@
     NSString *message;
 
     if ([self.audio areLevelsOk]){
-        message = [NSString stringWithFormat:@"Gwych! Lefel sain da."];
+        message = NSLocalizedString(@"Gwych! Lefel sain da.", @"Message shown when the sound level of the microphone is acceptable");
     } else if ([self.audio areLevelsTooLoud]){
         if (IS_IPHONE)
-            message = [NSString stringWithFormat:@"Rhy swnllyd."];
+            message = NSLocalizedString(@"Rhy swnllyd.", @"Message displayed when the recording is too loud (user is shouting or device is held too close) - iPhone only");
         else
-            message = [NSString stringWithFormat:@"Rhy swnllyd.\n Peidiwch gweiddi na dal y ddyfais yn rhy agos."];
+            message = NSLocalizedString(@"Rhy swnllyd.\n Peidiwch gweiddi na dal y ddyfais yn rhy agos.", @"Message displayed when the recording is too loud (user is shouting or device is held too close) - iPad only");
     } else if ([self.audio areLevelsTooQuiet]){
         if (IS_IPHONE)
-            message = [NSString stringWithFormat:@"Rhy dawel."];
+            message = NSLocalizedString(@"Rhy dawel.", @"Message displayed when the recording is too quiet (user is speaking too quietly or device is held too far away) - iPhone only");
         else
-            message = [NSString stringWithFormat:@"Rhy dawel.\n Siaradwch yn uwch neu daliwch y ddyfais yn agosach."];
+            message = NSLocalizedString(@"Rhy dawel.\n Siaradwch yn uwch neu daliwch y ddyfais yn agosach.", @"Message displayed when the recording is too quiet (user is speaking too quietly or device is held too far away) - iPad only");
     }
     
-    //= [NSString stringWithFormat:@"Chwarae yn ôl (average: %f, peak: %f)",
-    //                     [self.audio getAveragePower],
-    //                     [self.audio getPeakPower]];
-    
-    [self startRecordingStatusTimerWithString:message blink:NO];//@"Chwarae yn ôl…"];
+    [self startRecordingStatusTimerWithString:message blink:NO];
     
 }
 
@@ -375,10 +365,10 @@
     currentRecordingStatus=RECORDING_TIMEDOUT;
     [self btnMoveToNextRecordingState:(self)];
 
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Terfyn amser recordio"
-                                                    message:@"\nWnaethoch chi anghofio pwyso 'Gorffen Recordio' ar ddiwedd darllen y testun? \n\nPwyswch 'Cychwyn Recordio' i recordio'r testun eto."
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Terfyn amser recordio", @"Title for the alert that is displayed when the recording has come to an end (and the user has not yet finished)")
+                                                    message:NSLocalizedString(@"\nWnaethoch chi anghofio pwyso 'Gorffen Recordio' ar ddiwedd darllen y testun? \n\nPwyswch 'Cychwyn Recordio' i recordio'r testun eto.", @"Message displaed when a user spent too long recording (or forgot to click the 'Finish Recording' button")
                                                    delegate:nil
-                                          cancelButtonTitle:@"Iawn"
+                                          cancelButtonTitle:NSLocalizedString(@"Iawn", @"OK button")
                                           otherButtonTitles:nil];
     
     [alert show];
@@ -451,7 +441,7 @@
         [self.currentUploadConnections addObject:connection];
     }
     self.uploadProgressBar.hidden = NO;
-    self.lblUploadingFilesInfo.text = [NSString stringWithFormat:@"Llwytho i fyny ffeil 1 o %lu…", (unsigned long)[self.currentUploadConnections count]];
+    self.lblUploadingFilesInfo.text = [NSString stringWithFormat:NSLocalizedString(@"Llwytho i fyny ffeil 1 o %lu…", @"Status string displayed when files are being uploaded"), (unsigned long)[self.currentUploadConnections count]];
     self.lblUploadingFilesInfo.hidden = NO;
     if (connection == [self.currentUploadConnections firstObject]) {
         self.uploadProgressBar.hidden = NO;

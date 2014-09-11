@@ -9,10 +9,6 @@
 #import "UTIFurtherInformationViewController.h"
 #import <MediaPlayer/MediaPlayer.h>
 
-#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-#define IS_IPHONE_5 (IS_IPHONE && [[UIScreen mainScreen] bounds].size.height == 568.0f)
-
 @interface UTIFurtherInformationViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageOutletBangorLogo;
@@ -49,7 +45,7 @@
 {
     [super viewDidLoad];
     
-    NSURL *url = [[NSBundle mainBundle] URLForResource:@"about" withExtension:@"html"];
+    NSURL *url = [[NSBundle mainBundle] URLForResource:@"ynghylch" withExtension:@"html"];
     
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
     

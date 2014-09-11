@@ -36,7 +36,7 @@
     [self.backButton setHidden:YES];
     
     
-    NSURL *url = [[NSBundle mainBundle] URLForResource:@"telerau_v1.0" withExtension:@"html"];
+    NSURL *url = [[NSBundle mainBundle] URLForResource:@"telerau" withExtension:@"html"];
     
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
     

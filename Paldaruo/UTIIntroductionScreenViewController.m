@@ -8,22 +8,6 @@
 
 #import "UTIIntroductionScreenViewController.h"
 
-#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-#define IS_IPHONE_5 (IS_IPHONE && [[UIScreen mainScreen] bounds].size.height == 568.0f)
-
-@interface UTIIntroductionScreenViewController ()
-
-@property (weak, nonatomic) IBOutlet UIImageView *imageOutletBangorLogo;
-@property (weak, nonatomic) IBOutlet UILabel *labelOutletUnedTechnolegauIaith;
-@property (weak, nonatomic) IBOutlet UILabel *labelOutletCanolfanBedwyr;
-@property (weak, nonatomic) IBOutlet UIImageView *imageOutletTechiaithLogo;
-@property (weak, nonatomic) IBOutlet UIImageView *imageOutletPaldaruoIcon;
-
-@property (weak, nonatomic) IBOutlet UIButton *btnOutletStart;
-
-@end
-
 @implementation UTIIntroductionScreenViewController
 
 

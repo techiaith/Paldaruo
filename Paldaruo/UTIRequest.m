@@ -142,7 +142,7 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     
-    NSLog(error.localizedDescription);
+    NSLog(@"%@", error.localizedDescription);
     
     if (self.completionHandler) {
         self.completionHandler(self.responseData, nil);
@@ -189,8 +189,7 @@
     
     if ([self.delegate respondsToSelector:@selector(connection:didSendBodyData:totalBytesWritten:totalBytesExpectedToWrite:)]) {
         
-        NSString* message = [NSString stringWithFormat:@"%d written out of %d", totalBytesWritten, totalBytesExpectedToWrite];
-        NSLog(message);
+        NSLog(@"%d written out of %d", totalBytesWritten, totalBytesExpectedToWrite);
         
         [self.delegate connection:connection didSendBodyData:bytesWritten totalBytesWritten:totalBytesExpectedToWrite totalBytesExpectedToWrite:totalBytesExpectedToWrite];
     }

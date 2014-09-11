@@ -66,13 +66,38 @@
     [self.btnOutletStartSession setHidden:YES];
     
     //[self.lblOutletMetaDataField_Explanation sizeToFit];
-    
+    [self registerForKeyboardNotifications];
     [super viewDidLoad];
     
 	// Do any additional setup after loading the view.
     
 }
 
+- (void)registerForKeyboardNotifications
+{
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(keyboardDidShow:)
+//                                                 name:UIKeyboardDidShowNotification object:nil];
+//    
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(keyboardWillHide:)
+//                                                 name:UIKeyboardWillHideNotification object:nil];
+    
+}
+
+//// Called when the UIKeyboardDidShowNotification is sent.
+//- (void)keyboardDidShow:(NSNotification*)aNotification
+//{
+//    CGRect currentFrame = self.view.frame;
+//    [self.view setFrame:CGRectMake(currentFrame.origin.x, currentFrame.origin.y - 100, currentFrame.size.width, currentFrame.size.height)];
+//}
+//
+//// Called when the UIKeyboardWillHideNotification is sent
+//- (void)keyboardWillHide:(NSNotification*)aNotification
+//{
+//    CGRect currentFrame = self.view.frame;
+//    [self.view setFrame:CGRectMake(currentFrame.origin.x, currentFrame.origin.y  + 100, currentFrame.size.width, currentFrame.size.height)];
+//}
 
 -(BOOL) textFieldShouldReturn:(UITextField *)theTextField {
     if (theTextField == self.textFieldOutletMetaDataFreeText) {
@@ -91,7 +116,7 @@
     
     NSArray *localCopyMetaDataFields=[[UTIDataStore sharedDataStore] metaDataFields];
     
-    if (localCopyMetaDataFields.count>0) {
+    if (currentMetaDataFieldIndex < localCopyMetaDataFields.count) {
         UTIMetaDataField *localCopyMetaDataField=[localCopyMetaDataFields objectAtIndex:currentMetaDataFieldIndex];
         return localCopyMetaDataField.optionKey.count;
     } else {
@@ -105,13 +130,15 @@
     
     NSArray *localCopyMetaDataFields=[[UTIDataStore sharedDataStore] metaDataFields];
     
-    if (localCopyMetaDataFields.count>0) {
+    if (currentMetaDataFieldIndex < localCopyMetaDataFields.count) {
         UTIMetaDataField *localCopyMetaDataField=[localCopyMetaDataFields objectAtIndex:currentMetaDataFieldIndex];
-        
-        return [localCopyMetaDataField.optionValue objectAtIndex:row];
+        if (row < localCopyMetaDataField.optionValue.count) {
+            return [localCopyMetaDataField.optionValue objectAtIndex:row];
+        }
+        return nil;
     }
     else {
-        return Nil;
+        return nil;
     }
     
 }

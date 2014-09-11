@@ -9,13 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "UTIReachability.h"
 
-@interface UTIAppDelegate : UIResponder <UIApplicationDelegate> {
-    BOOL __block _isShowingAlert;
-}
+@interface UTIAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-//@property (strong, nonatomic) Reachability *appReachability;
-
 @property (copy) void (^backgroundSessionCompletionHandler)();
 
 @end

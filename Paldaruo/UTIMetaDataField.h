@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UTIMetaDataField : NSObject
+@interface UTIMetaDataField : NSObject <NSObject>
 
 @property (strong) NSString *fieldId;
 @property (strong) NSString *title;

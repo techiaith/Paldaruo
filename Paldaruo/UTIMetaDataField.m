@@ -52,4 +52,7 @@
     
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:NSLocalizedString(@"Title: %@, Question: %@", @"Description of a UTIMetaDataField"), self.title, self.question];
+}
 @end

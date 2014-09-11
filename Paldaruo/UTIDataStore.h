@@ -12,19 +12,19 @@
 #import "UTIUser.h"
 #import "UTIRequest.h"
 
-//
-// implements a singleton as per : http://www.galloway.me.uk/tutorials/singleton-classes/
-//
-
 @protocol UTIErrorReporter <NSObject>
+
 - (void)showError:(NSError *)error;
 - (void)showErrorText:(NSString *)errorText;
+
 @end
 
 
 @interface UTIDataStore : NSObject  <NSURLSessionTaskDelegate> {
     NSArray *metaDataFields;
 }
+
++(id) sharedDataStore;
 
 @property UTIUser *activeUser;
 @property (nonatomic, retain) NSMutableArray *allProfilesArray;
@@ -55,19 +55,12 @@
 - (void)http_fetchOutstandingPrompts:(UTIPromptsTracker *)prompts useridentifier:(NSString *)ident;
 - (void)http_uploadAudio:(NSString *)uid identifier:(NSString*)ident sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender;
 
-- (void)http_uploadAudioFile:(NSString *)uid
-                  identifier:(NSString *)ident
-                    filename:(NSString *)filename
-                         URL:(NSURL *)audioFileURL
-                      sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender;
+- (void)http_uploadAudioFile:(NSString *)uid identifier:(NSString *)ident filename:(NSString *)filename URL:(NSURL *)audioFileURL sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender;
 
-- (void)http_uploadSilenceAudioFile:(NSString *)uid
-                      sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender;
+- (void)http_uploadSilenceAudioFile:(NSString *)uid sender:(id <NSURLConnectionDelegate, NSURLConnectionDataDelegate>)sender;
 
 - (void)http_getMetadata:(NSString *)uid sender:(id <UTIErrorReporter>)sender;
 - (void)http_saveMetadata:(NSString *)uid sender:(id <NSURLConnectionDataDelegate, NSURLConnectionDelegate>)sender;
-//- (void)http_uploadOutstandingAudio:(NSString*)uid;
 
-+(id) sharedDataStore;
 
 @end
