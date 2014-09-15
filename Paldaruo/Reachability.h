@@ -22,7 +22,7 @@
  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- POSSIBILITY OF SUCH DAMAGE. 
+ POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import <Foundation/Foundation.h>
@@ -36,41 +36,34 @@
 #import <netdb.h>
 
 /**
- * Does ARC support support GCD objects?
+ * Does ARC support GCD objects?
  * It does if the minimum deployment target is iOS 6+ or Mac OS X 8+
+ *
+ * @see http://opensource.apple.com/source/libdispatch/libdispatch-228.18/os/object.h
  **/
-#if TARGET_OS_IPHONE
-
-// Compiling for iOS
-
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000 // iOS 6.0 or later
+#if OS_OBJECT_USE_OBJC
 #define NEEDS_DISPATCH_RETAIN_RELEASE 0
-#else                                         // iOS 5.X or earlier
+#else
 #define NEEDS_DISPATCH_RETAIN_RELEASE 1
 #endif
 
-#else
-
-// Compiling for Mac OS X
-
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= 1080     // Mac OS X 10.8 or later
-#define NEEDS_DISPATCH_RETAIN_RELEASE 0
-#else
-#define NEEDS_DISPATCH_RETAIN_RELEASE 1     // Mac OS X 10.7 or earlier
+/**
+ * Create NS_ENUM macro if it does not exist on the targeted version of iOS or OS X.
+ *
+ * @see http://nshipster.com/ns_enum-ns_options/
+ **/
+#ifndef NS_ENUM
+#define NS_ENUM(_type, _name) enum _name : _type _name; enum _name : _type
 #endif
-
-#endif
-
 
 extern NSString *const kReachabilityChangedNotification;
 
-typedef enum 
-{
-	// Apple NetworkStatus Compatible Names.
-	NotReachable     = 0,
-	ReachableViaWiFi = 2,
-	ReachableViaWWAN = 1
-} NetworkStatus;
+typedef NS_ENUM(NSInteger, NetworkStatus) {
+    // Apple NetworkStatus Compatible Names.
+    NotReachable = 0,
+    ReachableViaWiFi = 2,
+    ReachableViaWWAN = 1
+};
 
 @class Reachability;
 
@@ -86,6 +79,9 @@ typedef void (^NetworkUnreachable)(Reachability * reachability);
 @property (nonatomic, assign) BOOL reachableOnWWAN;
 
 +(Reachability*)reachabilityWithHostname:(NSString*)hostname;
+// This is identical to the function above, but is here to maintain
+//compatibility with Apples original code. (see .m)
++(Reachability*)reachabilityWithHostName:(NSString*)hostname;
 +(Reachability*)reachabilityForInternetConnection;
 +(Reachability*)reachabilityWithAddress:(const struct sockaddr_in*)hostAddress;
 +(Reachability*)reachabilityForLocalWiFi;
@@ -103,7 +99,7 @@ typedef void (^NetworkUnreachable)(Reachability * reachability);
 // WiFi may require a connection for VPN on Demand.
 -(BOOL)isConnectionRequired; // Identical DDG variant.
 -(BOOL)connectionRequired; // Apple's routine.
-// Dynamic, on demand connection?
+                           // Dynamic, on demand connection?
 -(BOOL)isConnectionOnDemand;
 // Is user intervention required?
 -(BOOL)isInterventionRequired;
