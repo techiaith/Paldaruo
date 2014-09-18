@@ -8,6 +8,18 @@
 
 #import "UTIIntroductionScreenViewController.h"
 
+@interface UTIIntroductionScreenViewController ()
+
+@property (weak, nonatomic) IBOutlet UIImageView *imageOutletBangorLogo;
+@property (weak, nonatomic) IBOutlet UILabel *labelOutletUnedTechnolegauIaith;
+@property (weak, nonatomic) IBOutlet UILabel *labelOutletCanolfanBedwyr;
+@property (weak, nonatomic) IBOutlet UIImageView *imageOutletTechiaithLogo;
+@property (weak, nonatomic) IBOutlet UIImageView *imageOutletPaldaruoIcon;
+
+@property (weak, nonatomic) IBOutlet UIButton *btnOutletStart;
+
+@end
+
 @implementation UTIIntroductionScreenViewController
 
 
