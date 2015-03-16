@@ -1,0 +1,11 @@
+Mae Paldaruo yn ap ar gyfer galluogi siaradwyr Cymraeg i gyfrannu eu lleisiau at y project GALLU. Nod GALLU (Gwaith Adnabod Lleferydd Uwch) yw casglu corpws lleferydd drwy ddulliau torfoli at y prif ddiben o ddatblygu systemau adnabod lleferydd Cymraeg.
+
+Mae ffolder 'python-server' ar gyfer yr ochr gweinydd sydd yn casglu'r data, ac mae project Xcode 'Paldaruo.xcodeproj' sy'n cynnwys cod y project
+Rydym yn gofyn i chi rhoi linc yn ôl at yr Uned Technolegau Iaith os ydych yn bwriadu defnyddio'r cod yma.
+
+-------
+
+Paldaruo is an ap that allows Welsh speakers to contribute their voice to the GALLU project. GALLU (Gwaith Adnabod Lleferydd Uwch) aims to crowdsource a speech corpus for the main purpose of developing Welsh language speech recognition.
+
+There is a 'python-server' folder which contains the server-side code used to collect the sound files from the app, and a 'Paldaruo.xcodeproj' Xcode file which contains the app code itself.
+We ask that you include a link to the Language Technologies Unit if you use this code.
