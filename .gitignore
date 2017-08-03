@@ -1,5 +1,5 @@
 *.pyc
-python-server/samples/
-python-server/samples.db
+python-server/samples
+python-server/*.db
 xcuserdata
 xcshareddata
